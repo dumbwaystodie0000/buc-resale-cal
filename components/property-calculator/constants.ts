@@ -20,6 +20,7 @@ export const TAX_BRACKETS: readonly TaxBracket[] = [
 ]
 
 export const defaultPropertyBase: Omit<Property, "id"> = {
+  name: "",
   type: "BUC",
   purchasePrice: 1_000_000,
   bankLoan: 750_000,

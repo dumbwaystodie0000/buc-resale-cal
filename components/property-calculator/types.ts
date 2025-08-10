@@ -3,6 +3,7 @@ export type Mode = "investment" | "own"
 
 export interface Property {
   id: string
+  name: string
   type: PropertyType
   purchasePrice: number
   bankLoan: number

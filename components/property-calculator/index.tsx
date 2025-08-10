@@ -12,12 +12,15 @@ export default function PropertyCalculator() {
   const [selectedTaxId, setSelectedTaxId] = useState<string | undefined>(undefined)
   const [taxBracket, setTaxBracket] = useState<number>(0)
   const [vacancyMonth, setVacancyMonth] = useState<number>(0)
-  const [properties, setProperties] = useState<Property[]>([{ ...defaultPropertyBase, id: Date.now().toString() }])
+  const [properties, setProperties] = useState<Property[]>([
+    { ...defaultPropertyBase, id: Date.now().toString(), name: "Property #1", type: "BUC" },
+    { ...defaultPropertyBase, id: (Date.now() + 1).toString(), name: "Property #2", type: "Resale" }
+  ])
   const [mode, setMode] = useState<Mode>("own")
 
   const addProperty = () => {
     if (properties.length < 3) {
-      const newProperty: Property = { ...defaultPropertyBase, id: Date.now().toString() }
+      const newProperty: Property = { ...defaultPropertyBase, id: Date.now().toString(), name: `Property #${properties.length + 1}`, type: "BUC" }
       setProperties((prev) => [...prev, newProperty])
     }
   }

@@ -64,7 +64,14 @@ export default function PropertyTable({
                     onChange={(type) => updateProperty(property.id, "type", type)}
                   />
                   <div className="text-slate-900 font-semibold">
-                    {`Property #${i + 1}`}
+                    <input
+                      type="text"
+                      value={property.name}
+                      onChange={(e) => updateProperty(property.id, "name", e.target.value)}
+                      placeholder={`Property #${i + 1}`}
+                      className="bg-transparent text-center border-none outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded px-2 py-1 min-w-0 w-full hover:bg-slate-50 transition-colors"
+                      style={{ minWidth: '260px' }}
+                    />
                   </div>
                   {properties.length > 1 && (
                     <button
@@ -187,14 +194,22 @@ export default function PropertyTable({
             </>
           )}
 
-          <DataRow
-            label="Est. Gross Profit"
-            properties={properties}
-            render={(p) => {
+          <tr className="bg-green-50 hover:bg-green-100">
+            <td className="sticky left-0 z-10 px-4 py-3 border-b border-r border-slate-200 text-slate-900 font-medium align-middle">
+              Est. Gross Profit
+            </td>
+            {properties.map((p, i) => {
               const d = calculateValues(p, { mode, taxBracket, vacancyMonth })
-              return <ValueText className="text-emerald-700 font-semibold">{fmtCurrency(d.grossProfit)}</ValueText>
-            }}
-          />
+              return (
+                <td
+                  key={p.id}
+                  className={`px-4 py-3 border-b border-r border-slate-200 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+                >
+                  <ValueText className="text-emerald-700 font-semibold">{fmtCurrency(d.grossProfit)}</ValueText>
+                </td>
+              )
+            })}
+          </tr>
 
           <tr className="h-4 bg-white">
             <td colSpan={properties.length + 1} className="border-none"></td>
@@ -367,15 +382,21 @@ export default function PropertyTable({
             />
           )}
 
-          <DataRow
-            label="Total Other Expenses"
-            properties={properties}
-            render={(p) => (
-              <ValueText className="text-rose-700 font-semibold">
-                {fmtCurrency(calculateValues(p, { mode, taxBracket, vacancyMonth }).totalOtherExpenses)}
-              </ValueText>
-            )}
-          />
+          <tr className="bg-red-50 hover:bg-red-100">
+            <td className="sticky left-0 z-10 px-4 py-3 border-b border-r border-slate-200 text-slate-900 font-medium align-middle">
+              Total Other Expenses
+            </td>
+            {properties.map((p, i) => (
+              <td
+                key={p.id}
+                className={`px-4 py-3 border-b border-r border-slate-200 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+              >
+                <ValueText className="text-rose-700 font-semibold">
+                  {fmtCurrency(calculateValues(p, { mode, taxBracket, vacancyMonth }).totalOtherExpenses)}
+                </ValueText>
+              </td>
+            ))}
+          </tr>
 
           <tr className="h-4 bg-white">
             <td colSpan={properties.length + 1} className="border-none"></td>
