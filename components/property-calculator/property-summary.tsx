@@ -14,7 +14,7 @@ interface PropertySummaryProps {
 export default function PropertySummary({ properties, mode, taxBracket, vacancyMonth }: PropertySummaryProps) {
   return (
     <>
-      <SectionRow title="Investment Summary" colSpan={properties.length + 1} />
+              <SectionRow title="Investment Summary" colSpan={properties.length + 1} icon="journal-richtext" />
       <IconRow
         label={`Projected Property Valuation (4yrs)`}
         icon={TrendingUp}

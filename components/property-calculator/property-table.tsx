@@ -112,7 +112,7 @@ export default function PropertyTable({
           <tr className="h-4 bg-white">
             <td colSpan={properties.length + 1} className="border-none"></td>
           </tr>
-          <SectionRow title={mode === "own" ? "Growth" : "Rental & Growth"} colSpan={properties.length + 1} />
+          <SectionRow title={mode === "own" ? "Growth" : "Rental & Growth"} colSpan={properties.length + 1} icon="graph-up-arrow" />
           <DataRow
             label={`Projected Property Growth (4yrs)`}
             properties={properties}
@@ -214,7 +214,7 @@ export default function PropertyTable({
           <tr className="h-4 bg-white">
             <td colSpan={properties.length + 1} className="border-none"></td>
           </tr>
-          <SectionRow title="Other Expenses" colSpan={properties.length + 1} />
+          <SectionRow title="Other Expenses" colSpan={properties.length + 1} icon="piggy-bank" />
 
           {mode === "own" && (
             <DataRow
