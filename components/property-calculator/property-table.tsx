@@ -6,7 +6,7 @@ import type { Property, Mode } from "./types"
 import { TAX_BRACKETS } from "./constants"
 import { calculateValues } from "./calculations"
 import { fmtCurrency, fmtRate } from "./utils"
-import { PropertyTypeToggle, CurrencyInput, LabeledCurrency, LabeledNumber, DualCell, ValueText } from "./ui-components"
+import { PropertyTypeBadge, CurrencyInput, LabeledCurrency, LabeledNumber, DualCell, ValueText } from "./ui-components"
 import { SectionRow, DataRow, MaybeNADataRow } from "./table-components"
 import PropertySummary from "./property-summary"
 
@@ -59,10 +59,7 @@ export default function PropertyTable({
                 className="px-4 py-3 text-left font-medium text-slate-800 border-r border-slate-200 last:border-r-0"
               >
                 <div className="relative flex flex-col items-center gap-2">
-                  <PropertyTypeToggle
-                    value={property.type}
-                    onChange={(type) => updateProperty(property.id, "type", type)}
-                  />
+                  <PropertyTypeBadge type={property.type} />
                   <div className="text-slate-900 font-semibold">
                     <input
                       type="text"

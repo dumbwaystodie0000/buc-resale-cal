@@ -100,25 +100,13 @@ export function ClearableNumberInput({
   )
 }
 
-export function PropertyTypeToggle({ value, onChange }: { value: PropertyType; onChange: (v: PropertyType) => void }) {
+export function PropertyTypeBadge({ type }: { type: PropertyType }) {
   return (
-    <div className="inline-flex items-center rounded-md bg-slate-100 p-1">
-      <Button
-        size="sm"
-        variant={value === "BUC" ? "default" : "ghost"}
-        className={value === "BUC" ? "bg-orange-500 hover:bg-orange-500 text-white" : "text-slate-700"}
-        onClick={() => onChange("BUC")}
-      >
-        BUC
-      </Button>
-      <Button
-        size="sm"
-        variant={value === "Resale" ? "default" : "ghost"}
-        className={value === "Resale" ? "bg-emerald-600 hover:bg-emerald-600 text-white" : "text-slate-700"}
-        onClick={() => onChange("Resale")}
-      >
-        Resale
-      </Button>
+    <div className="inline-flex items-center rounded-md bg-slate-100 px-2 py-1">
+      <div className={`w-2 h-2 rounded-full mr-2 ${type === "BUC" ? "bg-orange-500" : "bg-emerald-600"}`} />
+      <span className={`text-xs font-medium ${type === "BUC" ? "text-orange-700" : "text-emerald-700"}`}>
+        {type}
+      </span>
     </div>
   )
 }
