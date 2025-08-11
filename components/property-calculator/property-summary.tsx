@@ -47,7 +47,16 @@ export default function PropertySummary({ properties, mode, taxBracket, vacancyM
         label="Return on Equity (ROE)"
         icon={Percent}
         properties={properties}
-        renderValue={(p) => fmtPercent(calculateValues(p, { mode, taxBracket, vacancyMonth }).roe)}
+        renderValue={(p) => {
+          const roe = calculateValues(p, { mode, taxBracket, vacancyMonth }).roe
+          return roe === 0 ? "0%" : fmtPercent(roe)
+        }}
+      />
+      <IconRow
+        label="Annualised Gain"
+        icon={Percent}
+        properties={properties}
+        renderValue={(p) => `${p.annualGrowth || 0}%`}
       />
       <IconRow
         label="Total Cash/CPF Return After Sale"
