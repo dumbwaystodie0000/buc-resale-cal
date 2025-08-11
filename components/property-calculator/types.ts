@@ -1,6 +1,14 @@
 export type PropertyType = "BUC" | "Resale"
 export type Mode = "investment" | "own"
 
+export interface SavedProperty {
+  id: string
+  name: string
+  type: PropertyType
+  purchasePrice: number
+  folder?: string
+}
+
 export interface Property {
   id: string
   name: string

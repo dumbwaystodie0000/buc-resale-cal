@@ -102,13 +102,57 @@ export function ClearableNumberInput({
 
 export function PropertyTypeBadge({ type }: { type: PropertyType }) {
   return (
-    <div className="inline-flex items-center rounded-md bg-slate-100 px-2 py-1">
+    <div className="inline-flex items-center rounded-md px-2 py-1">
       <div className={`w-2 h-2 rounded-full mr-2 ${type === "BUC" ? "bg-orange-500" : "bg-emerald-600"}`} />
       <span className={`text-xs font-medium ${type === "BUC" ? "text-orange-700" : "text-emerald-700"}`}>
         {type}
       </span>
     </div>
   )
+}
+
+export function PropertyPlaceholderButton({ 
+  propertyId, 
+  propertyType, 
+  onClick 
+}: { 
+  propertyId: string
+  propertyType: PropertyType
+  onClick: () => void 
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="w-full h-32 bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg hover:bg-slate-100 hover:border-slate-400 transition-colors flex flex-col items-center justify-center gap-2 text-slate-600"
+    >
+      <div className="text-sm font-medium">Select / Create New Entry</div>
+      <div className="text-xs text-slate-500">Click to add property details</div>
+    </button>
+  )
+}
+
+export function PropertyCell({ 
+  property, 
+  isEmpty, 
+  onPopulate,
+  children 
+}: { 
+  property: any
+  isEmpty: boolean
+  onPopulate: () => void
+  children: React.ReactNode
+}) {
+  if (isEmpty) {
+    return (
+      <PropertyPlaceholderButton 
+        propertyId={property.id} 
+        propertyType={property.type} 
+        onClick={onPopulate} 
+      />
+    )
+  }
+  
+  return <>{children}</>
 }
 
 export function CurrencyInput({

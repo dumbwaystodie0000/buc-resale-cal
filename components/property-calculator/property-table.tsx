@@ -1,14 +1,21 @@
 "use client"
 
-import { X } from "lucide-react"
+import { useState } from "react"
+import { X, Edit2, Save, Folder } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import type { Property, Mode } from "./types"
-import { TAX_BRACKETS } from "./constants"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import type { Property, Mode, SavedProperty, PropertyType } from "./types"
+import { TAX_BRACKETS, defaultPropertyBase, mockFolders } from "./constants"
 import { calculateValues } from "./calculations"
 import { fmtCurrency, fmtRate } from "./utils"
 import { PropertyTypeBadge, CurrencyInput, LabeledCurrency, LabeledNumber, DualCell, ValueText } from "./ui-components"
 import { SectionRow, DataRow, MaybeNADataRow } from "./table-components"
 import PropertySummary from "./property-summary"
+import SelectPropertyButton from "./select-property-button"
 
 interface PropertyTableProps {
   properties: Property[]
@@ -21,6 +28,10 @@ interface PropertyTableProps {
   setVacancyMonth: (months: number) => void
   removeProperty: (id: string) => void
   updateProperty: (id: string, field: keyof Property, value: any) => void
+  onSelectSavedProperty: (property: SavedProperty) => void
+  onCreateNewProperty: (name: string, type: PropertyType, folder?: string) => void
+  onCreateFolder: (name: string) => void
+  onSaveExistingProperty: (property: Property, folder?: string) => void
 }
 
 export default function PropertyTable({
@@ -34,16 +45,93 @@ export default function PropertyTable({
   setVacancyMonth,
   removeProperty,
   updateProperty,
+  onSelectSavedProperty,
+  onCreateNewProperty,
+  onCreateFolder,
+  onSaveExistingProperty,
 }: PropertyTableProps) {
+  // State for inline editing of property names
+  const [editingPropertyId, setEditingPropertyId] = useState<string | null>(null)
+  const [editingName, setEditingName] = useState("")
+  
+  // State for create folder dialog
+  const [isCreateFolderDialogOpen, setIsCreateFolderDialogOpen] = useState(false)
+  const [newFolderName, setNewFolderName] = useState("")
+  const [propertyToSave, setPropertyToSave] = useState<Property | null>(null)
+
   // Selected tax option (for rendering the trigger with left/right text)
   const selectedTax = selectedTaxId ? TAX_BRACKETS.find((o) => o.id === selectedTaxId) : undefined
+
+  // Use the actual properties array - when showThirdColumn is true, properties should already have 3 items
+  const displayProperties = properties
+
+  // Handle starting to edit a property name
+  const handleStartEdit = (property: Property) => {
+    setEditingPropertyId(property.id)
+    setEditingName(property.name)
+  }
+
+  // Handle saving the edited property name
+  const handleSaveEdit = (propertyId: string) => {
+    if (editingName.trim()) {
+      updateProperty(propertyId, "name", editingName.trim())
+    }
+    setEditingPropertyId(null)
+    setEditingName("")
+  }
+
+  // Handle canceling the edit
+  const handleCancelEdit = () => {
+    setEditingPropertyId(null)
+    setEditingName("")
+  }
+
+  // Check if a property has meaningful data (not just default values)
+  const hasPropertyData = (property: Property) => {
+    return property.purchasePrice > 0 || 
+           property.annualGrowth > 0 || 
+           property.monthlyRental > 0 || 
+           property.monthlyMaintenance > 0 || 
+           property.propertyTax > 0 || 
+           property.minorRenovation > 0 || 
+           property.furnitureFittings > 0 ||
+           (property.name && property.name !== `Property #${properties.findIndex(p => p.id === property.id) + 1}`)
+  }
+
+  // Handle opening create folder dialog
+  const handleOpenCreateFolderDialog = (property: Property) => {
+    setPropertyToSave(property)
+    setNewFolderName("")
+    setIsCreateFolderDialogOpen(true)
+  }
+
+  // Handle creating new folder and saving property
+  const handleCreateFolderAndSave = () => {
+    if (newFolderName.trim() && propertyToSave) {
+      // First create the folder
+      onCreateFolder(newFolderName.trim())
+      // Then save the property to the new folder
+      onSaveExistingProperty(propertyToSave, newFolderName.trim())
+      // Close dialog and reset state
+      setIsCreateFolderDialogOpen(false)
+      setNewFolderName("")
+      setPropertyToSave(null)
+    }
+  }
+
+  // Handle canceling create folder dialog
+  const handleCancelCreateFolder = () => {
+    setIsCreateFolderDialogOpen(false)
+    setNewFolderName("")
+    setPropertyToSave(null)
+  }
 
   return (
     <div className="rounded-xl border border-slate-200 bg-white">
       <table className="w-full border-collapse">
         <colgroup>
           <col className="w-[360px]" />
-          {properties.map((p) => (
+          {displayProperties.map((p) => (
             <col key={p.id} className="w-[300px]" />
           ))}
         </colgroup>
@@ -53,7 +141,7 @@ export default function PropertyTable({
             <th className="sticky left-0 z-30 bg-white px-4 py-3 text-left text-slate-700 font-medium border-r border-slate-200">
               {''}
             </th>
-            {properties.map((property, i) => (
+            {displayProperties.map((property, i) => (
               <th
                 key={property.id}
                 className="px-4 py-3 text-left font-medium text-slate-800 border-r border-slate-200 last:border-r-0"
@@ -61,16 +149,90 @@ export default function PropertyTable({
                 <div className="relative flex flex-col items-center gap-2">
                   <PropertyTypeBadge type={property.type} />
                   <div className="text-slate-900 font-semibold">
-                    <input
-                      type="text"
-                      value={property.name}
-                      onChange={(e) => updateProperty(property.id, "name", e.target.value)}
-                      placeholder={`Property #${i + 1}`}
-                      className="bg-transparent text-center border-none outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded px-2 py-1 min-w-0 w-full hover:bg-slate-50 transition-colors"
-                      style={{ minWidth: '260px' }}
-                    />
+                    {editingPropertyId === property.id ? (
+                      // Inline editing mode
+                      <div className="flex items-center gap-2">
+                        <Input
+                          value={editingName}
+                          onChange={(e) => setEditingName(e.target.value)}
+                          className="h-7 text-xs text-center"
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              handleSaveEdit(property.id)
+                            } else if (e.key === 'Escape') {
+                              handleCancelEdit()
+                            }
+                          }}
+                          autoFocus
+                        />
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-6 w-6 p-0"
+                          onClick={() => handleSaveEdit(property.id)}
+                        >
+                          <Save className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    ) : hasPropertyData(property) ? (
+                      // Property has data - show editable name with save options
+                      <div className="text-center">
+                        <div className="flex items-center justify-center gap-2">
+                          <div className="font-semibold text-slate-900">{property.name}</div>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="h-5 w-5 p-0"
+                            onClick={() => handleStartEdit(property)}
+                          >
+                            <Edit2 className="h-3 w-3" />
+                          </Button>
+                          {hasPropertyData(property) && (
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  className="h-5 w-5 p-0"
+                                >
+                                  <Save className="h-3 w-3" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent>
+                                <DropdownMenuItem onClick={() => onSaveExistingProperty(property)}>
+                                  <Folder className="h-3 w-3 mr-2" />
+                                  Save to Default Folder
+                                </DropdownMenuItem>
+                                {mockFolders.map((folder) => (
+                                  <DropdownMenuItem 
+                                    key={folder}
+                                    onClick={() => onSaveExistingProperty(property, folder)}
+                                  >
+                                    <Folder className="h-3 w-3 mr-2" />
+                                    Save to {folder}
+                                  </DropdownMenuItem>
+                                ))}
+                                                              <DropdownMenuItem onClick={() => handleOpenCreateFolderDialog(property)}>
+                                <Folder className="h-3 w-3 mr-2" />
+                                Create New Folder
+                              </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          )}
+                        </div>
+                      </div>
+                    ) : (
+                      // Property has no data - show SelectPropertyButton
+                      <SelectPropertyButton
+                        columnId={property.id}
+                        propertyType={property.type}
+                        onSelectSavedProperty={onSelectSavedProperty}
+                        onCreateNewProperty={onCreateNewProperty}
+                        onCreateFolder={onCreateFolder}
+                      />
+                    )}
                   </div>
-                  {properties.length > 1 && (
+                  {displayProperties.length > 1 && (
                     <button
                       onClick={() => removeProperty(property.id)}
                       aria-label="Remove property"
@@ -88,31 +250,33 @@ export default function PropertyTable({
         <tbody className="text-sm">
           <DataRow
             label="Purchase Price"
-            properties={properties}
+            properties={displayProperties}
             render={(p) => (
               <CurrencyInput value={p.purchasePrice} onChange={(v) => updateProperty(p.id, "purchasePrice", v)} />
             )}
           />
           <DataRow
             label="Bank Loan (75%, 30yrs)"
-            properties={properties}
+            properties={displayProperties}
             render={(p) => {
               const d = calculateValues(p, { mode, taxBracket, vacancyMonth })
               return (
                 <div className="space-y-1">
-                  <CurrencyInput value={p.bankLoan} onChange={(v) => updateProperty(p.id, "bankLoan", v)} />
+                  <div className="text-sm font-medium text-slate-900">
+                    {fmtCurrency(p.bankLoan)}
+                  </div>
                 </div>
               )
             }}
           />
 
           <tr className="h-4 bg-white">
-            <td colSpan={properties.length + 1} className="border-none"></td>
+            <td colSpan={displayProperties.length + 1} className="border-none"></td>
           </tr>
-          <SectionRow title={mode === "own" ? "Growth" : "Rental & Growth"} colSpan={properties.length + 1} icon="graph-up-arrow" />
+          <SectionRow title={mode === "own" ? "Growth" : "Rental & Growth"} colSpan={displayProperties.length + 1} icon="graph-up-arrow" />
           <DataRow
             label={`Projected Property Growth (4yrs)`}
-            properties={properties}
+            properties={displayProperties}
             render={(p) => {
               const d = calculateValues(p, { mode, taxBracket, vacancyMonth })
               return (
@@ -135,7 +299,7 @@ export default function PropertyTable({
             <>
               <MaybeNADataRow
                 label={`Rental Income (4yrs)`}
-                properties={properties}
+                properties={displayProperties}
                 fieldKey="monthlyRental" // Use monthlyRental as the key to check for N/A
                 mode={mode}
                 renderInput={(p) => {
@@ -178,14 +342,19 @@ export default function PropertyTable({
                     </div>
                   </div>
                 }
-                properties={properties}
+                properties={displayProperties}
                 render={(p) => {
                   const d = calculateValues(p, { mode, taxBracket, vacancyMonth })
                   // Check if property type is BUC to display N/A
                   if (p.type === "BUC") {
                     return <div className="text-xs text-slate-500">N/A</div>
                   }
-                  return <div>{fmtCurrency(d.vacancyDeduction)}</div>
+                  // Show neutral text when no vacancy, red negative value when there is vacancy
+                  if (d.vacancyDeduction === 0) {
+                    return <div className="text-slate-600">$0</div>
+                  }
+                  // Display vacancy deduction as negative value in red text since it represents a loss
+                  return <div className="text-red-600 font-medium">-{fmtCurrency(d.vacancyDeduction)}</div>
                 }}
               />
             </>
@@ -195,12 +364,12 @@ export default function PropertyTable({
             <td className="sticky left-0 z-10 px-4 py-3 border-b border-r border-slate-200 text-slate-900 font-medium align-middle">
               Est. Gross Profit
             </td>
-            {properties.map((p, i) => {
+            {displayProperties.map((p, i) => {
               const d = calculateValues(p, { mode, taxBracket, vacancyMonth })
               return (
                 <td
                   key={p.id}
-                  className={`px-4 py-3 border-b border-r border-slate-200 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+                  className={`px-4 py-3 border-b border-r border-slate-200 align-middle ${i === displayProperties.length - 1 ? "last:border-r-0" : ""}`}
                 >
                   <ValueText className="text-emerald-700 font-semibold">{fmtCurrency(d.grossProfit)}</ValueText>
                 </td>
@@ -209,14 +378,14 @@ export default function PropertyTable({
           </tr>
 
           <tr className="h-4 bg-white">
-            <td colSpan={properties.length + 1} className="border-none"></td>
+            <td colSpan={displayProperties.length + 1} className="border-none"></td>
           </tr>
-          <SectionRow title="Other Expenses" colSpan={properties.length + 1} icon="piggy-bank" />
+          <SectionRow title="Other Expenses" colSpan={displayProperties.length + 1} icon="piggy-bank" />
 
           {mode === "own" && (
             <DataRow
               label={`Rent while waiting for BUC (4yrs)`}
-              properties={properties}
+              properties={displayProperties}
               render={(p) => {
                 const d = calculateValues(p, { mode, taxBracket, vacancyMonth })
                 const isNA = p.type === "Resale"
@@ -241,7 +410,7 @@ export default function PropertyTable({
 
           <MaybeNADataRow
             label={`Bank Interest (4yrs)`}
-            properties={properties}
+            properties={displayProperties}
             fieldKey="bankLoan" // Assuming bank loan is always applicable, but including for structure
             mode={mode}
             renderInput={(p) => {
@@ -249,14 +418,19 @@ export default function PropertyTable({
               return (
                 <div className="space-y-1">
                   <div className="font-medium">{fmtCurrency(d.bankInterest)}</div>
-                  <div className="text-[11px] text-slate-500">{p.type} Interest: 2.84%</div>
+                  <div className="text-[11px] text-slate-500">
+                    {p.type === "Resale" 
+                      ? "Resale Int: 1.94%" 
+                      : "BUC Int: 1.94%"
+                    }
+                  </div>
                 </div>
               )
             }}
           />
           <MaybeNADataRow
             label={`Maintenance Fee (4yrs)`}
-            properties={properties}
+            properties={displayProperties}
             fieldKey="maintenanceFee"
             mode={mode}
             renderInput={(p) => {
@@ -278,7 +452,7 @@ export default function PropertyTable({
           />
           <MaybeNADataRow
             label={`Est. Property Tax (4yrs)`}
-            properties={properties}
+            properties={displayProperties}
             fieldKey="propertyTax"
             mode={mode}
             renderInput={(p) => (
@@ -331,7 +505,7 @@ export default function PropertyTable({
                   </div>
                 </div>
               }
-              properties={properties}
+              properties={displayProperties}
               render={(p) => (
                 <div>{fmtCurrency(calculateValues(p, { mode, taxBracket, vacancyMonth }).taxOnRental)}</div>
               )}
@@ -340,7 +514,7 @@ export default function PropertyTable({
 
           <MaybeNADataRow
             label="Minor Renoration"
-            properties={properties}
+            properties={displayProperties}
             fieldKey="minorRenovation"
             mode={mode}
             renderInput={(p) => (
@@ -349,7 +523,7 @@ export default function PropertyTable({
           />
           <MaybeNADataRow
             label="Furniture & Fittings"
-            properties={properties}
+            properties={displayProperties}
             fieldKey="furnitureFittings"
             mode={mode}
             renderInput={(p) => (
@@ -359,34 +533,35 @@ export default function PropertyTable({
               />
             )}
           />
-          <MaybeNADataRow
-            label="Rental Agent Commission (Incl. GST)"
-            properties={properties}
-            fieldKey="agentCommission"
-            mode={mode}
-            renderInput={(p) => (
-              <CurrencyInput value={p.agentCommission} onChange={(v) => updateProperty(p.id, "agentCommission", v)} />
-            )}
-          />
 
           {mode === "investment" && (
-            <DataRow
-              label="Other Expenses"
-              properties={properties}
-              render={(p) => (
-                <CurrencyInput value={p.otherExpenses} onChange={(v) => updateProperty(p.id, "otherExpenses", v)} />
+            <MaybeNADataRow
+              label="Rental Agent Commission (Incl. GST)"
+              properties={displayProperties}
+              fieldKey="agentCommission"
+              mode={mode}
+              renderInput={(p) => (
+                <CurrencyInput value={p.agentCommission} onChange={(v) => updateProperty(p.id, "agentCommission", v)} />
               )}
             />
           )}
+
+          <DataRow
+            label="Other Expenses"
+            properties={displayProperties}
+            render={(p) => (
+              <CurrencyInput value={p.otherExpenses} onChange={(v) => updateProperty(p.id, "otherExpenses", v)} />
+            )}
+          />
 
           <tr className="bg-red-50 hover:bg-red-100">
             <td className="sticky left-0 z-10 px-4 py-3 border-b border-r border-slate-200 text-slate-900 font-medium align-middle">
               Total Other Expenses
             </td>
-            {properties.map((p, i) => (
+            {displayProperties.map((p, i) => (
               <td
                 key={p.id}
-                className={`px-4 py-3 border-b border-r border-slate-200 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+                className={`px-4 py-3 border-b border-r border-slate-200 align-middle ${i === displayProperties.length - 1 ? "last:border-r-0" : ""}`}
               >
                 <ValueText className="text-rose-700 font-semibold">
                   {fmtCurrency(calculateValues(p, { mode, taxBracket, vacancyMonth }).totalOtherExpenses)}
@@ -396,12 +571,52 @@ export default function PropertyTable({
           </tr>
 
           <tr className="h-4 bg-white">
-            <td colSpan={properties.length + 1} className="border-none"></td>
+            <td colSpan={displayProperties.length + 1} className="border-none"></td>
           </tr>
 
-          <PropertySummary properties={properties} mode={mode} taxBracket={taxBracket} vacancyMonth={vacancyMonth} />
+          <PropertySummary properties={displayProperties} mode={mode} taxBracket={taxBracket} vacancyMonth={vacancyMonth} />
         </tbody>
       </table>
+      
+      {/* Create Folder Dialog */}
+      <Dialog open={isCreateFolderDialogOpen} onOpenChange={setIsCreateFolderDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Create New Folder</DialogTitle>
+            <DialogDescription>
+              Enter a name for the new folder and save your property to it.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 pt-4">
+            <div className="space-y-2">
+              <Label htmlFor="folder-name">Folder Name</Label>
+              <Input
+                id="folder-name"
+                value={newFolderName}
+                onChange={(e) => setNewFolderName(e.target.value)}
+                placeholder="Enter folder name"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleCreateFolderAndSave()
+                  }
+                }}
+                autoFocus
+              />
+            </div>
+            <div className="flex justify-end space-x-2">
+              <Button variant="outline" onClick={handleCancelCreateFolder}>
+                Cancel
+              </Button>
+              <Button 
+                onClick={handleCreateFolderAndSave}
+                disabled={!newFolderName.trim()}
+              >
+                Create & Save
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

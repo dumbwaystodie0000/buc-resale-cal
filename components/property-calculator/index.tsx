@@ -2,11 +2,14 @@
 
 import { useState } from "react"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import type { Property, Mode, PropertyType } from "@/components/property-calculator/types"
+import type { Property, Mode, PropertyType, SavedProperty } from "@/components/property-calculator/types"
 import { defaultPropertyBase } from "@/components/property-calculator/constants"
 import PropertyTable from "@/components/property-calculator/property-table"
 import AddPropertyDropdown from "@/components/property-calculator/add-property-dropdown"
 import CreatePropertyDialog from "@/components/property-calculator/create-property-dialog"
+import { Plus } from "lucide-react"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
 
 export default function PropertyCalculator() {
   const [selectedTaxId, setSelectedTaxId] = useState<string | undefined>(undefined)
@@ -22,6 +25,10 @@ export default function PropertyCalculator() {
   // Dialog state
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [pendingPropertyType, setPendingPropertyType] = useState<PropertyType>("BUC")
+  
+  // Remove confirmation dialog state
+  const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false)
+  const [propertyToRemove, setPropertyToRemove] = useState<Property | null>(null)
 
   const addProperty = (type: PropertyType, name: string, folder?: string) => {
     if (properties.length < 3) {
@@ -58,12 +65,98 @@ export default function PropertyCalculator() {
 
   const removeProperty = (id: string) => {
     if (properties.length > 1) {
-      setProperties((prev) => prev.filter((p) => p.id !== id))
+      const property = properties.find(p => p.id === id)
+      if (property) {
+        setPropertyToRemove(property)
+        setIsRemoveDialogOpen(true)
+      }
+    }
+  }
+
+  const confirmRemoveProperty = () => {
+    if (propertyToRemove && properties.length > 1) {
+      setProperties((prev) => prev.filter((p) => p.id !== propertyToRemove.id))
+      setIsRemoveDialogOpen(false)
+      setPropertyToRemove(null)
     }
   }
 
   const updateProperty = (id: string, field: keyof Property, value: any) => {
     setProperties((prev) => prev.map((p) => (p.id === id ? { ...p, [field]: value } : p)))
+  }
+
+  const handleSelectSavedProperty = (property: SavedProperty) => {
+    // First, try to find an existing property column with the same type to update
+    const existingPropertyIndex = properties.findIndex(p => p.type === property.type)
+    
+    if (existingPropertyIndex !== -1) {
+      // Update existing property column
+      setProperties((prev) => prev.map((p, index) => {
+        if (index === existingPropertyIndex) {
+          return {
+            ...p,
+            name: property.name,
+            type: property.type,
+            purchasePrice: property.purchasePrice,
+          }
+        }
+        return p
+      }))
+    } else if (properties.length < 3) {
+      // Add a new property if we have less than 3 and no matching type exists
+      const newProperty: Property = {
+        ...defaultPropertyBase,
+        id: `new-${Date.now()}`,
+        name: property.name,
+        type: property.type,
+        purchasePrice: property.purchasePrice,
+      }
+      setProperties(prev => [...prev, newProperty])
+    }
+    // If we have 3 properties and no matching type, don't add anything
+  }
+
+  const handleCreateNewProperty = (name: string, type: PropertyType, folder?: string) => {
+    // Check if this is for the third column (new property)
+    if (properties.length === 2) {
+      // Add a new property for the third column
+      const newProperty: Property = {
+        ...defaultPropertyBase,
+        id: `third-${Date.now()}`, // Use a unique ID for the third property
+        name: name,
+        type: type,
+      }
+      setProperties(prev => [...prev, newProperty])
+    } else {
+      // Update existing property
+      setProperties((prev) => prev.map((p) => {
+        if (p.type === type) {
+          return {
+            ...p,
+            name: name,
+            type: type,
+          }
+        }
+        return p
+      }))
+    }
+  }
+
+  const handleSaveExistingProperty = (property: Property, folder?: string) => {
+    // Convert the current property to a SavedProperty format
+    const savedProperty: SavedProperty = {
+      id: Date.now().toString(),
+      name: property.name,
+      type: property.type,
+      purchasePrice: property.purchasePrice,
+      folder: folder || "Default"
+    }
+    
+    // In a real app, you would save this to your backend/database
+    console.log("Saving property to folder:", savedProperty)
+    
+    // Optionally, you could add it to a local state of saved properties
+    // setSavedProperties(prev => [...prev, savedProperty])
   }
 
   return (
@@ -72,11 +165,6 @@ export default function PropertyCalculator() {
         <h1 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">Property Comparison Calculator</h1>
         <p className="text-sm text-slate-600">
           Compare up to 3 properties side by side
-          {properties.length < 3 && (
-            <span className="ml-2 text-emerald-600 font-medium">
-              ({3 - properties.length} slot{3 - properties.length !== 1 ? 's' : ''} available)
-            </span>
-          )}
         </p>
       </div>
 
@@ -96,28 +184,45 @@ export default function PropertyCalculator() {
         </Tabs>
       </div>
 
-      <div className="mb-4 flex justify-end relative overflow-visible z-10">
-        <AddPropertyDropdown
-          onAddProperty={handleAddProperty}
-          onCreateNewEntry={handleCreateNewEntry}
-          folders={folders}
-          onCreateFolder={createFolder}
-          disabled={properties.length >= 3}
-        />
+      <div className="flex gap-6">
+        <div className="flex-1">
+          <PropertyTable
+            properties={properties}
+            mode={mode}
+            taxBracket={taxBracket}
+            vacancyMonth={vacancyMonth}
+            selectedTaxId={selectedTaxId}
+            setSelectedTaxId={setSelectedTaxId}
+            setTaxBracket={setTaxBracket}
+            setVacancyMonth={setVacancyMonth}
+            removeProperty={removeProperty}
+            updateProperty={updateProperty}
+            onSelectSavedProperty={handleSelectSavedProperty}
+            onCreateNewProperty={handleCreateNewProperty}
+            onCreateFolder={createFolder}
+            onSaveExistingProperty={handleSaveExistingProperty}
+            // showThirdColumn={showThirdColumn} // This line is removed
+          />
+        </div>
+        
+        {properties.length < 3 && (
+          <div className="w-80 flex flex-col items-center justify-start p-8 border-2 border-dashed border-slate-300 rounded-xl bg-slate-50">
+            <div className="text-center mb-6">
+              <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                <Plus className="h-6 w-6 text-emerald-600" />
+              </div>
+              <AddPropertyDropdown
+                onAddProperty={handleAddProperty}
+                onCreateNewEntry={handleCreateNewEntry}
+                folders={folders}
+                onCreateFolder={createFolder}
+                disabled={false}
+              />
+              <p className="text-sm text-slate-600 mt-4">Click here to add a New Project</p>
+            </div>
+          </div>
+        )}
       </div>
-
-      <PropertyTable
-        properties={properties}
-        mode={mode}
-        taxBracket={taxBracket}
-        vacancyMonth={vacancyMonth}
-        selectedTaxId={selectedTaxId}
-        setSelectedTaxId={setSelectedTaxId}
-        setTaxBracket={setTaxBracket}
-        setVacancyMonth={setVacancyMonth}
-        removeProperty={removeProperty}
-        updateProperty={updateProperty}
-      />
 
       <CreatePropertyDialog
         isOpen={isCreateDialogOpen}
@@ -127,6 +232,26 @@ export default function PropertyCalculator() {
         folders={folders}
         onCreateFolder={createFolder}
       />
+
+      {/* Remove Property Confirmation Dialog */}
+      <Dialog open={isRemoveDialogOpen} onOpenChange={setIsRemoveDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Remove Property</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to remove {propertyToRemove?.name || `Property #${propertyToRemove?.id}`}?
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-end space-x-2 pt-4">
+            <Button variant="outline" onClick={() => setIsRemoveDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={confirmRemoveProperty}>
+              Remove
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
