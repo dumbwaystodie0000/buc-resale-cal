@@ -14,6 +14,9 @@ export interface Property {
   name: string
   type: PropertyType
   purchasePrice: number
+  loanTenure: number
+  interestRate: number
+  ltv: number
   bankLoan: number
   projectedGrowth: number
   annualGrowth: number

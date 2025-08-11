@@ -5,7 +5,7 @@ import { isFieldNotApplicable } from "./utils"
 export function SectionRow({ title, colSpan, icon }: { title: string; colSpan: number; icon?: string }) {
   return (
     <tr className="bg-slate-50">
-      <td colSpan={colSpan} className="px-4 py-2 border-y border-slate-200 text-slate-800 font-semibold">
+      <td colSpan={colSpan} className="px-4 py-3 border-y border-slate-200 text-slate-800 font-semibold">
         <div className="flex items-center gap-2">
           {icon && <i className={`bi bi-${icon} text-slate-600 text-lg`}></i>}
           <span>{title}</span>

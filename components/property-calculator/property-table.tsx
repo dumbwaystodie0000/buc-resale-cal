@@ -12,7 +12,7 @@ import type { Property, Mode, SavedProperty, PropertyType } from "./types"
 import { TAX_BRACKETS, defaultPropertyBase, mockFolders } from "./constants"
 import { calculateValues } from "./calculations"
 import { fmtCurrency, fmtRate } from "./utils"
-import { PropertyTypeBadge, CurrencyInput, LabeledCurrency, LabeledNumber, DualCell, ValueText } from "./ui-components"
+import { PropertyTypeBadge, CurrencyInput, LabeledCurrency, LabeledNumber, DualCell, ValueText, ClearableNumberInput } from "./ui-components"
 import { SectionRow, DataRow, MaybeNADataRow } from "./table-components"
 import PropertySummary from "./property-summary"
 import SelectPropertyButton from "./select-property-button"
@@ -89,6 +89,9 @@ export default function PropertyTable({
   // Check if a property has meaningful data (not just default values)
   const hasPropertyData = (property: Property) => {
     return property.purchasePrice > 0 || 
+           property.loanTenure !== 30 || 
+           property.interestRate !== 2.00 || 
+           property.ltv !== 75 ||
            property.annualGrowth > 0 || 
            property.monthlyRental > 0 || 
            property.monthlyMaintenance > 0 || 
@@ -256,14 +259,56 @@ export default function PropertyTable({
             )}
           />
           <DataRow
-            label="Bank Loan (75%, 30yrs)"
+            label="Loan Tenure (Years)"
+            properties={displayProperties}
+            render={(p) => (
+              <div className="flex items-center gap-2">
+                <ClearableNumberInput 
+                  value={p.loanTenure || 30} 
+                  onChange={(v: number) => updateProperty(p.id, "loanTenure", Math.min(Math.max(v, 1), 35))} 
+                  step={1}
+                  className="w-20"
+                />
+              </div>
+            )}
+          />
+          <DataRow
+            label="Interest Rate %"
+            properties={displayProperties}
+            render={(p) => (
+              <div className="flex items-center gap-2">
+                <ClearableNumberInput 
+                  value={p.interestRate || 2.00} 
+                  onChange={(v: number) => updateProperty(p.id, "interestRate", Math.min(Math.max(v, 0.01), 5.00))} 
+                  step={0.01}
+                  className="w-20"
+                />
+              </div>
+            )}
+          />
+          <DataRow
+            label="LTV %"
+            properties={displayProperties}
+            render={(p) => (
+              <div className="flex items-center gap-2">
+                <ClearableNumberInput 
+                  value={p.ltv || 75} 
+                  onChange={(v: number) => updateProperty(p.id, "ltv", Math.min(Math.max(v, 1), 75))} 
+                  step={1}
+                  className="w-20"
+                />
+              </div>
+              )}
+          />
+          <DataRow
+            label="Bank Loan"
             properties={displayProperties}
             render={(p) => {
-              const d = calculateValues(p, { mode, taxBracket, vacancyMonth })
+              const bankLoan = (p.purchasePrice * (p.ltv || 75)) / 100
               return (
                 <div className="space-y-1">
                   <div className="text-sm font-medium text-slate-900">
-                    {fmtCurrency(p.bankLoan)}
+                    {fmtCurrency(bankLoan)}
                   </div>
                 </div>
               )
