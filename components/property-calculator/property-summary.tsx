@@ -23,7 +23,7 @@ export default function PropertySummary({
         title="Investment Summary"
         colSpan={properties.length + 1}
         icon="journal-richtext"
-        data-oid="crg2q9c"
+        data-oid="dg-gyr9"
       />
 
       <IconRow
@@ -36,17 +36,17 @@ export default function PropertySummary({
               .projectedValuation,
           )
         }
-        data-oid="j54q:d4"
+        data-oid="1118:-2"
       />
 
-      <tr className="hover:bg-slate-100" data-oid="g1qlytt">
+      <tr className="hover:bg-slate-100" data-oid="bmgab-8">
         <td
           className="sticky left-0 z-10 px-4 py-3 border-b border-r border-slate-200 text-slate-900 font-medium align-middle"
-          data-oid="2xnr:.5"
+          data-oid="ybv:g49"
         >
-          <div className="flex items-center gap-2" data-oid="ukyzydd">
-            <DollarSign className="h-4 w-4 text-slate-600" data-oid="nw3z_.l" />
-            <span data-oid="3p4ei1l">Est. Net Profit</span>
+          <div className="flex items-center gap-2" data-oid="4pa2tbi">
+            <DollarSign className="h-4 w-4 text-slate-600" data-oid="d:k.0qf" />
+            <span data-oid="sf7i0ae">Est. Net Profit</span>
           </div>
         </td>
         {properties.map((p, i) => {
@@ -60,11 +60,11 @@ export default function PropertySummary({
             <td
               key={p.id}
               className={`px-4 py-3 border-b border-r border-slate-200 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
-              data-oid="8_e.f6z"
+              data-oid="961tb3r"
             >
               <div
                 className={`font-semibold ${isNegative ? "text-red-600" : "text-green-600"}`}
-                data-oid="vha5.uf"
+                data-oid="wrw9zrn"
               >
                 {fmtCurrency(netProfit)}
               </div>
@@ -84,7 +84,7 @@ export default function PropertySummary({
           }).roe;
           return roe === 0 ? "0%" : fmtPercent(roe);
         }}
-        data-oid="bs-q1tl"
+        data-oid="86xai8c"
       />
 
       <IconRow
@@ -92,7 +92,7 @@ export default function PropertySummary({
         icon={Percent}
         properties={properties}
         renderValue={(p) => `${p.annualGrowth || 0}%`}
-        data-oid="-efiu-c"
+        data-oid="fe1j12x"
       />
 
       <IconRow
@@ -105,7 +105,7 @@ export default function PropertySummary({
               .totalCashReturn,
           )
         }
-        data-oid="2ry04yg"
+        data-oid="49d_r_0"
       />
     </>
   );

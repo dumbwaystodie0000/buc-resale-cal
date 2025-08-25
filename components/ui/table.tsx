@@ -9,13 +9,13 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
     <div
       data-slot="table-container"
       className="relative w-full overflow-x-auto"
-      data-oid="syh-up7"
+      data-oid="nz.3pms"
     >
       <table
         data-slot="table"
         className={cn("w-full caption-bottom text-sm", className)}
         {...props}
-        data-oid="wk8aad3"
+        data-oid="lw5-.4t"
       />
     </div>
   );
@@ -27,7 +27,7 @@ function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
       data-slot="table-header"
       className={cn("[&_tr]:border-b", className)}
       {...props}
-      data-oid="5mobr7o"
+      data-oid="iy-d-8_"
     />
   );
 }
@@ -38,7 +38,7 @@ function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
       data-slot="table-body"
       className={cn("[&_tr:last-child]:border-0", className)}
       {...props}
-      data-oid="8u0x:la"
+      data-oid="xrh3d2f"
     />
   );
 }
@@ -52,7 +52,7 @@ function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
         className,
       )}
       {...props}
-      data-oid="c_x33w."
+      data-oid="fdqavas"
     />
   );
 }
@@ -66,7 +66,7 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
         className,
       )}
       {...props}
-      data-oid=".81.v2l"
+      data-oid="0luw6x3"
     />
   );
 }
@@ -80,7 +80,7 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
         className,
       )}
       {...props}
-      data-oid="jdgv6we"
+      data-oid="089u7vs"
     />
   );
 }
@@ -94,7 +94,7 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
         className,
       )}
       {...props}
-      data-oid="3savi40"
+      data-oid="eqju-7q"
     />
   );
 }
@@ -108,7 +108,7 @@ function TableCaption({
       data-slot="table-caption"
       className={cn("text-muted-foreground mt-4 text-sm", className)}
       {...props}
-      data-oid="8-c7ah4"
+      data-oid="0fd89eo"
     />
   );
 }

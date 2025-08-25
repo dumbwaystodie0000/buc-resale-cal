@@ -40,7 +40,7 @@ function Toggle({
       data-slot="toggle"
       className={cn(toggleVariants({ variant, size, className }))}
       {...props}
-      data-oid="zcsybcp"
+      data-oid="6.ru7hv"
     />
   );
 }

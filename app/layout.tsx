@@ -12,15 +12,15 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-oid="85jhk72">
-      <head data-oid="9brt3--">
-        <style data-oid="swu:.nu">{`
+    <html lang="en" data-oid="lp-cskr">
+      <head data-oid="5n.fm1a">
+        <style data-oid="67x5hl4">{`
 html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
 }
         `}</style>
       </head>
-      <body className="" data-oid="9w-i-7">
+      <body className="" data-oid="dgdo:xw">
         {children}
       </body>
     </html>

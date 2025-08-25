@@ -18,13 +18,13 @@ function Progress({
         className,
       )}
       {...props}
-      data-oid="cjow.-o"
+      data-oid="1zkvpj-"
     >
       <ProgressPrimitive.Indicator
         data-slot="progress-indicator"
         className="bg-primary h-full w-full flex-1 transition-all"
         style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
-        data-oid="unv0ogt"
+        data-oid="ko3nuwf"
       />
     </ProgressPrimitive.Root>
   );

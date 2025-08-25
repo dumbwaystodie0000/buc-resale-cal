@@ -68,7 +68,7 @@ export default function SelectPropertyButton({
     return (
       <div
         className={`w-3 h-3 rounded-full ${type === "BUC" ? "bg-orange-500" : "bg-green-500"}`}
-        data-oid="semp1fv"
+        data-oid="i4f.bdp"
       />
     );
   };
@@ -88,13 +88,13 @@ export default function SelectPropertyButton({
         open={isOpen}
         onOpenChange={setIsOpen}
         modal={false}
-        data-oid="n7bwc4k"
+        data-oid="xpkru.c"
       >
-        <DropdownMenuTrigger asChild data-oid="6tqhb7a">
+        <DropdownMenuTrigger asChild data-oid="gmvm1s9">
           <Button
             variant="outline"
             className="w-full h-8 text-xs font-semibold text-slate-700 bg-transparent"
-            data-oid="l-h-e:a"
+            data-oid="84:5g0x"
           >
             Select / Create New {propertyType} Entry
           </Button>
@@ -115,7 +115,7 @@ export default function SelectPropertyButton({
               }
             }, 100);
           }}
-          data-oid="sd43mku"
+          data-oid="ficeiyk"
         >
           {/* From Saved Folder */}
           <DropdownMenuItem
@@ -128,21 +128,21 @@ export default function SelectPropertyButton({
               setIsHoveringSub(false);
               setOpenSubmenu(null);
             }}
-            data-oid="bqevd2v"
+            data-oid="anb.xo-"
           >
-            <Folder className="mr-2 h-4 w-4" data-oid="g:a6r6e" />
-            <span data-oid="tp_kimf">From Saved Folder</span>
-            <ChevronRight className="ml-auto h-4 w-4" data-oid="ndgy-jq" />
+            <Folder className="mr-2 h-4 w-4" data-oid="bxroyx5" />
+            <span data-oid="4pg6xgd">From Saved Folder</span>
+            <ChevronRight className="ml-auto h-4 w-4" data-oid="heoib2c" />
           </DropdownMenuItem>
 
           {/* Create New Entry */}
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() => handleCreateNew(propertyType)}
-            data-oid="7h55igy"
+            data-oid="3i01hg0"
           >
-            <Building2 className="mr-2 h-4 w-4" data-oid="-4eup:5" />
-            <span data-oid="dg.mcri">Create New {propertyType} Entry</span>
+            <Building2 className="mr-2 h-4 w-4" data-oid="vadpekr" />
+            <span data-oid="_ag5ujc">Create New {propertyType} Entry</span>
           </DropdownMenuItem>
 
           {/* From Saved Folder Submenu */}
@@ -158,22 +158,22 @@ export default function SelectPropertyButton({
                 setIsHoveringSub(false);
                 setOpenSubmenu(null);
               }}
-              data-oid="e5tb81g"
+              data-oid="o3e4sy5"
             >
               {mockFolders.map((folder) => {
                 const folderProperties = getFolderProperties(folder);
                 return (
-                  <div key={folder} data-oid="ofxu-xu">
+                  <div key={folder} data-oid="h.8gr69">
                     <div
                       className="px-3 py-2 text-sm font-medium text-slate-700 bg-slate-50 border-b border-slate-100"
-                      data-oid="_0fy1k_"
+                      data-oid="deh2m4r"
                     >
                       <Folder
                         className="mr-2 h-4 w-4 inline"
-                        data-oid="g9a1agb"
+                        data-oid="-g7ku8w"
                       />
 
-                      <span data-oid="kavrwu0">
+                      <span data-oid="jpmifv3">
                         {folder} ({folderProperties.length})
                       </span>
                     </div>
@@ -186,19 +186,19 @@ export default function SelectPropertyButton({
                           setIsHoveringSub(true);
                           setOpenSubmenu("saved-folder");
                         }}
-                        data-oid="y0x45tn"
+                        data-oid="zey4tm6"
                       >
                         {getPropertyIcon(property.type)}
-                        <div className="flex-1 min-w-0" data-oid="5506p3p">
+                        <div className="flex-1 min-w-0" data-oid="3_sg3e2">
                           <div
                             className="text-sm text-slate-900"
-                            data-oid="-t5581m"
+                            data-oid="3q.1v:v"
                           >
                             {property.name}
                           </div>
                           <div
                             className="text-xs text-slate-500"
-                            data-oid="r-w5gb-"
+                            data-oid="njw22i1"
                           >
                             {property.type} -{" "}
                             {formatPrice(property.purchasePrice)}
@@ -209,7 +209,7 @@ export default function SelectPropertyButton({
                     {folderProperties.length === 0 && (
                       <div
                         className="px-3 py-2 text-slate-500 pl-8 text-sm"
-                        data-oid="-sy0f.u"
+                        data-oid="57xqv2u"
                       >
                         No properties in this folder
                       </div>
@@ -224,14 +224,14 @@ export default function SelectPropertyButton({
                   setIsHoveringSub(true);
                   setOpenSubmenu("saved-folder");
                 }}
-                data-oid="1uy.2mc"
+                data-oid="j22_k:g"
               >
                 <Plus
                   className="mr-2 h-4 w-4 flex-shrink-0"
-                  data-oid="1b4x432"
+                  data-oid="q72_6.m"
                 />
 
-                <span className="whitespace-nowrap" data-oid="mjwoe8q">
+                <span className="whitespace-nowrap" data-oid="-5af7t2">
                   Create New Folder
                 </span>
               </div>
@@ -247,7 +247,7 @@ export default function SelectPropertyButton({
         propertyType={propertyType}
         folders={mockFolders}
         onCreateFolder={onCreateFolder}
-        data-oid="xepv.gx"
+        data-oid="z7sfw-m"
       />
     </>
   );

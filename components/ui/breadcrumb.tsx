@@ -10,7 +10,7 @@ function Breadcrumb({ ...props }: React.ComponentProps<"nav">) {
       aria-label="breadcrumb"
       data-slot="breadcrumb"
       {...props}
-      data-oid="8chenzk"
+      data-oid="82i9_gu"
     />
   );
 }
@@ -24,7 +24,7 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
         className,
       )}
       {...props}
-      data-oid=".jvtovz"
+      data-oid="6x-f817"
     />
   );
 }
@@ -35,7 +35,7 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
       data-slot="breadcrumb-item"
       className={cn("inline-flex items-center gap-1.5", className)}
       {...props}
-      data-oid="5791v4i"
+      data-oid="tuxaof."
     />
   );
 }
@@ -52,7 +52,7 @@ function BreadcrumbLink({
       data-slot="breadcrumb-link"
       className={cn("hover:text-foreground transition-colors", className)}
       {...props}
-      data-oid=":98s-b5"
+      data-oid="0efpi_d"
     />
   );
 }
@@ -66,7 +66,7 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
       aria-current="page"
       className={cn("text-foreground font-normal", className)}
       {...props}
-      data-oid="4h:f7vx"
+      data-oid="hrf-7ci"
     />
   );
 }
@@ -83,9 +83,9 @@ function BreadcrumbSeparator({
       aria-hidden="true"
       className={cn("[&>svg]:size-3.5", className)}
       {...props}
-      data-oid="4ilmbco"
+      data-oid="ffgitqu"
     >
-      {children ?? <ChevronRight data-oid="p0di1y1" />}
+      {children ?? <ChevronRight data-oid="gtxehrr" />}
     </li>
   );
 }
@@ -101,10 +101,10 @@ function BreadcrumbEllipsis({
       aria-hidden="true"
       className={cn("flex size-9 items-center justify-center", className)}
       {...props}
-      data-oid="20.oy3z"
+      data-oid="tunfg5."
     >
-      <MoreHorizontal className="size-4" data-oid="e0o7oaz" />
-      <span className="sr-only" data-oid="_vl_fw_">
+      <MoreHorizontal className="size-4" data-oid=".vhfgrc" />
+      <span className="sr-only" data-oid="fkl:s_a">
         More
       </span>
     </span>

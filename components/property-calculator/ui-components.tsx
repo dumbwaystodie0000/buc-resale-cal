@@ -79,7 +79,7 @@ export function ClearableNumberInput({
         : "";
 
   return (
-    <div className={`relative ${className}`} data-oid="2d1.9j.">
+    <div className={`relative ${className}`} data-oid="a7r04:p">
       <Input
         ref={ref}
         type={isEditing ? "number" : "text"}
@@ -92,7 +92,7 @@ export function ClearableNumberInput({
         onChange={handleChange}
         onWheel={handleWheel}
         className="h-9 text-left pr-8 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-        data-oid="hmqulcv"
+        data-oid="0_0yg8g"
       />
 
       <button
@@ -111,9 +111,9 @@ export function ClearableNumberInput({
           }, 0);
         }}
         className="absolute right-2 top-1.5 rounded p-0.5 text-slate-400 hover:text-slate-600"
-        data-oid="r1d86sg"
+        data-oid="4.0ypsd"
       >
-        <X className="h-3.5 w-3.5" data-oid=".epuyn-" />
+        <X className="h-3.5 w-3.5" data-oid="5q.ij1n" />
       </button>
     </div>
   );
@@ -123,16 +123,16 @@ export function PropertyTypeBadge({ type }: { type: PropertyType }) {
   return (
     <div
       className="inline-flex items-center rounded-md px-2 py-1"
-      data-oid="ux2:ro9"
+      data-oid="r0xlju5"
     >
       <div
         className={`w-2 h-2 rounded-full mr-2 ${type === "BUC" ? "bg-orange-500" : "bg-emerald-600"}`}
-        data-oid="67xypk7"
+        data-oid="m4p5d:q"
       />
 
       <span
         className={`text-xs font-medium ${type === "BUC" ? "text-orange-700" : "text-emerald-700"}`}
-        data-oid="e0qdk_v"
+        data-oid="zv:.b7g"
       >
         {type}
       </span>
@@ -153,12 +153,12 @@ export function PropertyPlaceholderButton({
     <button
       onClick={onClick}
       className="w-full h-32 bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg hover:bg-slate-100 hover:border-slate-400 transition-colors flex flex-col items-center justify-center gap-2 text-slate-600"
-      data-oid="o:9o:fp"
+      data-oid="jzg5jhv"
     >
-      <div className="text-sm font-medium" data-oid="7_ouhyb">
+      <div className="text-sm font-medium" data-oid="uu0inz6">
         Select / Create New Entry
       </div>
-      <div className="text-xs text-slate-500" data-oid="nx:n19c">
+      <div className="text-xs text-slate-500" data-oid="voff5bv">
         Click to add property details
       </div>
     </button>
@@ -182,7 +182,7 @@ export function PropertyCell({
         propertyId={property.id}
         propertyType={property.type}
         onClick={onPopulate}
-        data-oid="t9x6k__"
+        data-oid="p:jwzwp"
       />
     );
   }
@@ -205,7 +205,7 @@ export function CurrencyInput({
       onChange={onChange}
       step={step}
       showCurrency={true}
-      data-oid="gzbrk9x"
+      data-oid="43lp91k"
     />
   );
 }
@@ -222,8 +222,8 @@ export function LabeledCurrency({
   step?: number;
 }) {
   return (
-    <div className="flex items-center gap-2" data-oid="6_4i-dr">
-      <div className="text-[11px] text-slate-600" data-oid="jfewakj">
+    <div className="flex items-center gap-2" data-oid="3cs1kw1">
+      <div className="text-[11px] text-slate-600" data-oid="33g6orh">
         {label}
       </div>
       <ClearableNumberInput
@@ -232,7 +232,7 @@ export function LabeledCurrency({
         step={step}
         className="w-24"
         showCurrency={true}
-        data-oid=".ns8-:o"
+        data-oid="yj7-6ca"
       />
     </div>
   );
@@ -250,8 +250,8 @@ export function LabeledNumber({
   step?: number;
 }) {
   return (
-    <div className="flex items-center gap-2" data-oid="v63ocex">
-      <div className="text-[11px] text-slate-600" data-oid="1..u_05">
+    <div className="flex items-center gap-2" data-oid="-ikzvcs">
+      <div className="text-[11px] text-slate-600" data-oid="fj.tmfe">
         {label}
       </div>
       <ClearableNumberInput
@@ -259,7 +259,7 @@ export function LabeledNumber({
         onChange={onChange}
         step={step}
         className="w-24"
-        data-oid="xe5p7g."
+        data-oid="f5u9edf"
       />
     </div>
   );
@@ -273,11 +273,11 @@ export function DualCell({
   right: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4" data-oid=":n.gsps">
-      <div className="flex-1" data-oid="gs6tefd">
+    <div className="flex items-center justify-between gap-4" data-oid="td5gqql">
+      <div className="flex-1" data-oid="b5zanjv">
         {left}
       </div>
-      <div className="flex-shrink-0" data-oid="4nl5c4q">
+      <div className="flex-shrink-0" data-oid="jzmq08l">
         {right}
       </div>
     </div>
@@ -292,7 +292,7 @@ export function ValueText({
   className?: string;
 }) {
   return (
-    <div className={`text-sm ${className}`} data-oid="vzjigxp">
+    <div className={`text-sm ${className}`} data-oid="j4k24fq">
       {children}
     </div>
   );
@@ -352,44 +352,44 @@ export function MonthYearPicker({
 
   if (disabled) {
     return (
-      <div className="text-xs text-slate-500" data-oid="au5z0dx">
+      <div className="text-xs text-slate-500" data-oid="d.70z-k">
         N/A
       </div>
     );
   }
 
   return (
-    <Popover open={isOpen} onOpenChange={setIsOpen} data-oid="ipnj6fo">
-      <PopoverTrigger asChild data-oid="8mjpjdf">
+    <Popover open={isOpen} onOpenChange={setIsOpen} data-oid="qi_7pbz">
+      <PopoverTrigger asChild data-oid="j884m8i">
         <Button
           variant="outline"
           className="h-9 w-32 justify-start text-left font-normal"
-          data-oid="nivvbmn"
+          data-oid="3:9qi_7"
         >
-          <Calendar className="mr-2 h-4 w-4" data-oid="cp-m.0q" />
+          <Calendar className="mr-2 h-4 w-4" data-oid="44g.cps" />
           {value ? formatDate(value) : "Select date"}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-64 p-4" data-oid="n8ccbvu">
-        <div className="space-y-4" data-oid="fog:7fx">
-          <div className="space-y-2" data-oid="g4dti2v">
-            <label className="text-sm font-medium" data-oid="w-sen06">
+      <PopoverContent className="w-64 p-4" data-oid=":ynqnl4">
+        <div className="space-y-4" data-oid="hbw4:n1">
+          <div className="space-y-2" data-oid="7eradd1">
+            <label className="text-sm font-medium" data-oid="98k9g6v">
               Month
             </label>
             <Select
               value={selectedMonth.toString()}
               onValueChange={(v) => setSelectedMonth(parseInt(v))}
-              data-oid="4k1w2q5"
+              data-oid="iaoaxwi"
             >
-              <SelectTrigger data-oid="wr2vff:">
-                <SelectValue data-oid="2ybutqg" />
+              <SelectTrigger data-oid="e0b.hq.">
+                <SelectValue data-oid="mdxjaqg" />
               </SelectTrigger>
-              <SelectContent data-oid="mw:hbfe">
+              <SelectContent data-oid="v_ct8vb">
                 {months.map((month, index) => (
                   <SelectItem
                     key={index}
                     value={index.toString()}
-                    data-oid="xs..wlk"
+                    data-oid="nwcj0:e"
                   >
                     {month}
                   </SelectItem>
@@ -397,24 +397,24 @@ export function MonthYearPicker({
               </SelectContent>
             </Select>
           </div>
-          <div className="space-y-2" data-oid="d1fnk.9">
-            <label className="text-sm font-medium" data-oid="pmhfdfl">
+          <div className="space-y-2" data-oid="51u-9rk">
+            <label className="text-sm font-medium" data-oid="k9b8e8g">
               Year
             </label>
             <Select
               value={selectedYear.toString()}
               onValueChange={(v) => setSelectedYear(parseInt(v))}
-              data-oid="aqsaf:a"
+              data-oid="7qfp8oz"
             >
-              <SelectTrigger data-oid="0nvjle_">
-                <SelectValue data-oid="skcjue1" />
+              <SelectTrigger data-oid=".k42bwl">
+                <SelectValue data-oid="pk7nelo" />
               </SelectTrigger>
-              <SelectContent data-oid="r:u3q6:">
+              <SelectContent data-oid="hqoj6_u">
                 {years.map((year) => (
                   <SelectItem
                     key={year}
                     value={year.toString()}
-                    data-oid="pn6_et4"
+                    data-oid="jcfpx99"
                   >
                     {year}
                   </SelectItem>
@@ -422,16 +422,16 @@ export function MonthYearPicker({
               </SelectContent>
             </Select>
           </div>
-          <div className="flex justify-between gap-2" data-oid="00pp98p">
+          <div className="flex justify-between gap-2" data-oid="m8tmcrc">
             <Button
               variant="outline"
               size="sm"
               onClick={handleClear}
-              data-oid="nc7_08y"
+              data-oid="3mjb6gw"
             >
               Clear
             </Button>
-            <Button size="sm" onClick={handleApply} data-oid="wpr:700">
+            <Button size="sm" onClick={handleApply} data-oid="pgjl:9p">
               Apply
             </Button>
           </div>
