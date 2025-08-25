@@ -10,7 +10,7 @@ function Breadcrumb({ ...props }: React.ComponentProps<"nav">) {
       aria-label="breadcrumb"
       data-slot="breadcrumb"
       {...props}
-      data-oid="6z-w6fd"
+      data-oid="8chenzk"
     />
   );
 }
@@ -24,7 +24,7 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
         className,
       )}
       {...props}
-      data-oid="68z6rij"
+      data-oid=".jvtovz"
     />
   );
 }
@@ -35,7 +35,7 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
       data-slot="breadcrumb-item"
       className={cn("inline-flex items-center gap-1.5", className)}
       {...props}
-      data-oid="28zzd-x"
+      data-oid="5791v4i"
     />
   );
 }
@@ -52,7 +52,7 @@ function BreadcrumbLink({
       data-slot="breadcrumb-link"
       className={cn("hover:text-foreground transition-colors", className)}
       {...props}
-      data-oid="8dgx0dp"
+      data-oid=":98s-b5"
     />
   );
 }
@@ -66,7 +66,7 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
       aria-current="page"
       className={cn("text-foreground font-normal", className)}
       {...props}
-      data-oid="f6x.yu4"
+      data-oid="4h:f7vx"
     />
   );
 }
@@ -83,9 +83,9 @@ function BreadcrumbSeparator({
       aria-hidden="true"
       className={cn("[&>svg]:size-3.5", className)}
       {...props}
-      data-oid="ej6w_5n"
+      data-oid="4ilmbco"
     >
-      {children ?? <ChevronRight data-oid="7d4:jjw" />}
+      {children ?? <ChevronRight data-oid="p0di1y1" />}
     </li>
   );
 }
@@ -101,10 +101,10 @@ function BreadcrumbEllipsis({
       aria-hidden="true"
       className={cn("flex size-9 items-center justify-center", className)}
       {...props}
-      data-oid="4y_h6qb"
+      data-oid="20.oy3z"
     >
-      <MoreHorizontal className="size-4" data-oid="iwf-rky" />
-      <span className="sr-only" data-oid="p3dn-ou">
+      <MoreHorizontal className="size-4" data-oid="e0o7oaz" />
+      <span className="sr-only" data-oid="_vl_fw_">
         More
       </span>
     </span>

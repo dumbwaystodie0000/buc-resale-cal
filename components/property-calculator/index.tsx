@@ -205,38 +205,38 @@ export default function PropertyCalculator() {
   };
 
   return (
-    <div className="font-sans" data-oid="wppwck5">
-      <div className="mb-4" data-oid=".sfp23u">
+    <div className="font-sans" data-oid="daxgv1o">
+      <div className="mb-4" data-oid="_ifhiz2">
         <h1
           className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight"
-          data-oid=".ehag1c"
+          data-oid="rxz_kp6"
         >
           Property Comparison Calculator
         </h1>
-        <p className="text-sm text-slate-600" data-oid="9i9zvfp">
+        <p className="text-sm text-slate-600" data-oid="18qp4-9">
           Compare up to 3 properties side by side
         </p>
       </div>
 
-      <div className="mb-3" data-oid="4k40rb7">
+      <div className="mb-3" data-oid="6mfv47.">
         <Tabs
           value={mode}
           onValueChange={(v: string) => setMode(v as Mode)}
           className="mb-0"
-          data-oid="gky2053"
+          data-oid="-a9.t:u"
         >
-          <TabsList className="h-11 md:h-12 p-1" data-oid="1_ps8av">
+          <TabsList className="h-11 md:h-12 p-1" data-oid="qx62sta">
             <TabsTrigger
               value="own"
               className="px-5 md:px-6 py-2.5 md:py-3 text-[13px] md:text-[14px] font-semibold"
-              data-oid="1mtjwm."
+              data-oid="7dd0_ex"
             >
               Own Stay Analysis
             </TabsTrigger>
             <TabsTrigger
               value="investment"
               className="px-5 md:px-6 py-2.5 md:py-3 text-[13px] md:text-[14px] font-semibold"
-              data-oid="ihyq_:1"
+              data-oid="xkk10ka"
             >
               Investment Analysis
             </TabsTrigger>
@@ -244,8 +244,8 @@ export default function PropertyCalculator() {
         </Tabs>
       </div>
 
-      <div className="flex gap-6" data-oid="8w_wq_c">
-        <div className="flex-1" data-oid="z:l2e_3">
+      <div className="flex gap-6" data-oid="66l-z90">
+        <div className="flex-1" data-oid="jls5a7r">
           <PropertyTable
             properties={properties}
             mode={mode}
@@ -262,21 +262,21 @@ export default function PropertyCalculator() {
             onCreateFolder={createFolder}
             onSaveExistingProperty={handleSaveExistingProperty}
             // showThirdColumn={showThirdColumn} // This line is removed
-            data-oid="fz2zn1k"
+            data-oid="maerta5"
           />
         </div>
 
         {properties.length < 3 && (
           <div
             className="w-80 flex flex-col items-center justify-start p-8 border-2 border-dashed border-slate-300 rounded-xl bg-slate-50"
-            data-oid="hczlk_x"
+            data-oid="h0i-3h0"
           >
-            <div className="text-center mb-6" data-oid="tx113ux">
+            <div className="text-center mb-6" data-oid="rxbieso">
               <div
                 className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-4 mx-auto"
-                data-oid="dk9f-.9"
+                data-oid="2ff6zho"
               >
-                <Plus className="h-6 w-6 text-emerald-600" data-oid="dyzi0uu" />
+                <Plus className="h-6 w-6 text-emerald-600" data-oid="az5dr3z" />
               </div>
               <AddPropertyDropdown
                 onAddProperty={handleAddProperty}
@@ -284,10 +284,10 @@ export default function PropertyCalculator() {
                 folders={folders}
                 onCreateFolder={createFolder}
                 disabled={false}
-                data-oid="8bn_fw."
+                data-oid=".n0s-8z"
               />
 
-              <p className="text-sm text-slate-600 mt-4" data-oid="6zkdwsu">
+              <p className="text-sm text-slate-600 mt-4" data-oid="a0wd5pb">
                 Click here to add a New Project
               </p>
             </div>
@@ -302,35 +302,35 @@ export default function PropertyCalculator() {
         propertyType={pendingPropertyType}
         folders={folders}
         onCreateFolder={createFolder}
-        data-oid="38uasp8"
+        data-oid="h5m7d_p"
       />
 
       {/* Remove Property Confirmation Dialog */}
       <Dialog
         open={isRemoveDialogOpen}
         onOpenChange={setIsRemoveDialogOpen}
-        data-oid="gua1qu3"
+        data-oid="m3f42d4"
       >
-        <DialogContent className="sm:max-w-md" data-oid="fre8wrf">
-          <DialogHeader data-oid="obojv-v">
-            <DialogTitle data-oid="1rj7lg_">Remove Property</DialogTitle>
-            <DialogDescription data-oid="cn56v2j">
+        <DialogContent className="sm:max-w-md" data-oid="0gdfv8_">
+          <DialogHeader data-oid="-_faxlw">
+            <DialogTitle data-oid="dcda_4i">Remove Property</DialogTitle>
+            <DialogDescription data-oid="ifdq4jb">
               Are you sure you want to remove{" "}
               {propertyToRemove?.name || `Property #${propertyToRemove?.id}`}?
             </DialogDescription>
           </DialogHeader>
-          <div className="flex justify-end space-x-2 pt-4" data-oid="4u3vr_q">
+          <div className="flex justify-end space-x-2 pt-4" data-oid="6a7w9zd">
             <Button
               variant="outline"
               onClick={() => setIsRemoveDialogOpen(false)}
-              data-oid="nhvvwfc"
+              data-oid="3fxqvv_"
             >
               Cancel
             </Button>
             <Button
               variant="destructive"
               onClick={confirmRemoveProperty}
-              data-oid="ctjwu35"
+              data-oid=".8tk5vk"
             >
               Remove
             </Button>

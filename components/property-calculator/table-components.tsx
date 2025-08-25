@@ -12,20 +12,20 @@ export function SectionRow({
   icon?: string;
 }) {
   return (
-    <tr className="bg-slate-50" data-oid="oda37jp">
+    <tr className="bg-slate-50" data-oid="ykt1.m:">
       <td
         colSpan={colSpan}
         className="px-4 py-3 border-y border-slate-200 text-slate-800 font-semibold"
-        data-oid="7bjnz0o"
+        data-oid="_wme1v3"
       >
-        <div className="flex items-center gap-2" data-oid="tvf4tew">
+        <div className="flex items-center gap-2" data-oid="0:pevg2">
           {icon && (
             <i
               className={`bi bi-${icon} text-slate-600 text-lg`}
-              data-oid="2mrvur9"
+              data-oid="9hri8tc"
             ></i>
           )}
-          <span data-oid="2i118aa">{title}</span>
+          <span data-oid="x7mo2_-">{title}</span>
         </div>
       </td>
     </tr>
@@ -42,10 +42,10 @@ export function DataRow({
   render: (p: Property) => React.ReactNode;
 }) {
   return (
-    <tr className="hover:bg-slate-100" data-oid="18m-8d3">
+    <tr className="hover:bg-slate-100" data-oid="p4h3-5q">
       <td
         className="sticky left-0 z-10 px-4 py-3 border-b border-r border-slate-200 text-slate-900 font-medium align-middle"
-        data-oid="1zhw:aq"
+        data-oid="8ja0hq-"
       >
         {label}
       </td>
@@ -53,7 +53,7 @@ export function DataRow({
         <td
           key={p.id}
           className={`px-4 py-3 border-b border-r border-slate-200 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
-          data-oid="l2zptmi"
+          data-oid="1y1qu_9"
         >
           {render(p)}
         </td>
@@ -76,10 +76,10 @@ export function MaybeNADataRow({
   mode: Mode;
 }) {
   return (
-    <tr className="hover:bg-slate-100" data-oid="33b.1:w">
+    <tr className="hover:bg-slate-100" data-oid="r2h99kj">
       <td
         className="sticky left-0 z-10 px-4 py-3 border-b border-r border-slate-200 text-slate-900 font-medium align-middle"
-        data-oid="v2sd-yi"
+        data-oid="xmswcfe"
       >
         {label}
       </td>
@@ -89,10 +89,10 @@ export function MaybeNADataRow({
           <td
             key={p.id}
             className={`px-4 py-3 border-b border-r border-slate-200 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
-            data-oid="qvrqwav"
+            data-oid="aefl1xp"
           >
             {isNA ? (
-              <div className="text-xs text-slate-500" data-oid="txzji5n">
+              <div className="text-xs text-slate-500" data-oid=":dn.r5v">
                 N/A
               </div>
             ) : (
@@ -117,23 +117,23 @@ export function IconRow({
   renderValue: (p: Property) => string;
 }) {
   return (
-    <tr className="hover:bg-slate-100" data-oid="xgifmo4">
+    <tr className="hover:bg-slate-100" data-oid="c8n0jok">
       <td
         className="sticky left-0 z-10 px-4 py-3 border-b border-r border-slate-200 text-slate-900 font-medium align-middle"
-        data-oid="zzxggi0"
+        data-oid="09v81pu"
       >
-        <div className="flex items-center gap-2" data-oid="_civ0jf">
-          <Icon className="h-4 w-4 text-slate-600" data-oid="i::o0vs" />
-          <span data-oid="xmwwzp:">{label}</span>
+        <div className="flex items-center gap-2" data-oid="qe1kof.">
+          <Icon className="h-4 w-4 text-slate-600" data-oid="1vaa86l" />
+          <span data-oid="w9qz74p">{label}</span>
         </div>
       </td>
       {properties.map((p, i) => (
         <td
           key={p.id}
           className={`px-4 py-3 border-b border-r border-slate-200 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
-          data-oid="9tmlk93"
+          data-oid="vye71ql"
         >
-          <div className="text-slate-900 font-semibold" data-oid=".lm4a8_">
+          <div className="text-slate-900 font-semibold" data-oid="lz21jo1">
             {renderValue(p)}
           </div>
         </td>

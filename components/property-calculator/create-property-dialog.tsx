@@ -80,7 +80,7 @@ export default function CreatePropertyDialog({
     return (
       <div
         className={`w-4 h-4 rounded-full ${propertyType === "BUC" ? "bg-orange-500" : "bg-green-500"}`}
-        data-oid="46j.q2x"
+        data-oid="pxnrx3v"
       />
     );
   };
@@ -92,22 +92,22 @@ export default function CreatePropertyDialog({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose} data-oid="qi3ai5j">
-      <DialogContent className="sm:max-w-md" data-oid="iobj6g3">
-        <DialogHeader className="pb-2" data-oid="s0w-zr3">
-          <DialogTitle className="flex items-center gap-2" data-oid="d5svy8h">
+    <Dialog open={isOpen} onOpenChange={onClose} data-oid="0603fs5">
+      <DialogContent className="sm:max-w-md" data-oid="l9j4fvj">
+        <DialogHeader className="pb-2" data-oid="8gcz_ak">
+          <DialogTitle className="flex items-center gap-2" data-oid="46ily4y">
             {getPropertyIcon()}
             {getPropertyTitle()}
           </DialogTitle>
-          <p className="text-sm text-slate-600" data-oid="e3g-42v">
+          <p className="text-sm text-slate-600" data-oid="d2qowbd">
             Enter the property details and choose a folder to organize your
             properties.
           </p>
         </DialogHeader>
 
-        <div className="space-y-6" data-oid="mp8beu3">
-          <div className="space-y-3" data-oid="pxknaks">
-            <Label htmlFor="property-name" data-oid="_61c_-l">
+        <div className="space-y-6" data-oid="46jkak.">
+          <div className="space-y-3" data-oid="_8-likh">
+            <Label htmlFor="property-name" data-oid="tuhma1o">
               Property Name
             </Label>
             <Input
@@ -116,34 +116,34 @@ export default function CreatePropertyDialog({
               onChange={(e) => setPropertyName(e.target.value)}
               placeholder="Enter property name"
               className="w-full"
-              data-oid="idvebpw"
+              data-oid="yz0zz0p"
             />
           </div>
 
-          <div className="space-y-3" data-oid=":.5.ztn">
-            <Label htmlFor="folder" data-oid="ukr_nq:">
+          <div className="space-y-3" data-oid="nen5kd.">
+            <Label htmlFor="folder" data-oid="smye5od">
               Folder (Optional)
             </Label>
             {!isCreatingFolder ? (
-              <div className="flex gap-2 w-full h-9" data-oid="60:c3tq">
+              <div className="flex gap-2 w-full h-9" data-oid="bp.7jrp">
                 <Select
                   value={selectedFolder}
                   onValueChange={setSelectedFolder}
                   className="flex-1"
-                  data-oid="k0jv.wc"
+                  data-oid="s0ieoly"
                 >
-                  <SelectTrigger className="w-full" data-oid="nls5gld">
-                    <SelectValue placeholder="No Folder" data-oid="9s5iv2-" />
+                  <SelectTrigger className="w-full" data-oid="co1co:d">
+                    <SelectValue placeholder="No Folder" data-oid="6r3z.y5" />
                   </SelectTrigger>
-                  <SelectContent data-oid="95y:y:v">
-                    <SelectItem value="no-folder" data-oid="x.pjpk_">
+                  <SelectContent data-oid="4hatuu0">
+                    <SelectItem value="no-folder" data-oid="gg:_wn0">
                       No Folder
                     </SelectItem>
                     {folders.map((folder) => (
                       <SelectItem
                         key={folder}
                         value={folder}
-                        data-oid="923qqye"
+                        data-oid="zn5f_w-"
                       >
                         {folder}
                       </SelectItem>
@@ -156,31 +156,31 @@ export default function CreatePropertyDialog({
                   size="sm"
                   onClick={() => setIsCreatingFolder(true)}
                   className="h-9 w-9 p-0 flex-shrink-0"
-                  data-oid="bk0-2k3"
+                  data-oid="5tw.s_y"
                 >
-                  <Plus className="h-4 w-4" data-oid="ximxl8l" />
+                  <Plus className="h-4 w-4" data-oid="h85f4tc" />
                 </Button>
               </div>
             ) : (
-              <div className="space-y-3" data-oid="fdb.1.0">
+              <div className="space-y-3" data-oid="sksmqch">
                 <Input
                   value={newFolderName}
                   onChange={(e) => setNewFolderName(e.target.value)}
                   placeholder="Enter folder name"
                   className="w-full"
-                  data-oid="glcdskp"
+                  data-oid="p1uqdmd"
                 />
 
-                <div className="flex gap-2" data-oid="l.4.gbr">
+                <div className="flex gap-2" data-oid="v:pa9ky">
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
                     onClick={handleCreateFolder}
                     className="flex-1"
-                    data-oid="wpwl3p5"
+                    data-oid="z4dw8lw"
                   >
-                    <Folder className="mr-2 h-4 w-4" data-oid="49dsekt" />
+                    <Folder className="mr-2 h-4 w-4" data-oid="a1e6ah2" />
                     Create Folder
                   </Button>
                   <Button
@@ -189,7 +189,7 @@ export default function CreatePropertyDialog({
                     size="sm"
                     onClick={() => setIsCreatingFolder(false)}
                     className="flex-1"
-                    data-oid="jlukeb9"
+                    data-oid="fz-bxr7"
                   >
                     Cancel
                   </Button>
@@ -199,14 +199,14 @@ export default function CreatePropertyDialog({
           </div>
         </div>
 
-        <div className="flex justify-end gap-2 pt-12" data-oid="_vm:5w3">
-          <Button variant="outline" onClick={onClose} data-oid="tnjp--1">
+        <div className="flex justify-end gap-2 pt-12" data-oid="phd01_z">
+          <Button variant="outline" onClick={onClose} data-oid="n8cx:3a">
             Cancel
           </Button>
           <Button
             onClick={handleConfirm}
             disabled={!propertyName.trim()}
-            data-oid="fvomcdd"
+            data-oid="r6ns3i5"
           >
             Create Property
           </Button>

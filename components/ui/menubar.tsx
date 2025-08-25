@@ -18,7 +18,7 @@ function Menubar({
         className,
       )}
       {...props}
-      data-oid="x-pjj3:"
+      data-oid="feyhjg5"
     />
   );
 }
@@ -30,7 +30,7 @@ function MenubarMenu({
     <MenubarPrimitive.Menu
       data-slot="menubar-menu"
       {...props}
-      data-oid="1.ewqds"
+      data-oid="sdlrkip"
     />
   );
 }
@@ -42,7 +42,7 @@ function MenubarGroup({
     <MenubarPrimitive.Group
       data-slot="menubar-group"
       {...props}
-      data-oid="4kg4w1f"
+      data-oid="gfvjx_7"
     />
   );
 }
@@ -54,7 +54,7 @@ function MenubarPortal({
     <MenubarPrimitive.Portal
       data-slot="menubar-portal"
       {...props}
-      data-oid="dnyvhbe"
+      data-oid="_c-z9fz"
     />
   );
 }
@@ -66,7 +66,7 @@ function MenubarRadioGroup({
     <MenubarPrimitive.RadioGroup
       data-slot="menubar-radio-group"
       {...props}
-      data-oid="pgi_ub6"
+      data-oid="c-.vwt-"
     />
   );
 }
@@ -83,7 +83,7 @@ function MenubarTrigger({
         className,
       )}
       {...props}
-      data-oid="g22ps5q"
+      data-oid="qa:9h9p"
     />
   );
 }
@@ -96,7 +96,7 @@ function MenubarContent({
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.Content>) {
   return (
-    <MenubarPortal data-oid="spcn6fi">
+    <MenubarPortal data-oid="rsa-u6i">
       <MenubarPrimitive.Content
         data-slot="menubar-content"
         align={align}
@@ -107,7 +107,7 @@ function MenubarContent({
           className,
         )}
         {...props}
-        data-oid="5p8rzw-"
+        data-oid="8k26x:s"
       />
     </MenubarPortal>
   );
@@ -132,7 +132,7 @@ function MenubarItem({
         className,
       )}
       {...props}
-      data-oid="77se.aq"
+      data-oid="qwv46.j"
     />
   );
 }
@@ -152,14 +152,14 @@ function MenubarCheckboxItem({
       )}
       checked={checked}
       {...props}
-      data-oid="ejj75n1"
+      data-oid="9:dxzni"
     >
       <span
         className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center"
-        data-oid="2r8bfgw"
+        data-oid="2w-ao3s"
       >
-        <MenubarPrimitive.ItemIndicator data-oid="5rm-qm:">
-          <CheckIcon className="size-4" data-oid="28o1bss" />
+        <MenubarPrimitive.ItemIndicator data-oid=".-up98l">
+          <CheckIcon className="size-4" data-oid=".-z8795" />
         </MenubarPrimitive.ItemIndicator>
       </span>
       {children}
@@ -180,14 +180,14 @@ function MenubarRadioItem({
         className,
       )}
       {...props}
-      data-oid="t_llr1g"
+      data-oid="_bwlo.z"
     >
       <span
         className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center"
-        data-oid="lv7vziv"
+        data-oid="50h8uil"
       >
-        <MenubarPrimitive.ItemIndicator data-oid="jlt.71f">
-          <CircleIcon className="size-2 fill-current" data-oid="pf2tfmh" />
+        <MenubarPrimitive.ItemIndicator data-oid="2i.rgxn">
+          <CircleIcon className="size-2 fill-current" data-oid="lp7geha" />
         </MenubarPrimitive.ItemIndicator>
       </span>
       {children}
@@ -209,7 +209,7 @@ function MenubarLabel({
         className,
       )}
       {...props}
-      data-oid="48q42ju"
+      data-oid="p-9n478"
     />
   );
 }
@@ -223,7 +223,7 @@ function MenubarSeparator({
       data-slot="menubar-separator"
       className={cn("bg-border -mx-1 my-1 h-px", className)}
       {...props}
-      data-oid="6_o8gv:"
+      data-oid="1y8y774"
     />
   );
 }
@@ -240,7 +240,7 @@ function MenubarShortcut({
         className,
       )}
       {...props}
-      data-oid="azm1byb"
+      data-oid="1hx0d2b"
     />
   );
 }
@@ -252,7 +252,7 @@ function MenubarSub({
     <MenubarPrimitive.Sub
       data-slot="menubar-sub"
       {...props}
-      data-oid="ssftj15"
+      data-oid="ky_.wr-"
     />
   );
 }
@@ -274,10 +274,10 @@ function MenubarSubTrigger({
         className,
       )}
       {...props}
-      data-oid="7m7mv45"
+      data-oid="n47jwpc"
     >
       {children}
-      <ChevronRightIcon className="ml-auto h-4 w-4" data-oid="iu4zz6k" />
+      <ChevronRightIcon className="ml-auto h-4 w-4" data-oid="cwma.dx" />
     </MenubarPrimitive.SubTrigger>
   );
 }
@@ -294,7 +294,7 @@ function MenubarSubContent({
         className,
       )}
       {...props}
-      data-oid="a_3g0o2"
+      data-oid="piyb_7r"
     />
   );
 }

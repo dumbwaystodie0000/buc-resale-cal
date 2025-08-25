@@ -14,24 +14,24 @@ export function Toaster() {
   const { toasts } = useToast();
 
   return (
-    <ToastProvider data-oid="1qs-i4c">
+    <ToastProvider data-oid="8mk5q_w">
       {toasts.map(function ({ id, title, description, action, ...props }) {
         return (
-          <Toast key={id} {...props} data-oid="jpuerez">
-            <div className="grid gap-1" data-oid="8ng-464">
-              {title && <ToastTitle data-oid="il9_073">{title}</ToastTitle>}
+          <Toast key={id} {...props} data-oid="lrhnx:l">
+            <div className="grid gap-1" data-oid="-haje.g">
+              {title && <ToastTitle data-oid="wya8r9_">{title}</ToastTitle>}
               {description && (
-                <ToastDescription data-oid="0sspio.">
+                <ToastDescription data-oid="es6:uxh">
                   {description}
                 </ToastDescription>
               )}
             </div>
             {action}
-            <ToastClose data-oid="sheniue" />
+            <ToastClose data-oid="v:itgx2" />
           </Toast>
         );
       })}
-      <ToastViewport data-oid="vieiktf" />
+      <ToastViewport data-oid="ogh14.3" />
     </ToastProvider>
   );
 }

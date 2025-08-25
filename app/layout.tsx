@@ -1,16 +1,10 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
 import "./globals.css";
 
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
-  variable: "--font-roboto",
-});
-
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
+  title: "Property Calculator",
+  description:
+    "Calculate property investment returns and analyze real estate opportunities",
   generator: "v0.dev",
 };
 
@@ -18,16 +12,15 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-oid="-0agul3">
-      <head data-oid="uy_hn2r">
-        <style data-oid="kxp9861">{`
+    <html lang="en" data-oid="85jhk72">
+      <head data-oid="9brt3--">
+        <style data-oid="swu:.nu">{`
 html {
-  font-family: ${roboto.style.fontFamily};
-  --font-roboto: ${roboto.variable};
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
 }
         `}</style>
       </head>
-      <body className={roboto.className} data-oid="dhkhh_n">
+      <body className="" data-oid="9w-i-7">
         {children}
       </body>
     </html>

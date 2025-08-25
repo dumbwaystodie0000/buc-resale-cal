@@ -12,7 +12,7 @@ function HoverCard({
     <HoverCardPrimitive.Root
       data-slot="hover-card"
       {...props}
-      data-oid="i1i.sio"
+      data-oid="ol3ybbr"
     />
   );
 }
@@ -24,7 +24,7 @@ function HoverCardTrigger({
     <HoverCardPrimitive.Trigger
       data-slot="hover-card-trigger"
       {...props}
-      data-oid="_hhc7_5"
+      data-oid="2hv43hv"
     />
   );
 }
@@ -36,7 +36,7 @@ function HoverCardContent({
   ...props
 }: React.ComponentProps<typeof HoverCardPrimitive.Content>) {
   return (
-    <HoverCardPrimitive.Portal data-slot="hover-card-portal" data-oid="ddmm8s9">
+    <HoverCardPrimitive.Portal data-slot="hover-card-portal" data-oid="cjzlnem">
       <HoverCardPrimitive.Content
         data-slot="hover-card-content"
         align={align}
@@ -46,7 +46,7 @@ function HoverCardContent({
           className,
         )}
         {...props}
-        data-oid="t1vr.3t"
+        data-oid="y22r8ow"
       />
     </HoverCardPrimitive.Portal>
   );

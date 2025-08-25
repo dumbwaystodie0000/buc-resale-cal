@@ -13,7 +13,7 @@ function AlertDialog({
     <AlertDialogPrimitive.Root
       data-slot="alert-dialog"
       {...props}
-      data-oid="pf:8esx"
+      data-oid="f87gv2v"
     />
   );
 }
@@ -25,7 +25,7 @@ function AlertDialogTrigger({
     <AlertDialogPrimitive.Trigger
       data-slot="alert-dialog-trigger"
       {...props}
-      data-oid="axrl_:n"
+      data-oid="t_a9:n-"
     />
   );
 }
@@ -37,7 +37,7 @@ function AlertDialogPortal({
     <AlertDialogPrimitive.Portal
       data-slot="alert-dialog-portal"
       {...props}
-      data-oid="6k1gv6m"
+      data-oid="i.5cgu4"
     />
   );
 }
@@ -54,7 +54,7 @@ function AlertDialogOverlay({
         className,
       )}
       {...props}
-      data-oid="fwwnb_v"
+      data-oid=":ka:el1"
     />
   );
 }
@@ -64,8 +64,8 @@ function AlertDialogContent({
   ...props
 }: React.ComponentProps<typeof AlertDialogPrimitive.Content>) {
   return (
-    <AlertDialogPortal data-oid="-3om2pr">
-      <AlertDialogOverlay data-oid="dsebsi6" />
+    <AlertDialogPortal data-oid="ta5bz7b">
+      <AlertDialogOverlay data-oid="m02c5xb" />
       <AlertDialogPrimitive.Content
         data-slot="alert-dialog-content"
         className={cn(
@@ -73,7 +73,7 @@ function AlertDialogContent({
           className,
         )}
         {...props}
-        data-oid="vx942xx"
+        data-oid="5vp2efq"
       />
     </AlertDialogPortal>
   );
@@ -88,7 +88,7 @@ function AlertDialogHeader({
       data-slot="alert-dialog-header"
       className={cn("flex flex-col gap-2 text-center sm:text-left", className)}
       {...props}
-      data-oid="bj0qurc"
+      data-oid="6s-xivq"
     />
   );
 }
@@ -105,7 +105,7 @@ function AlertDialogFooter({
         className,
       )}
       {...props}
-      data-oid="i_ux5ss"
+      data-oid="me8lh12"
     />
   );
 }
@@ -119,7 +119,7 @@ function AlertDialogTitle({
       data-slot="alert-dialog-title"
       className={cn("text-lg font-semibold", className)}
       {...props}
-      data-oid="1qvf7a4"
+      data-oid=".wudjoo"
     />
   );
 }
@@ -133,7 +133,7 @@ function AlertDialogDescription({
       data-slot="alert-dialog-description"
       className={cn("text-muted-foreground text-sm", className)}
       {...props}
-      data-oid="zc0g2a6"
+      data-oid="lnbzc.k"
     />
   );
 }
@@ -146,7 +146,7 @@ function AlertDialogAction({
     <AlertDialogPrimitive.Action
       className={cn(buttonVariants(), className)}
       {...props}
-      data-oid="m6mu--d"
+      data-oid="1163d.l"
     />
   );
 }
@@ -159,7 +159,7 @@ function AlertDialogCancel({
     <AlertDialogPrimitive.Cancel
       className={cn(buttonVariants({ variant: "outline" }), className)}
       {...props}
-      data-oid="_.k:c8:"
+      data-oid="6zuiye4"
     />
   );
 }

@@ -171,24 +171,24 @@ export default function PropertyTable({
   return (
     <div
       className="rounded-xl border border-slate-200 bg-white"
-      data-oid="9s:b1yg"
+      data-oid="t-ewwb3"
     >
-      <table className="w-full border-collapse" data-oid="vt77i48">
-        <colgroup data-oid="5_d4qj8">
-          <col className="w-[360px]" data-oid="h:60_c-" />
+      <table className="w-full border-collapse" data-oid="eu55j4c">
+        <colgroup data-oid="eio3l5e">
+          <col className="w-[360px]" data-oid="lul6i.d" />
           {displayProperties.map((p) => (
-            <col key={p.id} className="w-[300px]" data-oid="nh_4:a7" />
+            <col key={p.id} className="w-[300px]" data-oid="2h9t16y" />
           ))}
         </colgroup>
 
-        <thead className="text-sm" data-oid="l8178o4">
+        <thead className="text-sm" data-oid="39r8czu">
           <tr
             className="sticky top-0 z-20 bg-white border-b border-slate-200"
-            data-oid="o:n1mxy"
+            data-oid="bckoc7:"
           >
             <th
               className="sticky left-0 z-30 bg-white px-4 py-3 text-left text-slate-700 font-medium border-r border-slate-200"
-              data-oid="el9tdl6"
+              data-oid="mlcfmce"
             >
               {""}
             </th>
@@ -196,22 +196,22 @@ export default function PropertyTable({
               <th
                 key={property.id}
                 className="px-4 py-3 text-left font-medium text-slate-800 border-r border-slate-200 last:border-r-0"
-                data-oid="htxuh5o"
+                data-oid="1owa3-7"
               >
                 <div
                   className="relative flex flex-col items-center gap-2"
-                  data-oid="2g9asx:"
+                  data-oid="-tnml4a"
                 >
-                  <PropertyTypeBadge type={property.type} data-oid="87fj-j3" />
+                  <PropertyTypeBadge type={property.type} data-oid="nx5w4_w" />
                   <div
                     className="text-slate-900 font-semibold"
-                    data-oid="gkd50-9"
+                    data-oid=".o.d_3t"
                   >
                     {editingPropertyId === property.id ? (
                       // Inline editing mode
                       <div
                         className="flex items-center gap-2"
-                        data-oid="ferdka1"
+                        data-oid="d302wva"
                       >
                         <Input
                           value={editingName}
@@ -225,7 +225,7 @@ export default function PropertyTable({
                             }
                           }}
                           autoFocus
-                          data-oid="-p1p58t"
+                          data-oid="yt8i_g_"
                         />
 
                         <Button
@@ -233,21 +233,21 @@ export default function PropertyTable({
                           variant="ghost"
                           className="h-6 w-6 p-0"
                           onClick={() => handleSaveEdit(property.id)}
-                          data-oid="txoushe"
+                          data-oid="p52lg6u"
                         >
-                          <Save className="h-3 w-3" data-oid="-ilj0-f" />
+                          <Save className="h-3 w-3" data-oid="4c9cgz9" />
                         </Button>
                       </div>
                     ) : hasPropertyData(property) ? (
                       // Property has data - show editable name with save options
-                      <div className="text-center" data-oid="x-7ui5y">
+                      <div className="text-center" data-oid="1ocxhvz">
                         <div
                           className="flex items-center justify-center gap-2"
-                          data-oid="g4d6_qz"
+                          data-oid="s:nbnm6"
                         >
                           <div
                             className="font-semibold text-slate-900"
-                            data-oid="1dgouwo"
+                            data-oid="qw6-znh"
                           >
                             {property.name}
                           </div>
@@ -256,35 +256,35 @@ export default function PropertyTable({
                             variant="ghost"
                             className="h-5 w-5 p-0"
                             onClick={() => handleStartEdit(property)}
-                            data-oid="4ep.537"
+                            data-oid="_-o6o-v"
                           >
-                            <Edit2 className="h-3 w-3" data-oid=".tiggqe" />
+                            <Edit2 className="h-3 w-3" data-oid="z0eppuy" />
                           </Button>
                           {hasPropertyData(property) && (
-                            <DropdownMenu data-oid="je.hvhd">
-                              <DropdownMenuTrigger asChild data-oid="11yd2fh">
+                            <DropdownMenu data-oid="ze2.yev">
+                              <DropdownMenuTrigger asChild data-oid="l0p7_c3">
                                 <Button
                                   size="sm"
                                   variant="ghost"
                                   className="h-5 w-5 p-0"
-                                  data-oid="_f3k1ie"
+                                  data-oid="bp1exme"
                                 >
                                   <Save
                                     className="h-3 w-3"
-                                    data-oid=".i_34lh"
+                                    data-oid="lvaa0.g"
                                   />
                                 </Button>
                               </DropdownMenuTrigger>
-                              <DropdownMenuContent data-oid="o0ddjl2">
+                              <DropdownMenuContent data-oid="l4o6b72">
                                 <DropdownMenuItem
                                   onClick={() =>
                                     onSaveExistingProperty(property)
                                   }
-                                  data-oid="6:0jdt6"
+                                  data-oid="deugje9"
                                 >
                                   <Folder
                                     className="h-3 w-3 mr-2"
-                                    data-oid="rwyc8om"
+                                    data-oid=":3qa.oa"
                                   />
                                   Save to Default Folder
                                 </DropdownMenuItem>
@@ -294,11 +294,11 @@ export default function PropertyTable({
                                     onClick={() =>
                                       onSaveExistingProperty(property, folder)
                                     }
-                                    data-oid="9a9866c"
+                                    data-oid="7m0y-ga"
                                   >
                                     <Folder
                                       className="h-3 w-3 mr-2"
-                                      data-oid="-f46afg"
+                                      data-oid="0lsehat"
                                     />
                                     Save to {folder}
                                   </DropdownMenuItem>
@@ -307,11 +307,11 @@ export default function PropertyTable({
                                   onClick={() =>
                                     handleOpenCreateFolderDialog(property)
                                   }
-                                  data-oid="s137gru"
+                                  data-oid="1744x-u"
                                 >
                                   <Folder
                                     className="h-3 w-3 mr-2"
-                                    data-oid="6-y:mro"
+                                    data-oid="69h.wds"
                                   />
                                   Create New Folder
                                 </DropdownMenuItem>
@@ -328,7 +328,7 @@ export default function PropertyTable({
                         onSelectSavedProperty={onSelectSavedProperty}
                         onCreateNewProperty={onCreateNewProperty}
                         onCreateFolder={onCreateFolder}
-                        data-oid="s4g1ss8"
+                        data-oid="w29l-dq"
                       />
                     )}
                   </div>
@@ -337,9 +337,9 @@ export default function PropertyTable({
                       onClick={() => removeProperty(property.id)}
                       aria-label="Remove property"
                       className="absolute top-0 right-0 rounded-full p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50"
-                      data-oid="1ibhd0z"
+                      data-oid="3is16i1"
                     >
-                      <X className="h-4 w-4" data-oid="ycl69o:" />
+                      <X className="h-4 w-4" data-oid="ticqu8k" />
                     </button>
                   )}
                 </div>
@@ -348,7 +348,7 @@ export default function PropertyTable({
           </tr>
         </thead>
 
-        <tbody className="text-sm" data-oid="uj6ig:5">
+        <tbody className="text-sm" data-oid="k7y29hb">
           <DataRow
             label="Purchase Price"
             properties={displayProperties}
@@ -356,17 +356,17 @@ export default function PropertyTable({
               <CurrencyInput
                 value={p.purchasePrice}
                 onChange={(v) => updateProperty(p.id, "purchasePrice", v)}
-                data-oid="jkwbdu0"
+                data-oid="oqdao04"
               />
             )}
-            data-oid="0716_1o"
+            data-oid="u39qwmf"
           />
 
           <DataRow
             label="Loan Tenure (Years)"
             properties={displayProperties}
             render={(p) => (
-              <div className="flex items-center gap-2" data-oid="erlilh_">
+              <div className="flex items-center gap-2" data-oid="eiha1ko">
                 <ClearableNumberInput
                   value={p.loanTenure || 30}
                   onChange={(v: number) =>
@@ -378,18 +378,18 @@ export default function PropertyTable({
                   }
                   step={1}
                   className="w-20"
-                  data-oid="c8y6:ut"
+                  data-oid="za72zt8"
                 />
               </div>
             )}
-            data-oid="-jjawbs"
+            data-oid="es1dx1h"
           />
 
           <DataRow
             label="Interest Rate %"
             properties={displayProperties}
             render={(p) => (
-              <div className="flex items-center gap-2" data-oid="s930mqk">
+              <div className="flex items-center gap-2" data-oid="dl.m.al">
                 <ClearableNumberInput
                   value={p.interestRate || 2.0}
                   onChange={(v: number) =>
@@ -401,18 +401,18 @@ export default function PropertyTable({
                   }
                   step={0.01}
                   className="w-20"
-                  data-oid="tvrxz67"
+                  data-oid="w1yaonc"
                 />
               </div>
             )}
-            data-oid="aapspkm"
+            data-oid="v5g__po"
           />
 
           <DataRow
             label="LTV %"
             properties={displayProperties}
             render={(p) => (
-              <div className="flex items-center gap-2" data-oid="xl5pg2i">
+              <div className="flex items-center gap-2" data-oid="on5dtlx">
                 <ClearableNumberInput
                   value={p.ltv || 75}
                   onChange={(v: number) =>
@@ -420,11 +420,11 @@ export default function PropertyTable({
                   }
                   step={1}
                   className="w-20"
-                  data-oid="kix2mfj"
+                  data-oid="g-oknvr"
                 />
               </div>
             )}
-            data-oid="et4rhly"
+            data-oid="58altt9"
           />
 
           <DataRow
@@ -433,17 +433,17 @@ export default function PropertyTable({
             render={(p) => {
               const bankLoan = (p.purchasePrice * (p.ltv || 75)) / 100;
               return (
-                <div className="space-y-1" data-oid="z67gt8:">
+                <div className="space-y-1" data-oid="_lx6v-e">
                   <div
                     className="text-sm font-medium text-slate-900"
-                    data-oid="v5baorf"
+                    data-oid="dkzxz1j"
                   >
                     {fmtCurrency(bankLoan)}
                   </div>
                 </div>
               );
             }}
-            data-oid="8g6osbt"
+            data-oid="ntgu:04"
           />
 
           <DataRow
@@ -454,10 +454,10 @@ export default function PropertyTable({
                 value={p.estTOP}
                 onChange={(date) => updateProperty(p.id, "estTOP", date)}
                 disabled={p.type === "Resale"}
-                data-oid="est-top-picker"
+                data-oid=".cqnpob"
               />
             )}
-            data-oid="est-top-row"
+            data-oid="svhz:az"
           />
 
           <DataRow
@@ -468,7 +468,7 @@ export default function PropertyTable({
                 return (
                   <div
                     className="text-sm font-medium text-slate-900"
-                    data-oid="resale-balance"
+                    data-oid="vy5gj6r"
                   >
                     48
                   </div>
@@ -484,27 +484,27 @@ export default function PropertyTable({
               return (
                 <div
                   className="text-sm font-medium text-slate-900"
-                  data-oid="buc-balance"
+                  data-oid="vs5szuo"
                 >
                   {balanceMonths}
                 </div>
               );
             }}
-            data-oid="balance-month-row"
+            data-oid="-wqwvxt"
           />
 
-          <tr className="h-4 bg-white" data-oid="c.1ahwu">
+          <tr className="h-4 bg-white" data-oid="m:abege">
             <td
               colSpan={displayProperties.length + 1}
               className="border-none"
-              data-oid="sfh7:nc"
+              data-oid="y0lozay"
             ></td>
           </tr>
           <SectionRow
             title={mode === "own" ? "Growth" : "Rental & Growth"}
             colSpan={displayProperties.length + 1}
             icon="graph-up-arrow"
-            data-oid="c:f.5-f"
+            data-oid="sp.evib"
           />
 
           <DataRow
@@ -515,7 +515,7 @@ export default function PropertyTable({
               return (
                 <DualCell
                   left={
-                    <ValueText data-oid="pbcbwuy">
+                    <ValueText data-oid="5409pt3">
                       {fmtCurrency(d.projectedGrowth)}
                     </ValueText>
                   }
@@ -525,14 +525,14 @@ export default function PropertyTable({
                       value={p.annualGrowth}
                       step={0.1}
                       onChange={(v) => updateProperty(p.id, "annualGrowth", v)}
-                      data-oid="fmd.kp9"
+                      data-oid="s6idh9q"
                     />
                   }
-                  data-oid="..qncdc"
+                  data-oid="vx-d3so"
                 />
               );
             }}
-            data-oid="0qcvz6o"
+            data-oid="v:bnhv7"
           />
 
           {mode === "investment" && (
@@ -551,7 +551,7 @@ export default function PropertyTable({
                   return (
                     <DualCell
                       left={
-                        <ValueText data-oid="b7pdrom">
+                        <ValueText data-oid="li69nz7">
                           {fmtCurrency(d.rentalIncome)}
                         </ValueText>
                       }
@@ -563,42 +563,42 @@ export default function PropertyTable({
                           onChange={(v) =>
                             updateProperty(p.id, "monthlyRental", v)
                           }
-                          data-oid="xdweg88"
+                          data-oid="0-q0s_r"
                         />
                       }
-                      data-oid="e5-jayy"
+                      data-oid="zwm_5fz"
                     />
                   );
                 }}
-                data-oid="18kcs32"
+                data-oid="o_x71nb"
               />
 
               <DataRow
                 label={
-                  <div className="flex items-center gap-3" data-oid="i-.q_ha">
-                    <div data-oid="zd7tv7-">
-                      <div data-oid="rp9zy71">Vacancy Month</div>
+                  <div className="flex items-center gap-3" data-oid="8kb2pim">
+                    <div data-oid="k1jvii:">
+                      <div data-oid="mi80_z:">Vacancy Month</div>
                     </div>
-                    <div className="ml-auto" data-oid="b-.8axu">
+                    <div className="ml-auto" data-oid="-:epukm">
                       <Select
                         value={String(vacancyMonth)}
                         onValueChange={(v: string) =>
                           setVacancyMonth(Number.parseInt(v))
                         }
-                        data-oid=":iugaol"
+                        data-oid="gcy0v9_"
                       >
                         <SelectTrigger
                           className="h-8 w-[140px]"
-                          data-oid="bi18d_x"
+                          data-oid="qdv:xrc"
                         >
-                          <SelectValue data-oid="2qnmwkl" />
+                          <SelectValue data-oid="8fik1-e" />
                         </SelectTrigger>
-                        <SelectContent className="max-h-64" data-oid="bkg0p9p">
+                        <SelectContent className="max-h-64" data-oid="jm6vwzn">
                           {Array.from({ length: 25 }, (_, i) => (
                             <SelectItem
                               key={i}
                               value={String(i)}
-                              data-oid="b2cyjg6"
+                              data-oid="hbjvm3f"
                             >
                               {i} {i === 1 ? "month" : "months"}
                             </SelectItem>
@@ -620,7 +620,7 @@ export default function PropertyTable({
                     return (
                       <div
                         className="text-xs text-slate-500"
-                        data-oid="aetwa0r"
+                        data-oid="3di1d18"
                       >
                         N/A
                       </div>
@@ -629,7 +629,7 @@ export default function PropertyTable({
                   // Show neutral text when no vacancy, red negative value when there is vacancy
                   if (d.vacancyDeduction === 0) {
                     return (
-                      <div className="text-slate-600" data-oid="h2zcimm">
+                      <div className="text-slate-600" data-oid="xqzzzgj">
                         $0
                       </div>
                     );
@@ -638,21 +638,21 @@ export default function PropertyTable({
                   return (
                     <div
                       className="text-red-600 font-medium"
-                      data-oid="8u:p1mt"
+                      data-oid="gcnh3h8"
                     >
                       -{fmtCurrency(d.vacancyDeduction)}
                     </div>
                   );
                 }}
-                data-oid="un.38dc"
+                data-oid=":ky:ihp"
               />
             </>
           )}
 
-          <tr className="bg-green-50 hover:bg-green-100" data-oid="5:bwm46">
+          <tr className="bg-green-50 hover:bg-green-100" data-oid="-qulo3u">
             <td
               className="sticky left-0 z-10 px-4 py-3 border-b border-r border-slate-200 text-slate-900 font-medium align-middle"
-              data-oid="e5818oj"
+              data-oid="7o-.f7v"
             >
               Est. Gross Profit
             </td>
@@ -662,11 +662,11 @@ export default function PropertyTable({
                 <td
                   key={p.id}
                   className={`px-4 py-3 border-b border-r border-slate-200 align-middle ${i === displayProperties.length - 1 ? "last:border-r-0" : ""}`}
-                  data-oid="o25:lov"
+                  data-oid="5jiak--"
                 >
                   <ValueText
                     className="text-emerald-700 font-semibold"
-                    data-oid="0sqgf4w"
+                    data-oid="uf6g0fm"
                   >
                     {fmtCurrency(d.grossProfit)}
                   </ValueText>
@@ -675,18 +675,18 @@ export default function PropertyTable({
             })}
           </tr>
 
-          <tr className="h-4 bg-white" data-oid="9-p5xsw">
+          <tr className="h-4 bg-white" data-oid="tmvlq9:">
             <td
               colSpan={displayProperties.length + 1}
               className="border-none"
-              data-oid="0ao_.nm"
+              data-oid="2z2iu-z"
             ></td>
           </tr>
           <SectionRow
             title="Other Expenses"
             colSpan={displayProperties.length + 1}
             icon="piggy-bank"
-            data-oid="f1kt5jd"
+            data-oid="haz78ej"
           />
 
           {mode === "own" && (
@@ -701,13 +701,13 @@ export default function PropertyTable({
                 });
                 const isNA = p.type === "Resale";
                 return isNA ? (
-                  <div className="text-xs text-slate-500" data-oid="_yqo0pt">
+                  <div className="text-xs text-slate-500" data-oid="f9geok6">
                     N/A
                   </div>
                 ) : (
                   <DualCell
                     left={
-                      <ValueText data-oid="1t6:jnc">
+                      <ValueText data-oid="zn62v__">
                         {fmtCurrency(d.rentWhileWaitingTotal)}
                       </ValueText>
                     }
@@ -719,14 +719,14 @@ export default function PropertyTable({
                         onChange={(v) =>
                           updateProperty(p.id, "monthlyRentWhileWaiting", v)
                         }
-                        data-oid="o-kw3te"
+                        data-oid="5ejeho7"
                       />
                     }
-                    data-oid="acrlniu"
+                    data-oid="5b4nck8"
                   />
                 );
               }}
-              data-oid="c2qke0b"
+              data-oid="gkrweq-"
             />
           )}
 
@@ -738,13 +738,13 @@ export default function PropertyTable({
             renderInput={(p) => {
               const d = calculateValues(p, { mode, taxBracket, vacancyMonth });
               return (
-                <div className="space-y-1" data-oid="ugnq_-_">
-                  <div className="font-medium" data-oid="k4karc9">
+                <div className="space-y-1" data-oid="dcyk5p-">
+                  <div className="font-medium" data-oid="fwtqoxc">
                     {fmtCurrency(d.bankInterest)}
                   </div>
                   <div
                     className="text-[11px] text-slate-500"
-                    data-oid="o9f0peh"
+                    data-oid="f89jtor"
                   >
                     {p.type === "Resale"
                       ? `Resale Int: ${(p.interestRate || 2.0).toFixed(2)}%`
@@ -753,7 +753,7 @@ export default function PropertyTable({
                 </div>
               );
             }}
-            data-oid="y.4b358"
+            data-oid="wr09_88"
           />
 
           <MaybeNADataRow
@@ -766,7 +766,7 @@ export default function PropertyTable({
               return (
                 <DualCell
                   left={
-                    <ValueText data-oid="s_xnvpe">
+                    <ValueText data-oid="a7c8snt">
                       {fmtCurrency(d.maintenanceFeeTotal)}
                     </ValueText>
                   }
@@ -778,14 +778,14 @@ export default function PropertyTable({
                       onChange={(v) =>
                         updateProperty(p.id, "monthlyMaintenance", v)
                       }
-                      data-oid="n77fyjx"
+                      data-oid="7oxx_hp"
                     />
                   }
-                  data-oid="zwvqrks"
+                  data-oid="k0e:mfv"
                 />
               );
             }}
-            data-oid="7h_nl2t"
+            data-oid="6bx99e4"
           />
 
           <MaybeNADataRow
@@ -797,22 +797,22 @@ export default function PropertyTable({
               <CurrencyInput
                 value={p.propertyTax}
                 onChange={(v) => updateProperty(p.id, "propertyTax", v)}
-                data-oid="p571s_c"
+                data-oid="if26cx9"
               />
             )}
-            data-oid=":6dtqq6"
+            data-oid="ga2jb6j"
           />
 
           {mode === "investment" && (
             <DataRow
               label={
-                <div className="flex items-center gap-3" data-oid="e089ssu">
-                  <span data-oid="_wuasz9">
+                <div className="flex items-center gap-3" data-oid="ogh4d1h">
+                  <span data-oid="f6amr03">
                     Income Tax on Net Rental Received
                   </span>
                   <div
                     className="ml-auto flex flex-col items-start gap-1"
-                    data-oid="syfiqk7"
+                    data-oid="4v:xsh6"
                   >
                     <Select
                       value={selectedTaxId}
@@ -821,23 +821,23 @@ export default function PropertyTable({
                         setSelectedTaxId(id);
                         setTaxBracket(opt.rate);
                       }}
-                      data-oid=":lf8wb5"
+                      data-oid="9r.-4ka"
                     >
                       <SelectTrigger
                         className="h-8 w-[210px]"
-                        data-oid="m::fcvz"
+                        data-oid="nf0dao-"
                       >
                         {selectedTax ? (
                           <div
                             className="flex w-full items-center justify-between"
-                            data-oid="c6k6cwg"
+                            data-oid="a44bga6"
                           >
-                            <span className="truncate pr-2" data-oid="s99nps3">
+                            <span className="truncate pr-2" data-oid="1i.lowj">
                               {selectedTax.range}
                             </span>
                             <span
                               className="text-right text-slate-600 tabular-nums"
-                              data-oid="l2kdumj"
+                              data-oid="cnwvjz3"
                             >
                               ({fmtRate(selectedTax.rate)})
                             </span>
@@ -845,13 +845,13 @@ export default function PropertyTable({
                         ) : (
                           <SelectValue
                             placeholder="Select Tax Bracket"
-                            data-oid="kf8wdui"
+                            data-oid="mrtchw5"
                           />
                         )}
                       </SelectTrigger>
                       <SelectContent
                         className="max-h-72 w-[200px]"
-                        data-oid="kskckzx"
+                        data-oid="p3dxw2w"
                       >
                         {TAX_BRACKETS.map((o) => (
                           <SelectItem
@@ -859,12 +859,12 @@ export default function PropertyTable({
                             value={o.id}
                             textValue={`${o.range} (${fmtRate(o.rate)})`}
                             className="relative pl-3 pr-20"
-                            data-oid="4z0mq:3"
+                            data-oid="uj5sp:5"
                           >
-                            <span data-oid="fq13.g2">{o.range}</span>
+                            <span data-oid="5wb-ja0">{o.range}</span>
                             <span
                               className="absolute right-8 top-1/2 -translate-y-1/2 text-slate-600"
-                              data-oid="7ax025k"
+                              data-oid="_2jbdv9"
                             >
                               ({fmtRate(o.rate)})
                             </span>
@@ -877,14 +877,14 @@ export default function PropertyTable({
               }
               properties={displayProperties}
               render={(p) => (
-                <div data-oid="wxd3_pc">
+                <div data-oid="y_-4610">
                   {fmtCurrency(
                     calculateValues(p, { mode, taxBracket, vacancyMonth })
                       .taxOnRental,
                   )}
                 </div>
               )}
-              data-oid="_.zd6-_"
+              data-oid="mq00igg"
             />
           )}
 
@@ -897,10 +897,10 @@ export default function PropertyTable({
               <CurrencyInput
                 value={p.minorRenovation}
                 onChange={(v) => updateProperty(p.id, "minorRenovation", v)}
-                data-oid="ncd3ji9"
+                data-oid="7oss8qi"
               />
             )}
-            data-oid="jlw5ftm"
+            data-oid="jnk7au_"
           />
 
           <MaybeNADataRow
@@ -912,10 +912,10 @@ export default function PropertyTable({
               <CurrencyInput
                 value={p.furnitureFittings}
                 onChange={(v) => updateProperty(p.id, "furnitureFittings", v)}
-                data-oid="81e6njt"
+                data-oid="99459eh"
               />
             )}
-            data-oid="v111exi"
+            data-oid="kha3wn8"
           />
 
           {mode === "investment" && (
@@ -928,10 +928,10 @@ export default function PropertyTable({
                 <CurrencyInput
                   value={p.agentCommission}
                   onChange={(v) => updateProperty(p.id, "agentCommission", v)}
-                  data-oid="lsf2ne6"
+                  data-oid="_ilbzkx"
                 />
               )}
-              data-oid="erysc8w"
+              data-oid="zlb6sg_"
             />
           )}
 
@@ -942,16 +942,16 @@ export default function PropertyTable({
               <CurrencyInput
                 value={p.otherExpenses}
                 onChange={(v) => updateProperty(p.id, "otherExpenses", v)}
-                data-oid=":0a9eyw"
+                data-oid="ukv7pr5"
               />
             )}
-            data-oid="15:7pbt"
+            data-oid="xjk3scn"
           />
 
-          <tr className="bg-red-50 hover:bg-red-100" data-oid="q.ztvsr">
+          <tr className="bg-red-50 hover:bg-red-100" data-oid="va2-1.7">
             <td
               className="sticky left-0 z-10 px-4 py-3 border-b border-r border-slate-200 text-slate-900 font-medium align-middle"
-              data-oid="sww8m01"
+              data-oid="izvp9w-"
             >
               Total Other Expenses
             </td>
@@ -959,11 +959,11 @@ export default function PropertyTable({
               <td
                 key={p.id}
                 className={`px-4 py-3 border-b border-r border-slate-200 align-middle ${i === displayProperties.length - 1 ? "last:border-r-0" : ""}`}
-                data-oid="oq8v_.g"
+                data-oid="ye_.4dz"
               >
                 <ValueText
                   className="text-rose-700 font-semibold"
-                  data-oid="o:oor0w"
+                  data-oid="yhcso3e"
                 >
                   {fmtCurrency(
                     calculateValues(p, { mode, taxBracket, vacancyMonth })
@@ -974,11 +974,11 @@ export default function PropertyTable({
             ))}
           </tr>
 
-          <tr className="h-4 bg-white" data-oid="pknl35h">
+          <tr className="h-4 bg-white" data-oid="b8hrtve">
             <td
               colSpan={displayProperties.length + 1}
               className="border-none"
-              data-oid="-fpia4:"
+              data-oid="4x4wc8s"
             ></td>
           </tr>
 
@@ -987,7 +987,7 @@ export default function PropertyTable({
             mode={mode}
             taxBracket={taxBracket}
             vacancyMonth={vacancyMonth}
-            data-oid="uzjhawc"
+            data-oid="ypinpu6"
           />
         </tbody>
       </table>
@@ -996,18 +996,18 @@ export default function PropertyTable({
       <Dialog
         open={isCreateFolderDialogOpen}
         onOpenChange={setIsCreateFolderDialogOpen}
-        data-oid="kid0.up"
+        data-oid="l4qj4ze"
       >
-        <DialogContent className="sm:max-w-md" data-oid="bk287di">
-          <DialogHeader data-oid=":ho-0r1">
-            <DialogTitle data-oid="ledvq4i">Create New Folder</DialogTitle>
-            <DialogDescription data-oid="9p-djv1">
+        <DialogContent className="sm:max-w-md" data-oid="vmtfj-w">
+          <DialogHeader data-oid="wfwcwww">
+            <DialogTitle data-oid="n_fok3l">Create New Folder</DialogTitle>
+            <DialogDescription data-oid="prf8jd0">
               Enter a name for the new folder and save your property to it.
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4 pt-4" data-oid="k.3eak8">
-            <div className="space-y-2" data-oid="k7rq533">
-              <Label htmlFor="folder-name" data-oid="t44k0.3">
+          <div className="space-y-4 pt-4" data-oid="f2npzg1">
+            <div className="space-y-2" data-oid="qw.7z88">
+              <Label htmlFor="folder-name" data-oid=".q4zb1s">
                 Folder Name
               </Label>
               <Input
@@ -1021,21 +1021,21 @@ export default function PropertyTable({
                   }
                 }}
                 autoFocus
-                data-oid="p5w:b25"
+                data-oid="eyic-_y"
               />
             </div>
-            <div className="flex justify-end space-x-2" data-oid="v1n5ajl">
+            <div className="flex justify-end space-x-2" data-oid="ha8r4yj">
               <Button
                 variant="outline"
                 onClick={handleCancelCreateFolder}
-                data-oid="zsq10yv"
+                data-oid="ijsp9n8"
               >
                 Cancel
               </Button>
               <Button
                 onClick={handleCreateFolderAndSave}
                 disabled={!newFolderName.trim()}
-                data-oid="wlsk37x"
+                data-oid="fpf62qs"
               >
                 Create & Save
               </Button>
