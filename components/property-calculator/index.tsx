@@ -1,107 +1,146 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import type { Property, Mode, PropertyType, SavedProperty } from "@/components/property-calculator/types"
-import { defaultPropertyBase } from "@/components/property-calculator/constants"
-import PropertyTable from "@/components/property-calculator/property-table"
-import AddPropertyDropdown from "@/components/property-calculator/add-property-dropdown"
-import CreatePropertyDialog from "@/components/property-calculator/create-property-dialog"
-import { Plus } from "lucide-react"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type {
+  Property,
+  Mode,
+  PropertyType,
+  SavedProperty,
+} from "@/components/property-calculator/types";
+import { defaultPropertyBase } from "@/components/property-calculator/constants";
+import PropertyTable from "@/components/property-calculator/property-table";
+import AddPropertyDropdown from "@/components/property-calculator/add-property-dropdown";
+import CreatePropertyDialog from "@/components/property-calculator/create-property-dialog";
+import { Plus } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 export default function PropertyCalculator() {
-  const [selectedTaxId, setSelectedTaxId] = useState<string | undefined>(undefined)
-  const [taxBracket, setTaxBracket] = useState<number>(0)
-  const [vacancyMonth, setVacancyMonth] = useState<number>(0)
+  const [selectedTaxId, setSelectedTaxId] = useState<string | undefined>(
+    undefined,
+  );
+  const [taxBracket, setTaxBracket] = useState<number>(0);
+  const [vacancyMonth, setVacancyMonth] = useState<number>(0);
   const [properties, setProperties] = useState<Property[]>([
-    { ...defaultPropertyBase, id: Date.now().toString(), name: "Property #1", type: "BUC" },
-    { ...defaultPropertyBase, id: (Date.now() + 1).toString(), name: "Property #2", type: "Resale" }
-  ])
-  const [mode, setMode] = useState<Mode>("own")
-  const [folders, setFolders] = useState<string[]>(["Singapore Properties", "Investment Portfolio"])
-  
+    {
+      ...defaultPropertyBase,
+      id: Date.now().toString(),
+      name: "Property #1",
+      type: "BUC",
+    },
+    {
+      ...defaultPropertyBase,
+      id: (Date.now() + 1).toString(),
+      name: "Property #2",
+      type: "Resale",
+    },
+  ]);
+  const [mode, setMode] = useState<Mode>("own");
+  const [folders, setFolders] = useState<string[]>([
+    "Singapore Properties",
+    "Investment Portfolio",
+  ]);
+
   // Dialog state
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
-  const [pendingPropertyType, setPendingPropertyType] = useState<PropertyType>("BUC")
-  
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [pendingPropertyType, setPendingPropertyType] =
+    useState<PropertyType>("BUC");
+
   // Remove confirmation dialog state
-  const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false)
-  const [propertyToRemove, setPropertyToRemove] = useState<Property | null>(null)
+  const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
+  const [propertyToRemove, setPropertyToRemove] = useState<Property | null>(
+    null,
+  );
 
   const addProperty = (type: PropertyType, name: string, folder?: string) => {
     if (properties.length < 3) {
-      const newProperty: Property = { 
-        ...defaultPropertyBase, 
-        id: Date.now().toString(), 
-        name: name, 
-        type: type 
-      }
-      setProperties((prev) => [...prev, newProperty])
+      const newProperty: Property = {
+        ...defaultPropertyBase,
+        id: Date.now().toString(),
+        name: name,
+        type: type,
+      };
+      setProperties((prev) => [...prev, newProperty]);
     }
-  }
+  };
 
-  const handleAddProperty = (type: PropertyType, name: string, folder?: string) => {
+  const handleAddProperty = (
+    type: PropertyType,
+    name: string,
+    folder?: string,
+  ) => {
     // If folder is provided, we could store it with the property
     // For now, we'll just add the property
-    addProperty(type, name, folder)
-  }
+    addProperty(type, name, folder);
+  };
 
   const handleCreateNewEntry = (type: PropertyType) => {
-    setPendingPropertyType(type)
-    setIsCreateDialogOpen(true)
-  }
+    setPendingPropertyType(type);
+    setIsCreateDialogOpen(true);
+  };
 
   const handleCreatePropertyFromDialog = (name: string, folder?: string) => {
-    addProperty(pendingPropertyType, name, folder)
-  }
+    addProperty(pendingPropertyType, name, folder);
+  };
 
   const createFolder = (name: string) => {
     if (!folders.includes(name)) {
-      setFolders(prev => [...prev, name])
+      setFolders((prev) => [...prev, name]);
     }
-  }
+  };
 
   const removeProperty = (id: string) => {
     if (properties.length > 1) {
-      const property = properties.find(p => p.id === id)
+      const property = properties.find((p) => p.id === id);
       if (property) {
-        setPropertyToRemove(property)
-        setIsRemoveDialogOpen(true)
+        setPropertyToRemove(property);
+        setIsRemoveDialogOpen(true);
       }
     }
-  }
+  };
 
   const confirmRemoveProperty = () => {
     if (propertyToRemove && properties.length > 1) {
-      setProperties((prev) => prev.filter((p) => p.id !== propertyToRemove.id))
-      setIsRemoveDialogOpen(false)
-      setPropertyToRemove(null)
+      setProperties((prev) => prev.filter((p) => p.id !== propertyToRemove.id));
+      setIsRemoveDialogOpen(false);
+      setPropertyToRemove(null);
     }
-  }
+  };
 
   const updateProperty = (id: string, field: keyof Property, value: any) => {
-    setProperties((prev) => prev.map((p) => (p.id === id ? { ...p, [field]: value } : p)))
-  }
+    setProperties((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, [field]: value } : p)),
+    );
+  };
 
   const handleSelectSavedProperty = (property: SavedProperty) => {
     // First, try to find an existing property column with the same type to update
-    const existingPropertyIndex = properties.findIndex(p => p.type === property.type)
-    
+    const existingPropertyIndex = properties.findIndex(
+      (p) => p.type === property.type,
+    );
+
     if (existingPropertyIndex !== -1) {
       // Update existing property column
-      setProperties((prev) => prev.map((p, index) => {
-        if (index === existingPropertyIndex) {
-          return {
-            ...p,
-            name: property.name,
-            type: property.type,
-            purchasePrice: property.purchasePrice,
+      setProperties((prev) =>
+        prev.map((p, index) => {
+          if (index === existingPropertyIndex) {
+            return {
+              ...p,
+              name: property.name,
+              type: property.type,
+              purchasePrice: property.purchasePrice,
+            };
           }
-        }
-        return p
-      }))
+          return p;
+        }),
+      );
     } else if (properties.length < 3) {
       // Add a new property if we have less than 3 and no matching type exists
       const newProperty: Property = {
@@ -110,13 +149,17 @@ export default function PropertyCalculator() {
         name: property.name,
         type: property.type,
         purchasePrice: property.purchasePrice,
-      }
-      setProperties(prev => [...prev, newProperty])
+      };
+      setProperties((prev) => [...prev, newProperty]);
     }
     // If we have 3 properties and no matching type, don't add anything
-  }
+  };
 
-  const handleCreateNewProperty = (name: string, type: PropertyType, folder?: string) => {
+  const handleCreateNewProperty = (
+    name: string,
+    type: PropertyType,
+    folder?: string,
+  ) => {
     // Check if this is for the third column (new property)
     if (properties.length === 2) {
       // Add a new property for the third column
@@ -125,22 +168,24 @@ export default function PropertyCalculator() {
         id: `third-${Date.now()}`, // Use a unique ID for the third property
         name: name,
         type: type,
-      }
-      setProperties(prev => [...prev, newProperty])
+      };
+      setProperties((prev) => [...prev, newProperty]);
     } else {
       // Update existing property
-      setProperties((prev) => prev.map((p) => {
-        if (p.type === type) {
-          return {
-            ...p,
-            name: name,
-            type: type,
+      setProperties((prev) =>
+        prev.map((p) => {
+          if (p.type === type) {
+            return {
+              ...p,
+              name: name,
+              type: type,
+            };
           }
-        }
-        return p
-      }))
+          return p;
+        }),
+      );
     }
-  }
+  };
 
   const handleSaveExistingProperty = (property: Property, folder?: string) => {
     // Convert the current property to a SavedProperty format
@@ -149,34 +194,49 @@ export default function PropertyCalculator() {
       name: property.name,
       type: property.type,
       purchasePrice: property.purchasePrice,
-      folder: folder || "Default"
-    }
-    
+      folder: folder || "Default",
+    };
+
     // In a real app, you would save this to your backend/database
-    console.log("Saving property to folder:", savedProperty)
-    
+    console.log("Saving property to folder:", savedProperty);
+
     // Optionally, you could add it to a local state of saved properties
     // setSavedProperties(prev => [...prev, savedProperty])
-  }
+  };
 
   return (
-    <div className="font-sans">
-      <div className="mb-4">
-        <h1 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">Property Comparison Calculator</h1>
-        <p className="text-sm text-slate-600">
+    <div className="font-sans" data-oid="wppwck5">
+      <div className="mb-4" data-oid=".sfp23u">
+        <h1
+          className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight"
+          data-oid=".ehag1c"
+        >
+          Property Comparison Calculator
+        </h1>
+        <p className="text-sm text-slate-600" data-oid="9i9zvfp">
           Compare up to 3 properties side by side
         </p>
       </div>
 
-      <div className="mb-3">
-        <Tabs value={mode} onValueChange={(v: string) => setMode(v as Mode)} className="mb-0">
-          <TabsList className="h-11 md:h-12 p-1">
-            <TabsTrigger value="own" className="px-5 md:px-6 py-2.5 md:py-3 text-[13px] md:text-[14px] font-semibold">
+      <div className="mb-3" data-oid="4k40rb7">
+        <Tabs
+          value={mode}
+          onValueChange={(v: string) => setMode(v as Mode)}
+          className="mb-0"
+          data-oid="gky2053"
+        >
+          <TabsList className="h-11 md:h-12 p-1" data-oid="1_ps8av">
+            <TabsTrigger
+              value="own"
+              className="px-5 md:px-6 py-2.5 md:py-3 text-[13px] md:text-[14px] font-semibold"
+              data-oid="1mtjwm."
+            >
               Own Stay Analysis
             </TabsTrigger>
             <TabsTrigger
               value="investment"
               className="px-5 md:px-6 py-2.5 md:py-3 text-[13px] md:text-[14px] font-semibold"
+              data-oid="ihyq_:1"
             >
               Investment Analysis
             </TabsTrigger>
@@ -184,8 +244,8 @@ export default function PropertyCalculator() {
         </Tabs>
       </div>
 
-      <div className="flex gap-6">
-        <div className="flex-1">
+      <div className="flex gap-6" data-oid="8w_wq_c">
+        <div className="flex-1" data-oid="z:l2e_3">
           <PropertyTable
             properties={properties}
             mode={mode}
@@ -202,14 +262,21 @@ export default function PropertyCalculator() {
             onCreateFolder={createFolder}
             onSaveExistingProperty={handleSaveExistingProperty}
             // showThirdColumn={showThirdColumn} // This line is removed
+            data-oid="fz2zn1k"
           />
         </div>
-        
+
         {properties.length < 3 && (
-          <div className="w-80 flex flex-col items-center justify-start p-8 border-2 border-dashed border-slate-300 rounded-xl bg-slate-50">
-            <div className="text-center mb-6">
-              <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-4 mx-auto">
-                <Plus className="h-6 w-6 text-emerald-600" />
+          <div
+            className="w-80 flex flex-col items-center justify-start p-8 border-2 border-dashed border-slate-300 rounded-xl bg-slate-50"
+            data-oid="hczlk_x"
+          >
+            <div className="text-center mb-6" data-oid="tx113ux">
+              <div
+                className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-4 mx-auto"
+                data-oid="dk9f-.9"
+              >
+                <Plus className="h-6 w-6 text-emerald-600" data-oid="dyzi0uu" />
               </div>
               <AddPropertyDropdown
                 onAddProperty={handleAddProperty}
@@ -217,8 +284,12 @@ export default function PropertyCalculator() {
                 folders={folders}
                 onCreateFolder={createFolder}
                 disabled={false}
+                data-oid="8bn_fw."
               />
-              <p className="text-sm text-slate-600 mt-4">Click here to add a New Project</p>
+
+              <p className="text-sm text-slate-600 mt-4" data-oid="6zkdwsu">
+                Click here to add a New Project
+              </p>
             </div>
           </div>
         )}
@@ -231,27 +302,41 @@ export default function PropertyCalculator() {
         propertyType={pendingPropertyType}
         folders={folders}
         onCreateFolder={createFolder}
+        data-oid="38uasp8"
       />
 
       {/* Remove Property Confirmation Dialog */}
-      <Dialog open={isRemoveDialogOpen} onOpenChange={setIsRemoveDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Remove Property</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to remove {propertyToRemove?.name || `Property #${propertyToRemove?.id}`}?
+      <Dialog
+        open={isRemoveDialogOpen}
+        onOpenChange={setIsRemoveDialogOpen}
+        data-oid="gua1qu3"
+      >
+        <DialogContent className="sm:max-w-md" data-oid="fre8wrf">
+          <DialogHeader data-oid="obojv-v">
+            <DialogTitle data-oid="1rj7lg_">Remove Property</DialogTitle>
+            <DialogDescription data-oid="cn56v2j">
+              Are you sure you want to remove{" "}
+              {propertyToRemove?.name || `Property #${propertyToRemove?.id}`}?
             </DialogDescription>
           </DialogHeader>
-          <div className="flex justify-end space-x-2 pt-4">
-            <Button variant="outline" onClick={() => setIsRemoveDialogOpen(false)}>
+          <div className="flex justify-end space-x-2 pt-4" data-oid="4u3vr_q">
+            <Button
+              variant="outline"
+              onClick={() => setIsRemoveDialogOpen(false)}
+              data-oid="nhvvwfc"
+            >
               Cancel
             </Button>
-            <Button variant="destructive" onClick={confirmRemoveProperty}>
+            <Button
+              variant="destructive"
+              onClick={confirmRemoveProperty}
+              data-oid="ctjwu35"
+            >
               Remove
             </Button>
           </div>
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

@@ -75,21 +75,9 @@ export function calculateValues(
   
   if (property.type === "BUC") {
     // Use phased disbursement calculation for BUC properties
-    console.log('BUC calculation:', { 
-      type: property.type, 
-      loanAmount: actualLoanAmount, 
-      interestRate: property.interestRate || INTEREST_RATE_PCT,
-      calculated: calculateBUCBankInterest(actualLoanAmount, property.purchasePrice, property.interestRate || INTEREST_RATE_PCT)
-    })
     bankInterest = calculateBUCBankInterest(actualLoanAmount, property.purchasePrice, property.interestRate || INTEREST_RATE_PCT)
   } else {
     // Use the specific formula for resale properties
-    console.log('Resale calculation:', { 
-      type: property.type, 
-      loanAmount: actualLoanAmount, 
-      interestRate: property.interestRate || INTEREST_RATE_PCT,
-      calculated: calculateResaleBankInterest(actualLoanAmount, property.interestRate || INTEREST_RATE_PCT)
-    })
     bankInterest = calculateResaleBankInterest(actualLoanAmount, property.interestRate || INTEREST_RATE_PCT)
   }
   

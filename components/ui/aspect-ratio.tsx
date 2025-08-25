@@ -1,11 +1,17 @@
-"use client"
+"use client";
 
-import * as AspectRatioPrimitive from "@radix-ui/react-aspect-ratio"
+import * as AspectRatioPrimitive from "@radix-ui/react-aspect-ratio";
 
 function AspectRatio({
   ...props
 }: React.ComponentProps<typeof AspectRatioPrimitive.Root>) {
-  return <AspectRatioPrimitive.Root data-slot="aspect-ratio" {...props} />
+  return (
+    <AspectRatioPrimitive.Root
+      data-slot="aspect-ratio"
+      {...props}
+      data-oid="q3jafbf"
+    />
+  );
 }
 
-export { AspectRatio }
+export { AspectRatio };

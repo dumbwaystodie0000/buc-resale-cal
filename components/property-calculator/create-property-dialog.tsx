@@ -1,21 +1,32 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { X, Plus, Folder } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import type { PropertyType } from "./types"
+import { useState, useEffect } from "react";
+import { X, Plus, Folder } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import type { PropertyType } from "./types";
 
 interface CreatePropertyDialogProps {
-  isOpen: boolean
-  onClose: () => void
-  onConfirm: (name: string, folder?: string) => void
-  propertyType: PropertyType
-  folders: string[]
-  onCreateFolder: (name: string) => void
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: (name: string, folder?: string) => void;
+  propertyType: PropertyType;
+  folders: string[];
+  onCreateFolder: (name: string) => void;
 }
 
 export default function CreatePropertyDialog({
@@ -24,89 +35,116 @@ export default function CreatePropertyDialog({
   onConfirm,
   propertyType,
   folders,
-  onCreateFolder
+  onCreateFolder,
 }: CreatePropertyDialogProps) {
-  const [propertyName, setPropertyName] = useState("")
-  const [selectedFolder, setSelectedFolder] = useState<string>("")
-  const [isCreatingFolder, setIsCreatingFolder] = useState(false)
-  const [newFolderName, setNewFolderName] = useState("")
+  const [propertyName, setPropertyName] = useState("");
+  const [selectedFolder, setSelectedFolder] = useState<string>("");
+  const [isCreatingFolder, setIsCreatingFolder] = useState(false);
+  const [newFolderName, setNewFolderName] = useState("");
 
   // Generate default property name when dialog opens
   useEffect(() => {
     if (isOpen) {
-      const defaultName = propertyType === "BUC" ? `BUC Property` : `Resale Property`
-      setPropertyName(defaultName)
-      setSelectedFolder("")
-      setIsCreatingFolder(false)
-      setNewFolderName("")
+      const defaultName =
+        propertyType === "BUC" ? `BUC Property` : `Resale Property`;
+      setPropertyName(defaultName);
+      setSelectedFolder("");
+      setIsCreatingFolder(false);
+      setNewFolderName("");
     }
-  }, [isOpen, propertyType])
+  }, [isOpen, propertyType]);
 
   const handleConfirm = () => {
     if (propertyName.trim()) {
-      const folder = isCreatingFolder && newFolderName.trim() ? newFolderName.trim() : 
-                    (selectedFolder === "no-folder" ? undefined : selectedFolder || undefined)
-      onConfirm(propertyName.trim(), folder)
-      onClose()
+      const folder =
+        isCreatingFolder && newFolderName.trim()
+          ? newFolderName.trim()
+          : selectedFolder === "no-folder"
+            ? undefined
+            : selectedFolder || undefined;
+      onConfirm(propertyName.trim(), folder);
+      onClose();
     }
-  }
+  };
 
   const handleCreateFolder = () => {
     if (newFolderName.trim()) {
-      onCreateFolder(newFolderName.trim())
-      setSelectedFolder(newFolderName.trim())
-      setIsCreatingFolder(false)
-      setNewFolderName("")
+      onCreateFolder(newFolderName.trim());
+      setSelectedFolder(newFolderName.trim());
+      setIsCreatingFolder(false);
+      setNewFolderName("");
     }
-  }
+  };
 
   const getPropertyIcon = () => {
     return (
-      <div className={`w-4 h-4 rounded-full ${propertyType === "BUC" ? "bg-orange-500" : "bg-green-500"}`} />
-    )
-  }
+      <div
+        className={`w-4 h-4 rounded-full ${propertyType === "BUC" ? "bg-orange-500" : "bg-green-500"}`}
+        data-oid="46j.q2x"
+      />
+    );
+  };
 
   const getPropertyTitle = () => {
-    return propertyType === "BUC" ? "Create New BUC Property" : "Create New Resale Property"
-  }
+    return propertyType === "BUC"
+      ? "Create New BUC Property"
+      : "Create New Resale Property";
+  };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader className="pb-2">
-          <DialogTitle className="flex items-center gap-2">
+    <Dialog open={isOpen} onOpenChange={onClose} data-oid="qi3ai5j">
+      <DialogContent className="sm:max-w-md" data-oid="iobj6g3">
+        <DialogHeader className="pb-2" data-oid="s0w-zr3">
+          <DialogTitle className="flex items-center gap-2" data-oid="d5svy8h">
             {getPropertyIcon()}
             {getPropertyTitle()}
           </DialogTitle>
-          <p className="text-sm text-slate-600">
-            Enter the property details and choose a folder to organize your properties.
+          <p className="text-sm text-slate-600" data-oid="e3g-42v">
+            Enter the property details and choose a folder to organize your
+            properties.
           </p>
         </DialogHeader>
 
-        <div className="space-y-6">
-          <div className="space-y-3">
-            <Label htmlFor="property-name">Property Name</Label>
+        <div className="space-y-6" data-oid="mp8beu3">
+          <div className="space-y-3" data-oid="pxknaks">
+            <Label htmlFor="property-name" data-oid="_61c_-l">
+              Property Name
+            </Label>
             <Input
               id="property-name"
               value={propertyName}
               onChange={(e) => setPropertyName(e.target.value)}
               placeholder="Enter property name"
               className="w-full"
+              data-oid="idvebpw"
             />
           </div>
 
-          <div className="space-y-3">
-            <Label htmlFor="folder">Folder (Optional)</Label>
+          <div className="space-y-3" data-oid=":.5.ztn">
+            <Label htmlFor="folder" data-oid="ukr_nq:">
+              Folder (Optional)
+            </Label>
             {!isCreatingFolder ? (
-              <div className="flex gap-2 w-full h-9">
-                <Select value={selectedFolder} onValueChange={setSelectedFolder} className="flex-1">
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="No Folder" />
+              <div className="flex gap-2 w-full h-9" data-oid="60:c3tq">
+                <Select
+                  value={selectedFolder}
+                  onValueChange={setSelectedFolder}
+                  className="flex-1"
+                  data-oid="k0jv.wc"
+                >
+                  <SelectTrigger className="w-full" data-oid="nls5gld">
+                    <SelectValue placeholder="No Folder" data-oid="9s5iv2-" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="no-folder">No Folder</SelectItem>
+                  <SelectContent data-oid="95y:y:v">
+                    <SelectItem value="no-folder" data-oid="x.pjpk_">
+                      No Folder
+                    </SelectItem>
                     {folders.map((folder) => (
-                      <SelectItem key={folder} value={folder}>
+                      <SelectItem
+                        key={folder}
+                        value={folder}
+                        data-oid="923qqye"
+                      >
                         {folder}
                       </SelectItem>
                     ))}
@@ -118,27 +156,31 @@ export default function CreatePropertyDialog({
                   size="sm"
                   onClick={() => setIsCreatingFolder(true)}
                   className="h-9 w-9 p-0 flex-shrink-0"
+                  data-oid="bk0-2k3"
                 >
-                  <Plus className="h-4 w-4" />
+                  <Plus className="h-4 w-4" data-oid="ximxl8l" />
                 </Button>
               </div>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-3" data-oid="fdb.1.0">
                 <Input
                   value={newFolderName}
                   onChange={(e) => setNewFolderName(e.target.value)}
                   placeholder="Enter folder name"
                   className="w-full"
+                  data-oid="glcdskp"
                 />
-                <div className="flex gap-2">
+
+                <div className="flex gap-2" data-oid="l.4.gbr">
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
                     onClick={handleCreateFolder}
                     className="flex-1"
+                    data-oid="wpwl3p5"
                   >
-                    <Folder className="mr-2 h-4 w-4" />
+                    <Folder className="mr-2 h-4 w-4" data-oid="49dsekt" />
                     Create Folder
                   </Button>
                   <Button
@@ -147,6 +189,7 @@ export default function CreatePropertyDialog({
                     size="sm"
                     onClick={() => setIsCreatingFolder(false)}
                     className="flex-1"
+                    data-oid="jlukeb9"
                   >
                     Cancel
                   </Button>
@@ -156,15 +199,19 @@ export default function CreatePropertyDialog({
           </div>
         </div>
 
-        <div className="flex justify-end gap-2 pt-12">
-          <Button variant="outline" onClick={onClose}>
+        <div className="flex justify-end gap-2 pt-12" data-oid="_vm:5w3">
+          <Button variant="outline" onClick={onClose} data-oid="tnjp--1">
             Cancel
           </Button>
-          <Button onClick={handleConfirm} disabled={!propertyName.trim()}>
+          <Button
+            onClick={handleConfirm}
+            disabled={!propertyName.trim()}
+            data-oid="fvomcdd"
+          >
             Create Property
           </Button>
         </div>
       </DialogContent>
     </Dialog>
-  )
-} 
+  );
+}
