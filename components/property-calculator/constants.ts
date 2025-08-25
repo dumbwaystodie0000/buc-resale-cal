@@ -34,7 +34,7 @@ export const defaultPropertyBase: Omit<Property, "id"> = {
   type: "BUC",
   purchasePrice: 0,
   loanTenure: 30,
-  interestRate: 2.00,
+  interestRate: 1.94,
   ltv: 75,
   bankLoan: 0,
   projectedGrowth: 0,

@@ -465,8 +465,8 @@ export default function PropertyTable({
                   <div className="font-medium">{fmtCurrency(d.bankInterest)}</div>
                   <div className="text-[11px] text-slate-500">
                     {p.type === "Resale" 
-                      ? "Resale Int: 1.94%" 
-                      : "BUC Int: 1.94%"
+                      ? `Resale Int: ${(p.interestRate || 2.00).toFixed(2)}%` 
+                      : `BUC Int: ${(p.interestRate || 2.00).toFixed(2)}%`
                     }
                   </div>
                 </div>

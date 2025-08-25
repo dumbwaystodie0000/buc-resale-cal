@@ -40,26 +40,15 @@ function calculateBUCBankInterest(loanAmount: number, purchasePrice: number, ann
   return Math.round(totalInterest)
 }
 
-// Function to calculate bank interest for resale properties using the specific formula
-// SUM(ARRAYFORMULA(IPMT(INTEREST RATE in decimal/12, ROW(1:48), 30*12, -LOAN AMT)))
+// Function to calculate bank interest for resale properties
+// For resale properties, we calculate interest on the full loan amount for 4 years
 function calculateResaleBankInterest(loanAmount: number, annualInterestRate: number): number {
   const monthlyRate = annualInterestRate / 100 / 12
-  const totalMonths = 30 * 12 // 30 years * 12 months
-  let totalInterest = 0
+  const months = 48 // 4 years
   
-  // Calculate monthly payment (PMT) first
-  const monthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) / (Math.pow(1 + monthlyRate, totalMonths) - 1)
-  
-  // Calculate interest for each of the 48 months (4 years)
-  for (let month = 1; month <= 48; month++) {
-    // IPMT formula: IPMT = PMT * (1 - (1 + rate)^(per - nper - 1))
-    // For month 1: IPMT = PMT * (1 - (1 + rate)^(1 - 360 - 1)) = PMT * (1 - (1 + rate)^(-360))
-    // For month 2: IPMT = PMT * (1 - (1 + rate)^(2 - 360 - 1)) = PMT * (1 - (1 + rate)^(-359))
-    // And so on...
-    
-    const interestPayment = monthlyPayment * (1 - Math.pow(1 + monthlyRate, month - totalMonths - 1))
-    totalInterest += interestPayment
-  }
+  // Simple interest calculation: Principal × Rate × Time
+  // For resale properties, the full loan amount is disbursed immediately
+  const totalInterest = loanAmount * monthlyRate * months
   
   return Math.round(totalInterest)
 }
@@ -80,12 +69,28 @@ export function calculateValues(
 
   // Calculate bank interest differently for BUC vs Resale properties
   let bankInterest: number
+  
+  // Calculate actual loan amount if it's 0 (using LTV and purchase price)
+  const actualLoanAmount = property.bankLoan > 0 ? property.bankLoan : (property.purchasePrice * (property.ltv || 75) / 100)
+  
   if (property.type === "BUC") {
     // Use phased disbursement calculation for BUC properties
-    bankInterest = calculateBUCBankInterest(property.bankLoan, property.purchasePrice, INTEREST_RATE_PCT)
+    console.log('BUC calculation:', { 
+      type: property.type, 
+      loanAmount: actualLoanAmount, 
+      interestRate: property.interestRate || INTEREST_RATE_PCT,
+      calculated: calculateBUCBankInterest(actualLoanAmount, property.purchasePrice, property.interestRate || INTEREST_RATE_PCT)
+    })
+    bankInterest = calculateBUCBankInterest(actualLoanAmount, property.purchasePrice, property.interestRate || INTEREST_RATE_PCT)
   } else {
     // Use the specific formula for resale properties
-    bankInterest = calculateResaleBankInterest(property.bankLoan, INTEREST_RATE_PCT)
+    console.log('Resale calculation:', { 
+      type: property.type, 
+      loanAmount: actualLoanAmount, 
+      interestRate: property.interestRate || INTEREST_RATE_PCT,
+      calculated: calculateResaleBankInterest(actualLoanAmount, property.interestRate || INTEREST_RATE_PCT)
+    })
+    bankInterest = calculateResaleBankInterest(actualLoanAmount, property.interestRate || INTEREST_RATE_PCT)
   }
   
   const maintenanceFeeTotal = property.monthlyMaintenance * 12 * YEARS
