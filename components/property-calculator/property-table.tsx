@@ -28,7 +28,7 @@ import {
 import type { Property, Mode, SavedProperty, PropertyType } from "./types";
 import { TAX_BRACKETS, defaultPropertyBase, mockFolders } from "./constants";
 import { calculateValues } from "./calculations";
-import { fmtCurrency, fmtRate } from "./utils";
+import { fmtCurrency, fmtRate, calculateBalanceMonthAftTOP } from "./utils";
 import {
   PropertyTypeBadge,
   CurrencyInput,
@@ -37,6 +37,7 @@ import {
   DualCell,
   ValueText,
   ClearableNumberInput,
+  MonthYearPicker,
 } from "./ui-components";
 import { SectionRow, DataRow, MaybeNADataRow } from "./table-components";
 import PropertySummary from "./property-summary";
@@ -443,6 +444,53 @@ export default function PropertyTable({
               );
             }}
             data-oid="8g6osbt"
+          />
+
+          <DataRow
+            label="Est. TOP (Month-Year)"
+            properties={displayProperties}
+            render={(p) => (
+              <MonthYearPicker
+                value={p.estTOP}
+                onChange={(date) => updateProperty(p.id, "estTOP", date)}
+                disabled={p.type === "Resale"}
+                data-oid="est-top-picker"
+              />
+            )}
+            data-oid="est-top-row"
+          />
+
+          <DataRow
+            label="Balance Month Aft. TOP (months)"
+            properties={displayProperties}
+            render={(p) => {
+              if (p.type === "Resale") {
+                return (
+                  <div
+                    className="text-sm font-medium text-slate-900"
+                    data-oid="resale-balance"
+                  >
+                    48
+                  </div>
+                );
+              }
+
+              const balanceMonths = calculateBalanceMonthAftTOP(p.estTOP);
+              // Update the property's balanceMonthAftTOP field when calculated
+              if (p.balanceMonthAftTOP !== balanceMonths) {
+                updateProperty(p.id, "balanceMonthAftTOP", balanceMonths);
+              }
+
+              return (
+                <div
+                  className="text-sm font-medium text-slate-900"
+                  data-oid="buc-balance"
+                >
+                  {balanceMonths}
+                </div>
+              );
+            }}
+            data-oid="balance-month-row"
           />
 
           <tr className="h-4 bg-white" data-oid="c.1ahwu">

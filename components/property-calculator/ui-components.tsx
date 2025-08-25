@@ -3,9 +3,21 @@
 import type React from "react";
 
 import { useRef, useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { X, Calendar } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import type { PropertyType } from "./types";
 import { fmtCurrency } from "./utils";
 
@@ -117,6 +129,7 @@ export function PropertyTypeBadge({ type }: { type: PropertyType }) {
         className={`w-2 h-2 rounded-full mr-2 ${type === "BUC" ? "bg-orange-500" : "bg-emerald-600"}`}
         data-oid="02ab:_y"
       />
+
       <span
         className={`text-xs font-medium ${type === "BUC" ? "text-orange-700" : "text-emerald-700"}`}
         data-oid="iuxtfkk"
@@ -282,5 +295,152 @@ export function ValueText({
     <div className={`text-sm ${className}`} data-oid="7ed8vgb">
       {children}
     </div>
+  );
+}
+
+export function MonthYearPicker({
+  value,
+  onChange,
+  disabled = false,
+}: {
+  value: Date | null;
+  onChange: (date: Date | null) => void;
+  disabled?: boolean;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState<number>(
+    value?.getMonth() ?? new Date().getMonth(),
+  );
+  const [selectedYear, setSelectedYear] = useState<number>(
+    value?.getFullYear() ?? new Date().getFullYear(),
+  );
+
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  // Generate years from current year to 10 years in the future
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 11 }, (_, i) => currentYear + i);
+
+  const handleApply = () => {
+    const newDate = new Date(selectedYear, selectedMonth, 1);
+    onChange(newDate);
+    setIsOpen(false);
+  };
+
+  const handleClear = () => {
+    onChange(null);
+    setIsOpen(false);
+  };
+
+  const formatDate = (date: Date | null) => {
+    if (!date) return "";
+    return `${months[date.getMonth()]} ${date.getFullYear()}`;
+  };
+
+  if (disabled) {
+    return (
+      <div className="text-xs text-slate-500" data-oid="na-picker">
+        N/A
+      </div>
+    );
+  }
+
+  return (
+    <Popover
+      open={isOpen}
+      onOpenChange={setIsOpen}
+      data-oid="month-year-picker"
+    >
+      <PopoverTrigger asChild data-oid="picker-trigger">
+        <Button
+          variant="outline"
+          className="h-9 w-32 justify-start text-left font-normal"
+          data-oid="picker-button"
+        >
+          <Calendar className="mr-2 h-4 w-4" data-oid="calendar-icon" />
+          {value ? formatDate(value) : "Select date"}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-64 p-4" data-oid="picker-content">
+        <div className="space-y-4" data-oid="picker-form">
+          <div className="space-y-2" data-oid="month-select">
+            <label className="text-sm font-medium" data-oid="month-label">
+              Month
+            </label>
+            <Select
+              value={selectedMonth.toString()}
+              onValueChange={(v) => setSelectedMonth(parseInt(v))}
+              data-oid="month-dropdown"
+            >
+              <SelectTrigger data-oid="month-trigger">
+                <SelectValue data-oid="month-value" />
+              </SelectTrigger>
+              <SelectContent data-oid="month-content">
+                {months.map((month, index) => (
+                  <SelectItem
+                    key={index}
+                    value={index.toString()}
+                    data-oid={`month-${index}`}
+                  >
+                    {month}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2" data-oid="year-select">
+            <label className="text-sm font-medium" data-oid="year-label">
+              Year
+            </label>
+            <Select
+              value={selectedYear.toString()}
+              onValueChange={(v) => setSelectedYear(parseInt(v))}
+              data-oid="year-dropdown"
+            >
+              <SelectTrigger data-oid="year-trigger">
+                <SelectValue data-oid="year-value" />
+              </SelectTrigger>
+              <SelectContent data-oid="year-content">
+                {years.map((year) => (
+                  <SelectItem
+                    key={year}
+                    value={year.toString()}
+                    data-oid={`year-${year}`}
+                  >
+                    {year}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex justify-between gap-2" data-oid="picker-actions">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleClear}
+              data-oid="clear-button"
+            >
+              Clear
+            </Button>
+            <Button size="sm" onClick={handleApply} data-oid="apply-button">
+              Apply
+            </Button>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }

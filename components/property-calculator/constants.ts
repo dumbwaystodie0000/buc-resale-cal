@@ -1,17 +1,51 @@
-import type { Property, TaxBracket, SavedProperty } from "./types"
+import type { Property, TaxBracket, SavedProperty } from "./types";
 
-export const YEARS = 4
-export const INTEREST_RATE_PCT = 1.94
+export const YEARS = 4;
+export const INTEREST_RATE_PCT = 1.94;
 
-export const mockFolders = ["Singapore Properties", "Investment Portfolio", "Personal Collection"]
+export const mockFolders = [
+  "Singapore Properties",
+  "Investment Portfolio",
+  "Personal Collection",
+];
 
 export const mockSavedProperties: SavedProperty[] = [
-  { id: "1", name: "Marina Bay Condo", type: "BUC", purchasePrice: 1200000, folder: "Singapore Properties" },
-  { id: "2", name: "Punggol BTO", type: "BUC", purchasePrice: 800000, folder: "Singapore Properties" },
-  { id: "3", name: "Orchard Resale", type: "Resale", purchasePrice: 2500000, folder: "Investment Portfolio" },
-  { id: "4", name: "Sentosa Cove Villa", type: "Resale", purchasePrice: 5000000, folder: "Investment Portfolio" },
-  { id: "5", name: "Woodlands Executive Condo", type: "BUC", purchasePrice: 950000, folder: "Personal Collection" },
-]
+  {
+    id: "1",
+    name: "Marina Bay Condo",
+    type: "BUC",
+    purchasePrice: 1200000,
+    folder: "Singapore Properties",
+  },
+  {
+    id: "2",
+    name: "Punggol BTO",
+    type: "BUC",
+    purchasePrice: 800000,
+    folder: "Singapore Properties",
+  },
+  {
+    id: "3",
+    name: "Orchard Resale",
+    type: "Resale",
+    purchasePrice: 2500000,
+    folder: "Investment Portfolio",
+  },
+  {
+    id: "4",
+    name: "Sentosa Cove Villa",
+    type: "Resale",
+    purchasePrice: 5000000,
+    folder: "Investment Portfolio",
+  },
+  {
+    id: "5",
+    name: "Woodlands Executive Condo",
+    type: "BUC",
+    purchasePrice: 950000,
+    folder: "Personal Collection",
+  },
+];
 
 export const TAX_BRACKETS: readonly TaxBracket[] = [
   { id: "0-20k", range: "$0 - $20k", rate: 0 },
@@ -27,7 +61,7 @@ export const TAX_BRACKETS: readonly TaxBracket[] = [
   { id: "320-500k", range: "$320k - $500k", rate: 22 },
   { id: "500k-1m", range: "$500k - $1m", rate: 23 },
   { id: "above-1m", range: "Above $1m", rate: 24 },
-]
+];
 
 export const defaultPropertyBase: Omit<Property, "id"> = {
   name: "",
@@ -51,4 +85,6 @@ export const defaultPropertyBase: Omit<Property, "id"> = {
   agentCommission: 0,
   otherExpenses: 0,
   monthlyRentWhileWaiting: 0,
-}
+  estTOP: null,
+  balanceMonthAftTOP: 48,
+};

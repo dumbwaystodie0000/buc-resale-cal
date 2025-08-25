@@ -32,7 +32,10 @@ export interface Property {
   agentCommission: number
   otherExpenses: number
   monthlyRentWhileWaiting: number
+  estTOP: Date | null
+  balanceMonthAftTOP: number
 }
+=======
 
 export interface CalculationResult {
   loanPercentage: number
