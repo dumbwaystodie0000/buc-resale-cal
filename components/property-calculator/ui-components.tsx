@@ -79,7 +79,7 @@ export function ClearableNumberInput({
         : "";
 
   return (
-    <div className={`relative ${className}`} data-oid="a7r04:p">
+    <div className={`relative ${className}`} data-oid="n3wubq8">
       <Input
         ref={ref}
         type={isEditing ? "number" : "text"}
@@ -91,8 +91,8 @@ export function ClearableNumberInput({
         onBlur={handleBlur}
         onChange={handleChange}
         onWheel={handleWheel}
-        className="h-9 text-left pr-8 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-        data-oid="0_0yg8g"
+        className="h-9 text-left pr-8 px-2 py-1 text-sm border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+        data-oid="4udbg:w"
       />
 
       <button
@@ -111,9 +111,9 @@ export function ClearableNumberInput({
           }, 0);
         }}
         className="absolute right-2 top-1.5 rounded p-0.5 text-slate-400 hover:text-slate-600"
-        data-oid="4.0ypsd"
+        data-oid="u1-sry3"
       >
-        <X className="h-3.5 w-3.5" data-oid="5q.ij1n" />
+        <X className="h-3.5 w-3.5" data-oid="t0erz_a" />
       </button>
     </div>
   );
@@ -123,16 +123,18 @@ export function PropertyTypeBadge({ type }: { type: PropertyType }) {
   return (
     <div
       className="inline-flex items-center rounded-md px-2 py-1"
-      data-oid="r0xlju5"
+      data-oid="gjmdz-h"
     >
-      <div
-        className={`w-2 h-2 rounded-full mr-2 ${type === "BUC" ? "bg-orange-500" : "bg-emerald-600"}`}
-        data-oid="m4p5d:q"
+      <img
+        src={type === "BUC" ? "/buc.png" : "/resale.png"}
+        alt={type}
+        className="w-8 h-8 mr-2"
+        data-oid="property-type-icon"
       />
 
       <span
-        className={`text-xs font-medium ${type === "BUC" ? "text-orange-700" : "text-emerald-700"}`}
-        data-oid="zv:.b7g"
+        className={`text-xs font-bold ${type === "BUC" ? "text-orange-700" : "text-emerald-700"}`}
+        data-oid="7o3026i"
       >
         {type}
       </span>
@@ -153,12 +155,12 @@ export function PropertyPlaceholderButton({
     <button
       onClick={onClick}
       className="w-full h-32 bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg hover:bg-slate-100 hover:border-slate-400 transition-colors flex flex-col items-center justify-center gap-2 text-slate-600"
-      data-oid="jzg5jhv"
+      data-oid="41q9x8y"
     >
-      <div className="text-sm font-medium" data-oid="uu0inz6">
+      <div className="text-sm font-medium" data-oid="y48h4ra">
         Select / Create New Entry
       </div>
-      <div className="text-xs text-slate-500" data-oid="voff5bv">
+      <div className="text-xs text-slate-500" data-oid="7qxuk6o">
         Click to add property details
       </div>
     </button>
@@ -182,7 +184,7 @@ export function PropertyCell({
         propertyId={property.id}
         propertyType={property.type}
         onClick={onPopulate}
-        data-oid="p:jwzwp"
+        data-oid="1_4.kgx"
       />
     );
   }
@@ -205,7 +207,7 @@ export function CurrencyInput({
       onChange={onChange}
       step={step}
       showCurrency={true}
-      data-oid="43lp91k"
+      data-oid="rslxlri"
     />
   );
 }
@@ -222,8 +224,8 @@ export function LabeledCurrency({
   step?: number;
 }) {
   return (
-    <div className="flex items-center gap-2" data-oid="3cs1kw1">
-      <div className="text-[11px] text-slate-600" data-oid="33g6orh">
+    <div className="flex items-center gap-2" data-oid="cwxrusp">
+      <div className="text-[11px] text-slate-600" data-oid=".smgj9u">
         {label}
       </div>
       <ClearableNumberInput
@@ -232,7 +234,7 @@ export function LabeledCurrency({
         step={step}
         className="w-24"
         showCurrency={true}
-        data-oid="yj7-6ca"
+        data-oid="y1kg3ff"
       />
     </div>
   );
@@ -250,8 +252,8 @@ export function LabeledNumber({
   step?: number;
 }) {
   return (
-    <div className="flex items-center gap-2" data-oid="-ikzvcs">
-      <div className="text-[11px] text-slate-600" data-oid="fj.tmfe">
+    <div className="flex items-center gap-2" data-oid="ex1lq57">
+      <div className="text-[11px] text-slate-600" data-oid="eetzpqd">
         {label}
       </div>
       <ClearableNumberInput
@@ -259,7 +261,7 @@ export function LabeledNumber({
         onChange={onChange}
         step={step}
         className="w-24"
-        data-oid="f5u9edf"
+        data-oid="yighzuw"
       />
     </div>
   );
@@ -273,11 +275,11 @@ export function DualCell({
   right: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4" data-oid="td5gqql">
-      <div className="flex-1" data-oid="b5zanjv">
+    <div className="flex items-center justify-between gap-4" data-oid="7x1geqp">
+      <div className="flex-1" data-oid="ckf6gc-">
         {left}
       </div>
-      <div className="flex-shrink-0" data-oid="jzmq08l">
+      <div className="flex-shrink-0 min-w-0" data-oid="pp8f7lb">
         {right}
       </div>
     </div>
@@ -292,7 +294,7 @@ export function ValueText({
   className?: string;
 }) {
   return (
-    <div className={`text-sm ${className}`} data-oid="j4k24fq">
+    <div className={`text-sm ${className}`} data-oid="-z_em2v">
       {children}
     </div>
   );
@@ -352,86 +354,111 @@ export function MonthYearPicker({
 
   if (disabled) {
     return (
-      <div className="text-xs text-slate-500" data-oid="d.70z-k">
+      <div className="text-xs text-slate-500" data-oid="e311_7z">
         N/A
       </div>
     );
   }
 
   return (
-    <Popover open={isOpen} onOpenChange={setIsOpen} data-oid="qi_7pbz">
-      <PopoverTrigger asChild data-oid="j884m8i">
+    <Popover open={isOpen} onOpenChange={setIsOpen} data-oid="8zn:btk">
+      <PopoverTrigger asChild data-oid="b:qqqdx">
         <Button
           variant="outline"
-          className="h-9 w-32 justify-start text-left font-normal"
-          data-oid="3:9qi_7"
+          className="h-9 w-28 justify-start text-left font-normal px-2 py-1 text-xs border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          data-oid="ka:49am"
         >
-          <Calendar className="mr-2 h-4 w-4" data-oid="44g.cps" />
+          <Calendar className="mr-1 h-2 w-2" data-oid="i8vhk.m" />
           {value ? formatDate(value) : "Select date"}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-64 p-4" data-oid=":ynqnl4">
-        <div className="space-y-4" data-oid="hbw4:n1">
-          <div className="space-y-2" data-oid="7eradd1">
-            <label className="text-sm font-medium" data-oid="98k9g6v">
-              Month
-            </label>
-            <Select
-              value={selectedMonth.toString()}
-              onValueChange={(v) => setSelectedMonth(parseInt(v))}
-              data-oid="iaoaxwi"
+      <PopoverContent className="w-72 p-3 z-[10]" data-oid="v1omtcq">
+        <div className="space-y-3" data-oid="i9tj-.x">
+          {/* Header showing current selection */}
+          <div
+            className="text-center pb-2 border-b border-slate-200"
+            data-oid="elaiii2"
+          >
+            <div
+              className="text-sm font-semibold text-slate-900"
+              data-oid="edv5-b5"
             >
-              <SelectTrigger data-oid="e0b.hq.">
-                <SelectValue data-oid="mdxjaqg" />
-              </SelectTrigger>
-              <SelectContent data-oid="v_ct8vb">
-                {months.map((month, index) => (
-                  <SelectItem
-                    key={index}
-                    value={index.toString()}
-                    data-oid="nwcj0:e"
-                  >
-                    {month}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+              {months[selectedMonth]} {selectedYear}
+            </div>
           </div>
-          <div className="space-y-2" data-oid="51u-9rk">
-            <label className="text-sm font-medium" data-oid="k9b8e8g">
-              Year
-            </label>
-            <Select
-              value={selectedYear.toString()}
-              onValueChange={(v) => setSelectedYear(parseInt(v))}
-              data-oid="7qfp8oz"
-            >
-              <SelectTrigger data-oid=".k42bwl">
-                <SelectValue data-oid="pk7nelo" />
-              </SelectTrigger>
-              <SelectContent data-oid="hqoj6_u">
+
+          {/* Month and Year Grid Selection */}
+          <div className="flex gap-4" data-oid="ik7ej-p">
+            {/* Years Column */}
+            <div className="flex-1" data-oid="t_8ex_s">
+              <div
+                className="text-sm text-center font-medium text-slate-700 mb-2"
+                data-oid="u:ylpk1"
+              >
+                Year
+              </div>
+              <div
+                className="grid grid-cols-1 gap-1 max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent"
+                data-oid="c8yx_2k"
+              >
                 {years.map((year) => (
-                  <SelectItem
+                  <button
                     key={year}
-                    value={year.toString()}
-                    data-oid="jcfpx99"
+                    onClick={() => setSelectedYear(year)}
+                    className={`px-3 py-2 rounded-md text-xs transition-colors ${
+                      selectedYear === year
+                        ? "bg-slate-200 font-semibold text-slate-900"
+                        : "text-slate-600 hover:bg-slate-100"
+                    }`}
+                    data-oid="m026voo"
                   >
                     {year}
-                  </SelectItem>
+                  </button>
                 ))}
-              </SelectContent>
-            </Select>
+              </div>
+            </div>
+
+            {/* Months Column */}
+            <div className="flex-1" data-oid="0j4-t1a">
+              <div
+                className="text-sm text-center font-medium text-slate-700 mb-2"
+                data-oid="4wgnh8l"
+              >
+                Month
+              </div>
+              <div className="grid grid-cols-2 gap-1" data-oid="9.6r9oo">
+                {months.map((month, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedMonth(index)}
+                    className={`px-3 py-2 rounded-md text-xs transition-colors ${
+                      selectedMonth === index
+                        ? "bg-slate-200 font-semibold text-slate-900"
+                        : "text-slate-600 hover:bg-slate-100"
+                    }`}
+                    data-oid="k.z8w78"
+                  >
+                    {month}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
-          <div className="flex justify-between gap-2" data-oid="m8tmcrc">
+
+          {/* Action Buttons */}
+          <div
+            className="flex justify-between gap-2 pt-2 border-t border-slate-200"
+            data-oid="ma01x99"
+          >
             <Button
               variant="outline"
               size="sm"
               onClick={handleClear}
-              data-oid="3mjb6gw"
+              data-oid="rx6auks"
             >
               Clear
             </Button>
-            <Button size="sm" onClick={handleApply} data-oid="pgjl:9p">
+            <Button size="sm" onClick={handleApply} data-oid="9xz1-n_">
               Apply
             </Button>
           </div>

@@ -34,6 +34,7 @@ export interface Property {
   monthlyRentWhileWaiting: number
   estTOP: Date | null
   balanceMonthAftTOP: number
+  holdingPeriod: number
 }
 =======
 

@@ -13,7 +13,7 @@ function ContextMenu({
     <ContextMenuPrimitive.Root
       data-slot="context-menu"
       {...props}
-      data-oid="h3u-x9o"
+      data-oid="29l:hpt"
     />
   );
 }
@@ -25,7 +25,7 @@ function ContextMenuTrigger({
     <ContextMenuPrimitive.Trigger
       data-slot="context-menu-trigger"
       {...props}
-      data-oid="ef5wtz7"
+      data-oid="v-mqcs2"
     />
   );
 }
@@ -37,7 +37,7 @@ function ContextMenuGroup({
     <ContextMenuPrimitive.Group
       data-slot="context-menu-group"
       {...props}
-      data-oid="3fd-05v"
+      data-oid=".6ekob5"
     />
   );
 }
@@ -49,7 +49,7 @@ function ContextMenuPortal({
     <ContextMenuPrimitive.Portal
       data-slot="context-menu-portal"
       {...props}
-      data-oid="9fj4fjx"
+      data-oid="gm.jofj"
     />
   );
 }
@@ -61,7 +61,7 @@ function ContextMenuSub({
     <ContextMenuPrimitive.Sub
       data-slot="context-menu-sub"
       {...props}
-      data-oid="983_142"
+      data-oid="x6r-1yc"
     />
   );
 }
@@ -73,7 +73,7 @@ function ContextMenuRadioGroup({
     <ContextMenuPrimitive.RadioGroup
       data-slot="context-menu-radio-group"
       {...props}
-      data-oid="ul23_j-"
+      data-oid="6n1_.ix"
     />
   );
 }
@@ -95,10 +95,10 @@ function ContextMenuSubTrigger({
         className,
       )}
       {...props}
-      data-oid="quk8_8_"
+      data-oid="55u6dem"
     >
       {children}
-      <ChevronRightIcon className="ml-auto" data-oid="763po_:" />
+      <ChevronRightIcon className="ml-auto" data-oid="9y255aa" />
     </ContextMenuPrimitive.SubTrigger>
   );
 }
@@ -115,7 +115,7 @@ function ContextMenuSubContent({
         className,
       )}
       {...props}
-      data-oid="kqn1qx4"
+      data-oid="3enkiyk"
     />
   );
 }
@@ -125,7 +125,7 @@ function ContextMenuContent({
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.Content>) {
   return (
-    <ContextMenuPrimitive.Portal data-oid="lmnydva">
+    <ContextMenuPrimitive.Portal data-oid="32jqri:">
       <ContextMenuPrimitive.Content
         data-slot="context-menu-content"
         className={cn(
@@ -133,7 +133,7 @@ function ContextMenuContent({
           className,
         )}
         {...props}
-        data-oid="yofqpan"
+        data-oid="njb6gqd"
       />
     </ContextMenuPrimitive.Portal>
   );
@@ -158,7 +158,7 @@ function ContextMenuItem({
         className,
       )}
       {...props}
-      data-oid="dfr74qx"
+      data-oid="u-qdnt8"
     />
   );
 }
@@ -178,14 +178,14 @@ function ContextMenuCheckboxItem({
       )}
       checked={checked}
       {...props}
-      data-oid="jk0a3d9"
+      data-oid="pfbnqus"
     >
       <span
         className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center"
-        data-oid="qv.r9r3"
+        data-oid="kd9vfnc"
       >
-        <ContextMenuPrimitive.ItemIndicator data-oid="trj_4fe">
-          <CheckIcon className="size-4" data-oid="24jo5a0" />
+        <ContextMenuPrimitive.ItemIndicator data-oid="xn85me.">
+          <CheckIcon className="size-4" data-oid="0t-3wkb" />
         </ContextMenuPrimitive.ItemIndicator>
       </span>
       {children}
@@ -206,14 +206,14 @@ function ContextMenuRadioItem({
         className,
       )}
       {...props}
-      data-oid="x2qbaf1"
+      data-oid="w:lfae3"
     >
       <span
         className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center"
-        data-oid="6siy-2c"
+        data-oid="rgs5yl4"
       >
-        <ContextMenuPrimitive.ItemIndicator data-oid="l2rkv4g">
-          <CircleIcon className="size-2 fill-current" data-oid="lt48idu" />
+        <ContextMenuPrimitive.ItemIndicator data-oid="v9:bocb">
+          <CircleIcon className="size-2 fill-current" data-oid="qcq3p23" />
         </ContextMenuPrimitive.ItemIndicator>
       </span>
       {children}
@@ -237,7 +237,7 @@ function ContextMenuLabel({
         className,
       )}
       {...props}
-      data-oid="a65juv4"
+      data-oid="mh8pgf."
     />
   );
 }
@@ -251,7 +251,7 @@ function ContextMenuSeparator({
       data-slot="context-menu-separator"
       className={cn("bg-border -mx-1 my-1 h-px", className)}
       {...props}
-      data-oid="-2wl8jp"
+      data-oid="nnwvc2f"
     />
   );
 }
@@ -268,7 +268,7 @@ function ContextMenuShortcut({
         className,
       )}
       {...props}
-      data-oid="w9i:r1p"
+      data-oid="xf9rtcz"
     />
   );
 }

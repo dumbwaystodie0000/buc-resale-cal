@@ -75,18 +75,26 @@ export function isFieldNotApplicable(
   field: keyof Property,
   mode: Mode,
 ) {
-  // Fields always N/A for BUC, regardless of mode
-  const commonBucNAFields = [
+  // Fields that can be enabled for BUC if balance months after TOP > 0
+  const conditionalBucFields = [
     "minorRenovation",
     "furnitureFittings",
     "propertyTax",
     "maintenanceFee",
     "monthlyRental",
+    "agentCommission",
   ];
 
   if (property.type === "BUC") {
-    if (commonBucNAFields.includes(field)) return true;
-    if (field === "agentCommission" && mode === "investment") return true;
+    // Check if these fields should be enabled based on balance months after TOP
+    if (conditionalBucFields.includes(field)) {
+      // For BUC properties, check if there are balance months after TOP
+      // If balanceMonths > 0, enable the field; otherwise show N/A
+      // Note: We'll need to pass the balance months or calculate them here
+      // For now, we'll always show N/A for BUC, but this will be overridden
+      // in the property table component based on the actual balance months
+      return true; // This will be overridden in the component
+    }
   }
 
   // Specific conditions for agent commission
@@ -101,23 +109,41 @@ export function isFieldNotApplicable(
   return false;
 }
 
-// Calculate the number of months from current date to estimated TOP date
-export function calculateBalanceMonthAftTOP(estTOP: Date | null): number {
+// Calculate the balance months after TOP (remaining time in holding period after TOP is reached)
+export function calculateBalanceMonthAftTOP(estTOP: Date | null, holdingPeriod: number = 4): number {
   if (!estTOP) return 0;
   
   const currentDate = new Date();
   const topDate = new Date(estTOP);
   
-  // Calculate the difference in months
-  const yearDiff = topDate.getFullYear() - currentDate.getFullYear();
-  const monthDiff = topDate.getMonth() - currentDate.getMonth();
+  // Calculate months to TOP using the same logic as calculateMonthsToTOP
+  // This gives us how many months from now until TOP is reached
+  const monthsToTOP = (topDate.getFullYear() - currentDate.getFullYear()) * 12 + 
+                      (topDate.getMonth() - currentDate.getMonth());
   
-  let totalMonths = yearDiff * 12 + monthDiff;
+  // Calculate balance months after TOP: Holding Period - Months to TOP
+  // This gives us the remaining months in the holding period after TOP is reached
+  // Example: If holding period is 48 months and TOP is 5 months away, 
+  // balance months = 48 - 5 = 43 months
+  const holdingPeriodMonths = holdingPeriod * 12;
+  const balanceMonths = holdingPeriodMonths - monthsToTOP;
   
-  // Adjust for day of month
-  if (topDate.getDate() < currentDate.getDate()) {
-    totalMonths--;
-  }
+  return Math.max(0, balanceMonths);
+}
+
+// Calculate the months from today until TOP date (for rent calculation)
+export function calculateMonthsToTOP(estTOP: Date | null): number {
+  if (!estTOP) return 0;
   
-  return Math.max(0, totalMonths);
+  const currentDate = new Date();
+  const topDate = new Date(estTOP);
+  
+  // Calculate months difference: (TOP Year - Current Year) * 12 + (TOP Month - Current Month)
+  // We don't add +1 because we want to count from the NEXT month after current month
+  // So if today is August 2025 and TOP is March 2026, we count: Sep, Oct, Nov, Dec, Jan, Feb, Mar = 7 months
+  const monthsToTOP = (topDate.getFullYear() - currentDate.getFullYear()) * 12 + 
+                      (topDate.getMonth() - currentDate.getMonth());
+  
+  // Return the months to TOP, but only if it's positive (TOP is in the future)
+  return Math.max(0, monthsToTOP);
 }

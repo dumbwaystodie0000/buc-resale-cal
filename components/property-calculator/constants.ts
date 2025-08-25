@@ -87,4 +87,5 @@ export const defaultPropertyBase: Omit<Property, "id"> = {
   monthlyRentWhileWaiting: 0,
   estTOP: null,
   balanceMonthAftTOP: 48,
+  holdingPeriod: 4,
 };

@@ -10,7 +10,7 @@ function Breadcrumb({ ...props }: React.ComponentProps<"nav">) {
       aria-label="breadcrumb"
       data-slot="breadcrumb"
       {...props}
-      data-oid="82i9_gu"
+      data-oid="x0bzgvn"
     />
   );
 }
@@ -24,7 +24,7 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
         className,
       )}
       {...props}
-      data-oid="6x-f817"
+      data-oid="1-70p:g"
     />
   );
 }
@@ -35,7 +35,7 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
       data-slot="breadcrumb-item"
       className={cn("inline-flex items-center gap-1.5", className)}
       {...props}
-      data-oid="tuxaof."
+      data-oid="q::goib"
     />
   );
 }
@@ -52,7 +52,7 @@ function BreadcrumbLink({
       data-slot="breadcrumb-link"
       className={cn("hover:text-foreground transition-colors", className)}
       {...props}
-      data-oid="0efpi_d"
+      data-oid="37lzg9i"
     />
   );
 }
@@ -66,7 +66,7 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
       aria-current="page"
       className={cn("text-foreground font-normal", className)}
       {...props}
-      data-oid="hrf-7ci"
+      data-oid="82:._zd"
     />
   );
 }
@@ -83,9 +83,9 @@ function BreadcrumbSeparator({
       aria-hidden="true"
       className={cn("[&>svg]:size-3.5", className)}
       {...props}
-      data-oid="ffgitqu"
+      data-oid="eomf1i:"
     >
-      {children ?? <ChevronRight data-oid="gtxehrr" />}
+      {children ?? <ChevronRight data-oid="bc_wsvn" />}
     </li>
   );
 }
@@ -101,10 +101,10 @@ function BreadcrumbEllipsis({
       aria-hidden="true"
       className={cn("flex size-9 items-center justify-center", className)}
       {...props}
-      data-oid="tunfg5."
+      data-oid="44-o36q"
     >
-      <MoreHorizontal className="size-4" data-oid=".vhfgrc" />
-      <span className="sr-only" data-oid="fkl:s_a">
+      <MoreHorizontal className="size-4" data-oid="8gcre.:" />
+      <span className="sr-only" data-oid="miyayg9">
         More
       </span>
     </span>

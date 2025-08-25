@@ -1,5 +1,6 @@
 import type { Property, Mode, CalculationResult } from "./types"
 import { YEARS, INTEREST_RATE_PCT } from "./constants"
+import { fmtCurrency, fmtRate, calculateBalanceMonthAftTOP, calculateMonthsToTOP } from "./utils";
 
 // Function to calculate bank interest for BUC properties based on phased loan disbursement
 // This follows the construction phases where loan amounts are disbursed progressively based on purchase price
@@ -61,10 +62,34 @@ export function calculateValues(
   const projectedGrowth = property.purchasePrice * Math.pow(1 + (property.annualGrowth / 100), YEARS) - property.purchasePrice
 
   // Determine if rental income is applicable based on mode and property type
-  const isRentalApplicable = ctx.mode === "investment" && property.type !== "BUC"
+  // For BUC properties, rental income is applicable if there are balance months after TOP
+  let isRentalApplicable = ctx.mode === "investment" && property.type !== "BUC"
+  
+  // For BUC properties, check if there are balance months after TOP
+  if (ctx.mode === "investment" && property.type === "BUC") {
+    const balanceMonths = calculateBalanceMonthAftTOP(property.estTOP, YEARS)
+    isRentalApplicable = balanceMonths > 0
+  }
 
-  const rentalIncome = isRentalApplicable ? property.monthlyRental * 12 * YEARS : 0
-  const vacancyDeduction = isRentalApplicable ? (ctx.vacancyMonth || 0) * property.monthlyRental : 0
+  // Calculate rental income differently for BUC vs Resale properties
+  let rentalIncome: number
+  let vacancyDeduction: number
+  
+  if (isRentalApplicable) {
+    if (property.type === "BUC") {
+      // For BUC properties, rental income only applies for balance months after TOP
+      const balanceMonths = calculateBalanceMonthAftTOP(property.estTOP, YEARS)
+      rentalIncome = property.monthlyRental * balanceMonths
+      vacancyDeduction = (ctx.vacancyMonth || 0) * property.monthlyRental
+    } else {
+      // For Resale properties, rental income applies for full holding period
+      rentalIncome = property.monthlyRental * 12 * YEARS
+      vacancyDeduction = (ctx.vacancyMonth || 0) * property.monthlyRental
+    }
+  } else {
+    rentalIncome = 0
+    vacancyDeduction = 0
+  }
   const grossProfit = projectedGrowth + rentalIncome - vacancyDeduction
 
   // Calculate bank interest differently for BUC vs Resale properties
@@ -81,11 +106,25 @@ export function calculateValues(
     bankInterest = calculateResaleBankInterest(actualLoanAmount, property.interestRate || INTEREST_RATE_PCT)
   }
   
-  const maintenanceFeeTotal = property.monthlyMaintenance * 12 * YEARS
+  // Calculate maintenance fee total differently for BUC vs Resale properties
+  let maintenanceFeeTotal: number
+  if (property.type === "BUC") {
+    // For BUC properties, calculate based on balance months after TOP
+    const balanceMonths = calculateBalanceMonthAftTOP(property.estTOP, YEARS)
+    maintenanceFeeTotal = property.monthlyMaintenance * balanceMonths
+  } else {
+    // For Resale properties, use the full holding period
+    maintenanceFeeTotal = property.monthlyMaintenance * 12 * YEARS
+  }
   const taxOnRental = isRentalApplicable ? rentalIncome * ((ctx.taxBracket || 0) / 100) : 0 // Tax on rental also depends on rental applicability
 
   const rentWhileWaitingTotal =
-    ctx.mode === "own" && property.type === "BUC" ? property.monthlyRentWhileWaiting * 12 * YEARS : 0
+    ctx.mode === "own" && property.type === "BUC" 
+      ? (() => {
+          const monthsToTOP = calculateMonthsToTOP(property.estTOP);
+          return monthsToTOP > 0 ? property.monthlyRentWhileWaiting * monthsToTOP : 0;
+        })()
+      : 0;
 
   const totalOtherExpenses =
     bankInterest +

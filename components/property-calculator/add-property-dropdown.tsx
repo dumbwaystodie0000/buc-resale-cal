@@ -184,9 +184,11 @@ export default function AddPropertyDropdown({
 
   const getPropertyIcon = (type: PropertyType) => {
     return (
-      <div
-        className={`w-3 h-3 rounded-full ${type === "BUC" ? "bg-orange-500" : "bg-green-500"}`}
-        data-oid="wltwvjx"
+      <img
+        src={type === "BUC" ? "/buc.png" : "/resale.png"}
+        alt={type}
+        className="w-6 h-6"
+        data-oid="property-type-icon"
       />
     );
   };
@@ -206,9 +208,9 @@ export default function AddPropertyDropdown({
         open={isOpen}
         onOpenChange={setIsOpen}
         modal={false}
-        data-oid=".0csq3o"
+        data-oid="5rqmyhm"
       >
-        <DropdownMenuTrigger asChild disabled={disabled} data-oid="e49xlkm">
+        <DropdownMenuTrigger asChild disabled={disabled} data-oid="li1j0v8">
           <Button
             size="sm"
             className={`h-8 md:h-9 gap-2 text-sm ${disabled ? "bg-slate-400 cursor-not-allowed" : "bg-emerald-600 hover:bg-emerald-700"}`}
@@ -218,11 +220,11 @@ export default function AddPropertyDropdown({
                 ? "Maximum 3 properties reached"
                 : "Add a new property to compare"
             }
-            data-oid="_8ce410"
+            data-oid="qshbspp"
           >
-            <Plus className="h-4 w-4" data-oid="a-kgsc:" />
+            <Plus className="h-4 w-4" data-oid="c7pcjmh" />
             {disabled ? "Max Reached" : "Add Property"}
-            <ChevronDown className="h-4 w-4" data-oid="82m9iqq" />
+            <ChevronDown className="h-4 w-4" data-oid="jk__ljn" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
@@ -244,20 +246,20 @@ export default function AddPropertyDropdown({
               }
             }, 150);
           }}
-          data-oid="_369-fp"
+          data-oid="nuz_0pd"
         >
           {/* From Saved Folder */}
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={handleOpenSavedFolderDialog}
-            data-oid="ue-se.:"
+            data-oid="5.-nv:9"
           >
-            <Folder className="mr-2 h-4 w-4" data-oid="jugo8v." />
-            <span data-oid="-xzkip4">From Saved Folder</span>
+            <Folder className="mr-2 h-4 w-4" data-oid="syquy_o" />
+            <span data-oid="re-_58o">From Saved Folder</span>
           </DropdownMenuItem>
 
           {/* Create New Entry with Submenu */}
-          <div className="relative" data-oid="1yb5l4a">
+          <div className="relative" data-oid="3qx9wq_">
             <DropdownMenuItem
               className="cursor-pointer relative"
               onMouseEnter={() => {
@@ -267,11 +269,11 @@ export default function AddPropertyDropdown({
               onMouseLeave={() => {
                 // Don't immediately close submenu, let the submenu's own mouse events handle it
               }}
-              data-oid="7z.9szp"
+              data-oid="cf:_f5t"
             >
-              <FileText className="mr-2 h-4 w-4" data-oid="ew176c." />
-              <span data-oid="91yqpc2">Create New Entry</span>
-              <ChevronRight className="ml-auto h-4 w-4" data-oid="qh7i.hv" />
+              <FileText className="mr-2 h-4 w-4" data-oid="448y.xn" />
+              <span data-oid="y9etn47">Create New Entry</span>
+              <ChevronRight className="ml-auto h-4 w-4" data-oid="m3-sfzp" />
             </DropdownMenuItem>
 
             {/* Create New Entry Submenu */}
@@ -291,7 +293,7 @@ export default function AddPropertyDropdown({
                   setIsHoveringSub(false);
                   setOpenSubmenu(null);
                 }}
-                data-oid="omn0ndt"
+                data-oid="elxqq.-"
               >
                 <div
                   onClick={() => {
@@ -304,14 +306,16 @@ export default function AddPropertyDropdown({
                     setIsHoveringSub(true);
                     setOpenSubmenu("new-entry");
                   }}
-                  data-oid="updut3n"
+                  data-oid="pgav8id"
                 >
-                  <div
-                    className="w-3 h-3 rounded-full bg-orange-500"
-                    data-oid="m6.c.k1"
+                  <img
+                    src="/buc.png"
+                    alt="BUC"
+                    className="w-6 h-6"
+                    data-oid="buc-icon"
                   />
 
-                  <span className="text-sm" data-oid="h7ec5l-">
+                  <span className="text-sm" data-oid="21oql1i">
                     BUC
                   </span>
                 </div>
@@ -326,14 +330,16 @@ export default function AddPropertyDropdown({
                     setIsHoveringSub(true);
                     setOpenSubmenu("new-entry");
                   }}
-                  data-oid="js:ayeb"
+                  data-oid="29_w6m1"
                 >
-                  <div
-                    className="w-3 h-3 rounded-full bg-green-500"
-                    data-oid="_kmnb_k"
+                  <img
+                    src="/resale.png"
+                    alt="Resale"
+                    className="w-6 h-6"
+                    data-oid="resale-icon"
                   />
 
-                  <span className="text-sm" data-oid="z8g9-a9">
+                  <span className="text-sm" data-oid="h4udmnk">
                     Resale
                   </span>
                 </div>
@@ -347,23 +353,23 @@ export default function AddPropertyDropdown({
       <Dialog
         open={isSavedFolderDialogOpen}
         onOpenChange={setIsSavedFolderDialogOpen}
-        data-oid="z-y.z-s"
+        data-oid="bl6h5ll"
       >
         <DialogContent
           className="sm:max-w-lg max-h-[80vh] overflow-hidden"
-          data-oid="n0sdlnd"
+          data-oid="1laomfb"
         >
-          <DialogHeader className="mb-0" data-oid="2boj73z">
-            <DialogTitle className="flex items-center gap-2" data-oid="pvco0s7">
-              <Folder className="h-5 w-5 text-emerald-600" data-oid="6mvgl_4" />
+          <DialogHeader className="mb-0" data-oid="ls791:z">
+            <DialogTitle className="flex items-center gap-2" data-oid="r47arax">
+              <Folder className="h-5 w-5 text-emerald-600" data-oid="kkrlpym" />
               {selectedFolder ? selectedFolder : "Select Folder"}
             </DialogTitle>
           </DialogHeader>
 
-          <div className="mt-2" data-oid="urpk-ti">
+          <div className="mt-2" data-oid="k46z7nx">
             {!selectedFolder ? (
               // Show folders
-              <div className="space-y-3" data-oid=".j375ap">
+              <div className="space-y-3" data-oid="pbuuedl">
                 {folders.map((folder) => {
                   const folderProperties = savedProperties.filter(
                     (prop) => prop.folder === folder,
@@ -372,70 +378,70 @@ export default function AddPropertyDropdown({
                     <div
                       key={folder}
                       className="p-4 border border-slate-200 rounded-lg hover:bg-slate-50 hover:border-slate-300 transition-colors"
-                      data-oid="0ymgcex"
+                      data-oid="bndmh6f"
                     >
                       <div
                         className="flex items-center gap-3"
-                        data-oid="igq2wxx"
+                        data-oid=".wtg3ck"
                       >
                         <div
                           className="flex-1 cursor-pointer"
                           onClick={() => handleFolderClick(folder)}
-                          data-oid="w2a9vk1"
+                          data-oid="sqf19-y"
                         >
                           <div
                             className="flex items-center gap-3"
-                            data-oid=":wh63of"
+                            data-oid="h3t.l50"
                           >
                             <Folder
                               className="h-5 w-5 text-slate-500"
-                              data-oid="lc2rep4"
+                              data-oid="n54b-wi"
                             />
 
-                            <div className="flex-1" data-oid="09d4ux4">
+                            <div className="flex-1" data-oid="q6c8k7u">
                               <div
                                 className="text-sm font-medium text-slate-900"
-                                data-oid="emtdehw"
+                                data-oid="7g_:c83"
                               >
                                 {folder}
                               </div>
                               <div
                                 className="text-xs text-slate-500"
-                                data-oid="4fu5aj-"
+                                data-oid="v54aueu"
                               >
                                 {folderProperties.length} properties
                               </div>
                             </div>
                             <ChevronRight
                               className="h-4 w-4 text-slate-400"
-                              data-oid="i6fpk3c"
+                              data-oid="9a_aamh"
                             />
                           </div>
                         </div>
-                        <DropdownMenu data-oid="trkshbu">
-                          <DropdownMenuTrigger asChild data-oid="lyijege">
+                        <DropdownMenu data-oid="a1c-20k">
+                          <DropdownMenuTrigger asChild data-oid="hb8_-c_">
                             <Button
                               variant="ghost"
                               size="sm"
                               className="h-8 w-8 p-0"
-                              data-oid="s7m1zs6"
+                              data-oid="bkcyhas"
                             >
                               <MoreHorizontal
                                 className="h-4 w-4"
-                                data-oid="ofl93l7"
+                                data-oid="kvq_g_v"
                               />
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" data-oid="y6-kyh5">
+                          <DropdownMenuContent align="end" data-oid="2vfqtzf">
                             <DropdownMenuItem
                               onClick={() =>
                                 handleRename("folder", folder, folder)
                               }
-                              data-oid="06eo7_r"
+                              data-oid="33t3m1b"
                             >
                               <Edit
                                 className="mr-2 h-4 w-4"
-                                data-oid="h853ra4"
+                                data-oid="frpllsq"
                               />
                               Rename
                             </DropdownMenuItem>
@@ -444,11 +450,11 @@ export default function AddPropertyDropdown({
                                 handleDelete("folder", folder, folder)
                               }
                               className="text-red-600"
-                              data-oid="mw2t_qj"
+                              data-oid="p4vlni6"
                             >
                               <Trash2
                                 className="mr-2 h-4 w-4"
-                                data-oid="7tlzhmh"
+                                data-oid="1el08co"
                               />
                               Delete
                             </DropdownMenuItem>
@@ -461,16 +467,16 @@ export default function AddPropertyDropdown({
                 <div
                   onClick={() => setIsCreateFolderDialogOpen(true)}
                   className="p-4 border border-dashed border-slate-300 rounded-lg cursor-pointer hover:bg-slate-50 hover:border-slate-400 transition-colors text-center"
-                  data-oid="pn:hwp3"
+                  data-oid="kt3y:u7"
                 >
                   <Plus
                     className="h-5 w-5 text-emerald-600 mx-auto mb-2"
-                    data-oid="z6po-jm"
+                    data-oid="pdval29"
                   />
 
                   <span
                     className="text-sm text-emerald-600 font-medium"
-                    data-oid="5:_gnxv"
+                    data-oid=".pu:o.7"
                   >
                     Create New Folder
                   </span>
@@ -481,18 +487,18 @@ export default function AddPropertyDropdown({
               <>
                 <div
                   className="flex items-center gap-2 mb-4"
-                  data-oid="hef3ql5"
+                  data-oid="_dh6ezc"
                 >
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={handleBackToFolders}
                     className="text-slate-600 hover:text-slate-900"
-                    data-oid="j31b63d"
+                    data-oid="_tdtxkv"
                   >
                     <ChevronRight
                       className="h-4 w-4 rotate-180 mr-1"
-                      data-oid="1s2q0.y"
+                      data-oid="svjn6tu"
                     />
                     Back to Folders
                   </Button>
@@ -502,61 +508,61 @@ export default function AddPropertyDropdown({
                   value={activeTab}
                   onValueChange={setActiveTab}
                   className="w-full"
-                  data-oid="1ml5mdm"
+                  data-oid="qhupafq"
                 >
                   <TabsList
                     className="grid w-full grid-cols-3"
-                    data-oid="mug3ifh"
+                    data-oid="jwgm1.c"
                   >
-                    <TabsTrigger value="all" data-oid="frq4exf">
+                    <TabsTrigger value="all" data-oid="allt-m.">
                       All
                     </TabsTrigger>
-                    <TabsTrigger value="BUC" data-oid="6u.c971">
+                    <TabsTrigger value="BUC" data-oid="6prys7x">
                       BUC
                     </TabsTrigger>
-                    <TabsTrigger value="Resale" data-oid="6ps3zrf">
+                    <TabsTrigger value="Resale" data-oid="i0f9114">
                       Resale
                     </TabsTrigger>
                   </TabsList>
 
-                  <TabsContent value="all" className="mt-4" data-oid="dr11mld">
+                  <TabsContent value="all" className="mt-4" data-oid="ggayc1z">
                     <div
                       className="space-y-2 max-h-96 overflow-y-auto"
-                      data-oid="v37x-r1"
+                      data-oid="n54655z"
                     >
                       {getFilteredProperties("all").map((property) => (
                         <div
                           key={property.id}
                           className="p-3 border border-slate-200 rounded-lg hover:bg-slate-50 hover:border-slate-300 transition-colors"
-                          data-oid="6kd0-.3"
+                          data-oid="jj3del6"
                         >
                           <div
                             className="flex items-center gap-3"
-                            data-oid="xkkb5.."
+                            data-oid="jenxy8f"
                           >
                             <div
                               className="flex-1 cursor-pointer"
                               onClick={() => handleFromSavedFolder(property)}
-                              data-oid="948l_7x"
+                              data-oid="4ck5nvv"
                             >
                               <div
                                 className="flex items-center gap-3"
-                                data-oid="f97-_me"
+                                data-oid="r6mhuuc"
                               >
                                 {getPropertyIcon(property.type)}
                                 <div
                                   className="flex-1 min-w-0"
-                                  data-oid="d.o907a"
+                                  data-oid="i-gp:dd"
                                 >
                                   <div
                                     className="text-sm font-medium text-slate-900"
-                                    data-oid="ns2:rmd"
+                                    data-oid="he0id-k"
                                   >
                                     {property.name}
                                   </div>
                                   <div
                                     className="text-xs text-slate-500"
-                                    data-oid="awx0:87"
+                                    data-oid="..u7djw"
                                   >
                                     {property.type} -{" "}
                                     {formatPrice(property.price)}
@@ -564,23 +570,23 @@ export default function AddPropertyDropdown({
                                 </div>
                               </div>
                             </div>
-                            <DropdownMenu data-oid="lctt24f">
-                              <DropdownMenuTrigger asChild data-oid="8u56tmr">
+                            <DropdownMenu data-oid="i2vxr2u">
+                              <DropdownMenuTrigger asChild data-oid="1lt16ad">
                                 <Button
                                   variant="ghost"
                                   size="sm"
                                   className="h-8 w-8 p-0"
-                                  data-oid="tg9zs0:"
+                                  data-oid="47w2_qq"
                                 >
                                   <MoreHorizontal
                                     className="h-4 w-4"
-                                    data-oid="4ojxd6p"
+                                    data-oid="5v8ba1-"
                                   />
                                 </Button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent
                                 align="end"
-                                data-oid="kxjjtc2"
+                                data-oid="sb::g4f"
                               >
                                 <DropdownMenuItem
                                   onClick={() =>
@@ -590,11 +596,11 @@ export default function AddPropertyDropdown({
                                       property.name,
                                     )
                                   }
-                                  data-oid="809a_ih"
+                                  data-oid="26iq5-i"
                                 >
                                   <Edit
                                     className="mr-2 h-4 w-4"
-                                    data-oid="07jl5ud"
+                                    data-oid="hn6ujk1"
                                   />
                                   Rename
                                 </DropdownMenuItem>
@@ -607,11 +613,11 @@ export default function AddPropertyDropdown({
                                     )
                                   }
                                   className="text-red-600"
-                                  data-oid="31sgm35"
+                                  data-oid="_10m27k"
                                 >
                                   <Trash2
                                     className="mr-2 h-4 w-4"
-                                    data-oid="r5zqzfh"
+                                    data-oid="fzhfqdt"
                                   />
                                   Delete
                                 </DropdownMenuItem>
@@ -623,44 +629,44 @@ export default function AddPropertyDropdown({
                     </div>
                   </TabsContent>
 
-                  <TabsContent value="BUC" className="mt-4" data-oid="cwh631j">
+                  <TabsContent value="BUC" className="mt-4" data-oid="yiz3.-y">
                     <div
                       className="space-y-2 max-h-96 overflow-y-auto"
-                      data-oid="jlag412"
+                      data-oid="c6nfs01"
                     >
                       {getFilteredProperties("BUC").map((property) => (
                         <div
                           key={property.id}
                           className="p-3 border border-slate-200 rounded-lg hover:bg-slate-50 hover:border-slate-300 transition-colors"
-                          data-oid="n7kg3:c"
+                          data-oid="o-ejwjr"
                         >
                           <div
                             className="flex items-center gap-3"
-                            data-oid="qye8803"
+                            data-oid="e.7lcdr"
                           >
                             <div
                               className="flex-1 cursor-pointer"
                               onClick={() => handleFromSavedFolder(property)}
-                              data-oid="x5m7kuc"
+                              data-oid="3pfkp:j"
                             >
                               <div
                                 className="flex items-center gap-3"
-                                data-oid="8_-5tgw"
+                                data-oid="-583euf"
                               >
                                 {getPropertyIcon(property.type)}
                                 <div
                                   className="flex-1 min-w-0"
-                                  data-oid="_c4dmkg"
+                                  data-oid="9flmg9w"
                                 >
                                   <div
                                     className="text-sm font-medium text-slate-900"
-                                    data-oid="z3gu-89"
+                                    data-oid="_3j91hd"
                                   >
                                     {property.name}
                                   </div>
                                   <div
                                     className="text-xs text-slate-500"
-                                    data-oid="5ynrvs3"
+                                    data-oid="qvcgpiv"
                                   >
                                     {property.type} -{" "}
                                     {formatPrice(property.price)}
@@ -668,23 +674,23 @@ export default function AddPropertyDropdown({
                                 </div>
                               </div>
                             </div>
-                            <DropdownMenu data-oid="vksgpc-">
-                              <DropdownMenuTrigger asChild data-oid="v6z40md">
+                            <DropdownMenu data-oid="5xtfoy3">
+                              <DropdownMenuTrigger asChild data-oid="yo7urkb">
                                 <Button
                                   variant="ghost"
                                   size="sm"
                                   className="h-8 w-8 p-0"
-                                  data-oid="blmqbx3"
+                                  data-oid="6esb7zt"
                                 >
                                   <MoreHorizontal
                                     className="h-4 w-4"
-                                    data-oid="j7c8w6j"
+                                    data-oid="2qst5mt"
                                   />
                                 </Button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent
                                 align="end"
-                                data-oid="r32wp0k"
+                                data-oid="73sjds_"
                               >
                                 <DropdownMenuItem
                                   onClick={() =>
@@ -694,11 +700,11 @@ export default function AddPropertyDropdown({
                                       property.name,
                                     )
                                   }
-                                  data-oid="ctq6z4j"
+                                  data-oid="y6o1d6u"
                                 >
                                   <Edit
                                     className="mr-2 h-4 w-4"
-                                    data-oid="3s_jdy0"
+                                    data-oid="fgt3nof"
                                   />
                                   Rename
                                 </DropdownMenuItem>
@@ -711,11 +717,11 @@ export default function AddPropertyDropdown({
                                     )
                                   }
                                   className="text-red-600"
-                                  data-oid="8y-_85q"
+                                  data-oid="-nneea_"
                                 >
                                   <Trash2
                                     className="mr-2 h-4 w-4"
-                                    data-oid="gd2wvpw"
+                                    data-oid="t_rjcfm"
                                   />
                                   Delete
                                 </DropdownMenuItem>
@@ -730,45 +736,45 @@ export default function AddPropertyDropdown({
                   <TabsContent
                     value="Resale"
                     className="mt-4"
-                    data-oid="v7nj.wc"
+                    data-oid="j408cbj"
                   >
                     <div
                       className="space-y-2 max-h-96 overflow-y-auto"
-                      data-oid="5ys.4qx"
+                      data-oid="ht5:220"
                     >
                       {getFilteredProperties("Resale").map((property) => (
                         <div
                           key={property.id}
                           className="p-3 border border-slate-200 rounded-lg hover:bg-slate-50 hover:border-slate-300 transition-colors"
-                          data-oid="ytj6yrf"
+                          data-oid="0ur_3e8"
                         >
                           <div
                             className="flex items-center gap-3"
-                            data-oid="sowa-w2"
+                            data-oid="jhrl0b7"
                           >
                             <div
                               className="flex-1 cursor-pointer"
                               onClick={() => handleFromSavedFolder(property)}
-                              data-oid="4t1ig1c"
+                              data-oid="73aud59"
                             >
                               <div
                                 className="flex items-center gap-3"
-                                data-oid="rl51io3"
+                                data-oid="e7pgbn1"
                               >
                                 {getPropertyIcon(property.type)}
                                 <div
                                   className="flex-1 min-w-0"
-                                  data-oid="572ysps"
+                                  data-oid="ia:nc-k"
                                 >
                                   <div
                                     className="text-sm font-medium text-slate-900"
-                                    data-oid="nk0u5.n"
+                                    data-oid="83m5pmx"
                                   >
                                     {property.name}
                                   </div>
                                   <div
                                     className="text-xs text-slate-500"
-                                    data-oid="anp.97t"
+                                    data-oid="2j7jgwn"
                                   >
                                     {property.type} -{" "}
                                     {formatPrice(property.price)}
@@ -776,23 +782,23 @@ export default function AddPropertyDropdown({
                                 </div>
                               </div>
                             </div>
-                            <DropdownMenu data-oid="d79zmt0">
-                              <DropdownMenuTrigger asChild data-oid="iol-gfa">
+                            <DropdownMenu data-oid="b7.putr">
+                              <DropdownMenuTrigger asChild data-oid="760dh_k">
                                 <Button
                                   variant="ghost"
                                   size="sm"
                                   className="h-8 w-8 p-0"
-                                  data-oid="gt5m_6_"
+                                  data-oid="lcp:wxi"
                                 >
                                   <MoreHorizontal
                                     className="h-4 w-4"
-                                    data-oid="730.ncu"
+                                    data-oid="vwm7wpk"
                                   />
                                 </Button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent
                                 align="end"
-                                data-oid="evldydl"
+                                data-oid="2z0w7w0"
                               >
                                 <DropdownMenuItem
                                   onClick={() =>
@@ -802,11 +808,11 @@ export default function AddPropertyDropdown({
                                       property.name,
                                     )
                                   }
-                                  data-oid="3z1zvzr"
+                                  data-oid="forzqq5"
                                 >
                                   <Edit
                                     className="mr-2 h-4 w-4"
-                                    data-oid="da-8vrf"
+                                    data-oid="17igoec"
                                   />
                                   Rename
                                 </DropdownMenuItem>
@@ -819,11 +825,11 @@ export default function AddPropertyDropdown({
                                     )
                                   }
                                   className="text-red-600"
-                                  data-oid="d:2:5.c"
+                                  data-oid="y.g6nnp"
                                 >
                                   <Trash2
                                     className="mr-2 h-4 w-4"
-                                    data-oid="w9t80l0"
+                                    data-oid="0vygayc"
                                   />
                                   Delete
                                 </DropdownMenuItem>
@@ -845,17 +851,17 @@ export default function AddPropertyDropdown({
       <Dialog
         open={isRenameDialogOpen}
         onOpenChange={setIsRenameDialogOpen}
-        data-oid="zrs-fxg"
+        data-oid="3l-.zp1"
       >
-        <DialogContent className="sm:max-w-md" data-oid="gm81qsk">
-          <DialogHeader data-oid="5e5czrm">
-            <DialogTitle data-oid="fsoubde">
+        <DialogContent className="sm:max-w-md" data-oid="2wkxrf8">
+          <DialogHeader data-oid="dzmkcyq">
+            <DialogTitle data-oid="hk0imfd">
               Rename {itemToRename?.type === "folder" ? "Folder" : "Property"}
             </DialogTitle>
           </DialogHeader>
-          <div className="space-y-4" data-oid=":quico8">
-            <div data-oid=":f9zrpe">
-              <Label htmlFor="newName" data-oid="2z9nifo">
+          <div className="space-y-4" data-oid="1mzijub">
+            <div data-oid="r6we:sq">
+              <Label htmlFor="newName" data-oid="6r2j5bg">
                 New Name
               </Label>
               <Input
@@ -864,21 +870,21 @@ export default function AddPropertyDropdown({
                 onChange={(e) => setNewName(e.target.value)}
                 placeholder={`Enter new ${itemToRename?.type} name`}
                 className="mt-2"
-                data-oid=".0hc_3r"
+                data-oid="__xcdz:"
               />
             </div>
-            <div className="flex justify-end space-x-2" data-oid="z_zimbs">
+            <div className="flex justify-end space-x-2" data-oid="yyazi.4">
               <Button
                 variant="outline"
                 onClick={() => setIsRenameDialogOpen(false)}
-                data-oid="7e5nlm0"
+                data-oid="1s3.hf7"
               >
                 Cancel
               </Button>
               <Button
                 onClick={confirmRename}
                 disabled={!newName.trim()}
-                data-oid="19jf6gg"
+                data-oid="aegk_ii"
               >
                 Rename
               </Button>
@@ -891,31 +897,31 @@ export default function AddPropertyDropdown({
       <Dialog
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
-        data-oid="0j_b4zm"
+        data-oid="gyjs1zs"
       >
-        <DialogContent className="sm:max-w-md" data-oid="npxwono">
-          <DialogHeader data-oid="_gz-5v1">
-            <DialogTitle data-oid="dsaw.5u">
+        <DialogContent className="sm:max-w-md" data-oid="xuhold2">
+          <DialogHeader data-oid="n_bguvs">
+            <DialogTitle data-oid="owg08o8">
               Delete {itemToDelete?.type === "folder" ? "Folder" : "Property"}
             </DialogTitle>
           </DialogHeader>
-          <div className="space-y-4" data-oid="z51aqbe">
-            <p className="text-slate-600" data-oid="hjfldt8">
+          <div className="space-y-4" data-oid="gekmo84">
+            <p className="text-slate-600" data-oid="_n5cxil">
               Are you sure you want to delete "{itemToDelete?.name}"? This
               action cannot be undone.
             </p>
-            <div className="flex justify-end space-x-2" data-oid="worib8u">
+            <div className="flex justify-end space-x-2" data-oid="hji:v7k">
               <Button
                 variant="outline"
                 onClick={() => setIsDeleteDialogOpen(false)}
-                data-oid="a:-tk8w"
+                data-oid="aeul.w9"
               >
                 Cancel
               </Button>
               <Button
                 variant="destructive"
                 onClick={confirmDelete}
-                data-oid="wgix7x2"
+                data-oid="xreozs8"
               >
                 Delete
               </Button>
@@ -928,15 +934,15 @@ export default function AddPropertyDropdown({
       <Dialog
         open={isCreateFolderDialogOpen}
         onOpenChange={setIsCreateFolderDialogOpen}
-        data-oid="lf9kble"
+        data-oid="kxrllm3"
       >
-        <DialogContent className="sm:max-w-md" data-oid="bz6iy0k">
-          <DialogHeader data-oid="0cb343f">
-            <DialogTitle data-oid="9r7:c2n">Create New Folder</DialogTitle>
+        <DialogContent className="sm:max-w-md" data-oid="6qe8s0h">
+          <DialogHeader data-oid="7xjq345">
+            <DialogTitle data-oid="fskj9nl">Create New Folder</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4" data-oid="0q6ao91">
-            <div data-oid="vvn-0..">
-              <Label htmlFor="newFolderName" data-oid=":s-dqbj">
+          <div className="space-y-4" data-oid="pzoc38v">
+            <div data-oid="0zafyd9">
+              <Label htmlFor="newFolderName" data-oid="kf37mp2">
                 Folder Name
               </Label>
               <Input
@@ -945,25 +951,25 @@ export default function AddPropertyDropdown({
                 onChange={(e) => setNewFolderName(e.target.value)}
                 placeholder="Enter folder name"
                 className="mt-2"
-                data-oid="vuj8kl_"
+                data-oid=".n6eu_r"
               />
 
               {newFolderName.trim() &&
                 folders.includes(newFolderName.trim()) && (
                   <div
                     className="text-xs text-red-600 italic mt-1"
-                    data-oid="vvl:xli"
+                    data-oid="e3jgxhr"
                   >
                     A folder with this name already exists. Please choose a
                     different name.
                   </div>
                 )}
             </div>
-            <div className="flex justify-end space-x-2" data-oid="u82o00_">
+            <div className="flex justify-end space-x-2" data-oid="1wqj1e9">
               <Button
                 variant="outline"
                 onClick={() => setIsCreateFolderDialogOpen(false)}
-                data-oid="hn_3lye"
+                data-oid="_xq7fkx"
               >
                 Cancel
               </Button>
@@ -979,7 +985,7 @@ export default function AddPropertyDropdown({
                   !newFolderName.trim() ||
                   folders.includes(newFolderName.trim())
                 }
-                data-oid="qc3_wi5"
+                data-oid="m0-:ptl"
               >
                 Create Folder
               </Button>

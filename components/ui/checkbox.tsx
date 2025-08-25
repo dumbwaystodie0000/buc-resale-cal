@@ -18,14 +18,14 @@ function Checkbox({
         className,
       )}
       {...props}
-      data-oid="x8r6azs"
+      data-oid="9n1it.q"
     >
       <CheckboxPrimitive.Indicator
         data-slot="checkbox-indicator"
         className="flex items-center justify-center text-current transition-none"
-        data-oid="jg1dtag"
+        data-oid="a7c7tao"
       >
-        <CheckIcon className="size-3.5" data-oid="e53pgl3" />
+        <CheckIcon className="size-3.5" data-oid="a1dn-_6" />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );

@@ -66,9 +66,11 @@ export default function SelectPropertyButton({
 
   const getPropertyIcon = (type: PropertyType) => {
     return (
-      <div
-        className={`w-3 h-3 rounded-full ${type === "BUC" ? "bg-orange-500" : "bg-green-500"}`}
-        data-oid="i4f.bdp"
+      <img
+        src={type === "BUC" ? "/buc.png" : "/resale.png"}
+        alt={type}
+        className="w-6 h-6"
+        data-oid="property-type-icon"
       />
     );
   };
@@ -88,13 +90,13 @@ export default function SelectPropertyButton({
         open={isOpen}
         onOpenChange={setIsOpen}
         modal={false}
-        data-oid="xpkru.c"
+        data-oid="q37wi5t"
       >
-        <DropdownMenuTrigger asChild data-oid="gmvm1s9">
+        <DropdownMenuTrigger asChild data-oid="2u4j96m">
           <Button
             variant="outline"
             className="w-full h-8 text-xs font-semibold text-slate-700 bg-transparent"
-            data-oid="84:5g0x"
+            data-oid="_nw8i5e"
           >
             Select / Create New {propertyType} Entry
           </Button>
@@ -115,7 +117,7 @@ export default function SelectPropertyButton({
               }
             }, 100);
           }}
-          data-oid="ficeiyk"
+          data-oid="ykuvgxf"
         >
           {/* From Saved Folder */}
           <DropdownMenuItem
@@ -128,21 +130,21 @@ export default function SelectPropertyButton({
               setIsHoveringSub(false);
               setOpenSubmenu(null);
             }}
-            data-oid="anb.xo-"
+            data-oid="fgg48-3"
           >
-            <Folder className="mr-2 h-4 w-4" data-oid="bxroyx5" />
-            <span data-oid="4pg6xgd">From Saved Folder</span>
-            <ChevronRight className="ml-auto h-4 w-4" data-oid="heoib2c" />
+            <Folder className="mr-2 h-4 w-4" data-oid="ewwtamh" />
+            <span data-oid="bkx45in">From Saved Folder</span>
+            <ChevronRight className="ml-auto h-4 w-4" data-oid="ht6_a:b" />
           </DropdownMenuItem>
 
           {/* Create New Entry */}
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() => handleCreateNew(propertyType)}
-            data-oid="3i01hg0"
+            data-oid="--v6:he"
           >
-            <Building2 className="mr-2 h-4 w-4" data-oid="vadpekr" />
-            <span data-oid="_ag5ujc">Create New {propertyType} Entry</span>
+            <Building2 className="mr-2 h-4 w-4" data-oid="avlr5.h" />
+            <span data-oid="cf7f-90">Create New {propertyType} Entry</span>
           </DropdownMenuItem>
 
           {/* From Saved Folder Submenu */}
@@ -158,22 +160,22 @@ export default function SelectPropertyButton({
                 setIsHoveringSub(false);
                 setOpenSubmenu(null);
               }}
-              data-oid="o3e4sy5"
+              data-oid="mobmxq0"
             >
               {mockFolders.map((folder) => {
                 const folderProperties = getFolderProperties(folder);
                 return (
-                  <div key={folder} data-oid="h.8gr69">
+                  <div key={folder} data-oid="ke2376m">
                     <div
                       className="px-3 py-2 text-sm font-medium text-slate-700 bg-slate-50 border-b border-slate-100"
-                      data-oid="deh2m4r"
+                      data-oid="28q:wvg"
                     >
                       <Folder
                         className="mr-2 h-4 w-4 inline"
-                        data-oid="-g7ku8w"
+                        data-oid="oq_.u-h"
                       />
 
-                      <span data-oid="jpmifv3">
+                      <span data-oid="uquqqxm">
                         {folder} ({folderProperties.length})
                       </span>
                     </div>
@@ -186,19 +188,19 @@ export default function SelectPropertyButton({
                           setIsHoveringSub(true);
                           setOpenSubmenu("saved-folder");
                         }}
-                        data-oid="zey4tm6"
+                        data-oid=":o25hks"
                       >
                         {getPropertyIcon(property.type)}
-                        <div className="flex-1 min-w-0" data-oid="3_sg3e2">
+                        <div className="flex-1 min-w-0" data-oid="e8z.pnz">
                           <div
                             className="text-sm text-slate-900"
-                            data-oid="3q.1v:v"
+                            data-oid="1moa5z_"
                           >
                             {property.name}
                           </div>
                           <div
                             className="text-xs text-slate-500"
-                            data-oid="njw22i1"
+                            data-oid="fwwgg6i"
                           >
                             {property.type} -{" "}
                             {formatPrice(property.purchasePrice)}
@@ -209,7 +211,7 @@ export default function SelectPropertyButton({
                     {folderProperties.length === 0 && (
                       <div
                         className="px-3 py-2 text-slate-500 pl-8 text-sm"
-                        data-oid="57xqv2u"
+                        data-oid=":8bvzk8"
                       >
                         No properties in this folder
                       </div>
@@ -224,14 +226,14 @@ export default function SelectPropertyButton({
                   setIsHoveringSub(true);
                   setOpenSubmenu("saved-folder");
                 }}
-                data-oid="j22_k:g"
+                data-oid="a0vxros"
               >
                 <Plus
                   className="mr-2 h-4 w-4 flex-shrink-0"
-                  data-oid="q72_6.m"
+                  data-oid="ixnk:v4"
                 />
 
-                <span className="whitespace-nowrap" data-oid="-5af7t2">
+                <span className="whitespace-nowrap" data-oid="wbia-d_">
                   Create New Folder
                 </span>
               </div>
@@ -247,7 +249,7 @@ export default function SelectPropertyButton({
         propertyType={propertyType}
         folders={mockFolders}
         onCreateFolder={onCreateFolder}
-        data-oid="z7sfw-m"
+        data-oid="whuea-4"
       />
     </>
   );
