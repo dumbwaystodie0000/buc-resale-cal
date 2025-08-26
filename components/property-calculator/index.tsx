@@ -144,7 +144,7 @@ export default function PropertyCalculator() {
                 field === "commissionRate" ? value : p.commissionRate,
               );
               const monthlyRent =
-                field === "monthlyRental" ? value : p.monthlyRental;
+                field === "monthlyRental" ? value : monthlyRental;
 
               const propertyType = field === "type" ? value : p.type;
 

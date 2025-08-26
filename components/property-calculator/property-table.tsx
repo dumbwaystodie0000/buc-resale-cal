@@ -828,7 +828,12 @@ export default function PropertyTable({
             fieldKey="bankLoan" // Assuming bank loan is always applicable, but including for structure
             mode={mode}
             renderInput={(p) => {
-              const d = calculateValues(p, { mode, taxBracket, vacancyMonth });
+              const d = calculateValues(p, {
+                mode,
+                taxBracket,
+                vacancyMonth,
+                monthlyRental,
+              });
               return (
                 <div className="space-y-1" data-oid="-7d-b-g">
                   <div className="font-medium" data-oid="c7wxgk-">
@@ -855,7 +860,12 @@ export default function PropertyTable({
             mode={mode}
             balanceMonthsMap={balanceMonthsMap}
             renderInput={(p) => {
-              const d = calculateValues(p, { mode, taxBracket, vacancyMonth });
+              const d = calculateValues(p, {
+                mode,
+                taxBracket,
+                vacancyMonth,
+                monthlyRental,
+              });
               return (
                 <DualCell
                   left={
@@ -891,6 +901,7 @@ export default function PropertyTable({
                   mode,
                   taxBracket,
                   vacancyMonth,
+                  monthlyRental,
                 });
 
                 // The holding period represents minimum time held, selling happens in the next year
@@ -1022,8 +1033,12 @@ export default function PropertyTable({
               render={(p) => (
                 <div data-oid=":-hi83f">
                   {fmtCurrency(
-                    calculateValues(p, { mode, taxBracket, vacancyMonth })
-                      .taxOnRental,
+                    calculateValues(p, {
+                      mode,
+                      taxBracket,
+                      vacancyMonth,
+                      monthlyRental,
+                    }).taxOnRental,
                   )}
                 </div>
               )}
@@ -1079,6 +1094,7 @@ export default function PropertyTable({
                 if (rate === "other") {
                   updateProperty(propertyId, "agentCommission", 0);
                 }
+                // For predefined rates, let the updateProperty function handle the automatic calculation
               }}
               onAgentCommissionChange={(propertyId, value) =>
                 updateProperty(propertyId, "agentCommission", value)
@@ -1105,7 +1121,7 @@ export default function PropertyTable({
               className="sticky left-0 z-10 px-4 py-3 border-b border-r border-slate-200 text-slate-900 font-medium align-middle"
               data-oid="7n2wnkr"
             >
-              Total Other Expenses
+              Total Expenses
             </td>
             {displayProperties.map((p, i) => (
               <td
@@ -1118,8 +1134,12 @@ export default function PropertyTable({
                   data-oid="48yoklx"
                 >
                   {fmtCurrency(
-                    calculateValues(p, { mode, taxBracket, vacancyMonth })
-                      .totalOtherExpenses,
+                    calculateValues(p, {
+                      mode,
+                      taxBracket,
+                      vacancyMonth,
+                      monthlyRental,
+                    }).totalOtherExpenses,
                   )}
                 </ValueText>
               </td>
