@@ -1,8 +1,6 @@
 "use client";
 
-import type React from "react";
-
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { X, Calendar } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -18,106 +16,119 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { PropertyType } from "./types";
+import type { PropertyType, CommissionRate } from "./types";
 import { fmtCurrency } from "./utils";
 
-export function ClearableNumberInput({
-  value,
-  onChange,
-  step = 1000,
-  placeholder,
-  className = "",
-  showCurrency = false,
-}: {
-  value: number;
-  onChange: (v: number) => void;
-  step?: number;
-  placeholder?: string;
-  className?: string;
-  showCurrency?: boolean;
-}) {
-  const ref = useRef<HTMLInputElement>(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [inputValue, setInputValue] = useState("");
+export const ClearableNumberInput = React.forwardRef<
+  HTMLInputElement,
+  {
+    value: number;
+    onChange: (v: number) => void;
+    step?: number;
+    placeholder?: string;
+    className?: string;
+    showCurrency?: boolean;
+    disabled?: boolean;
+  }
+>(
+  (
+    {
+      value,
+      onChange,
+      step = 1000,
+      placeholder,
+      className = "",
+      showCurrency = false,
+      disabled = false,
+    },
+    ref,
+  ) => {
+    const internalRef = useRef<HTMLInputElement>(null);
+    const inputRef = (ref as React.RefObject<HTMLInputElement>) || internalRef;
+    const [isEditing, setIsEditing] = useState(false);
+    const [inputValue, setInputValue] = useState("");
 
-  // Update input value when value prop changes and not editing
-  useEffect(() => {
-    if (!isEditing) {
-      setInputValue(Number.isFinite(value) ? value.toString() : "0");
-    }
-  }, [value, isEditing]);
+    // Update input value when value prop changes and not editing
+    useEffect(() => {
+      if (!isEditing) {
+        setInputValue(Number.isFinite(value) ? value.toString() : "0");
+      }
+    }, [value, isEditing]);
 
-  const handleFocus = () => {
-    setIsEditing(true);
-    // If value is 0, start with empty string instead of "0"
-    setInputValue(
-      Number.isFinite(value) && value !== 0 ? value.toString() : "",
+    const handleFocus = () => {
+      setIsEditing(true);
+      // If value is 0, start with empty string instead of "0"
+      setInputValue(
+        Number.isFinite(value) && value !== 0 ? value.toString() : "",
+      );
+    };
+
+    const handleBlur = () => {
+      setIsEditing(false);
+      const numValue = Number.parseFloat(inputValue || "0");
+      onChange(numValue);
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setInputValue(e.target.value);
+    };
+
+    const handleWheel = (e: React.WheelEvent<HTMLInputElement>) => {
+      // Prevent mouse wheel from changing the input value
+      e.currentTarget.blur();
+    };
+
+    const displayValue = isEditing
+      ? inputValue
+      : showCurrency && Number.isFinite(value) && value > 0
+        ? fmtCurrency(value).replace("S$", "") // Remove currency symbol to avoid clutter
+        : Number.isFinite(value) && value !== 0
+          ? value.toString()
+          : "";
+
+    return (
+      <div className={`relative ${className}`} data-oid="n3wubq8">
+        <Input
+          ref={ref}
+          type={isEditing ? "number" : "text"}
+          inputMode="decimal"
+          step={step}
+          value={displayValue}
+          placeholder={placeholder || (value === 0 ? "0" : undefined)}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onChange={handleChange}
+          onWheel={handleWheel}
+          disabled={disabled}
+          className="h-9 text-left pr-8 px-2 py-1 text-sm border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          data-oid="4udbg:w"
+        />
+
+        <button
+          type="button"
+          aria-label="Clear input"
+          title="Clear"
+          onClick={() => {
+            onChange(0);
+            setInputValue("0");
+            setIsEditing(true); // Keep in editing mode to show the cleared "0"
+            setTimeout(() => {
+              if (inputRef.current) {
+                inputRef.current.focus();
+                inputRef.current.select();
+              }
+            }, 0);
+          }}
+          disabled={disabled}
+          className="absolute right-2 top-1.5 rounded p-0.5 text-slate-400 hover:text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          data-oid="u1-sry3"
+        >
+          <X className="h-3.5 w-3.5" data-oid="t0erz_a" />
+        </button>
+      </div>
     );
-  };
-
-  const handleBlur = () => {
-    setIsEditing(false);
-    const numValue = Number.parseFloat(inputValue || "0");
-    onChange(numValue);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleWheel = (e: React.WheelEvent<HTMLInputElement>) => {
-    // Prevent mouse wheel from changing the input value
-    e.currentTarget.blur();
-  };
-
-  const displayValue = isEditing
-    ? inputValue
-    : showCurrency && Number.isFinite(value) && value > 0
-      ? fmtCurrency(value).replace("S$", "") // Remove currency symbol to avoid clutter
-      : Number.isFinite(value) && value !== 0
-        ? value.toString()
-        : "";
-
-  return (
-    <div className={`relative ${className}`} data-oid="n3wubq8">
-      <Input
-        ref={ref}
-        type={isEditing ? "number" : "text"}
-        inputMode="decimal"
-        step={step}
-        value={displayValue}
-        placeholder={placeholder || (value === 0 ? "0" : undefined)}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        onChange={handleChange}
-        onWheel={handleWheel}
-        className="h-9 text-left pr-8 px-2 py-1 text-sm border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-        data-oid="4udbg:w"
-      />
-
-      <button
-        type="button"
-        aria-label="Clear input"
-        title="Clear"
-        onClick={() => {
-          onChange(0);
-          setInputValue("0");
-          setIsEditing(true); // Keep in editing mode to show the cleared "0"
-          setTimeout(() => {
-            if (ref.current) {
-              ref.current.focus();
-              ref.current.select();
-            }
-          }, 0);
-        }}
-        className="absolute right-2 top-1.5 rounded p-0.5 text-slate-400 hover:text-slate-600"
-        data-oid="u1-sry3"
-      >
-        <X className="h-3.5 w-3.5" data-oid="t0erz_a" />
-      </button>
-    </div>
-  );
-}
+  },
+);
 
 export function PropertyTypeBadge({ type }: { type: PropertyType }) {
   return (
@@ -192,25 +203,27 @@ export function PropertyCell({
   return <>{children}</>;
 }
 
-export function CurrencyInput({
-  value,
-  onChange,
-  step = 1000,
-}: {
-  value: number;
-  onChange: (v: number) => void;
-  step?: number;
-}) {
+export const CurrencyInput = React.forwardRef<
+  HTMLInputElement,
+  {
+    value: number;
+    onChange: (v: number) => void;
+    step?: number;
+    disabled?: boolean;
+  }
+>(({ value, onChange, step = 1000, disabled = false }, ref) => {
   return (
     <ClearableNumberInput
       value={value}
       onChange={onChange}
       step={step}
       showCurrency={true}
+      disabled={disabled}
+      ref={ref}
       data-oid="rslxlri"
     />
   );
-}
+});
 
 export function LabeledCurrency({
   label,
@@ -365,7 +378,7 @@ export function MonthYearPicker({
       <PopoverTrigger asChild data-oid="b:qqqdx">
         <Button
           variant="outline"
-          className="h-9 w-28 justify-start text-left font-normal px-2 py-1 text-xs border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="h-9 w-28 justify-start text-left font-normal px-2 py-1 text-xs text-slate-500 border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           data-oid="ka:49am"
         >
           <Calendar className="mr-1 h-2 w-2" data-oid="i8vhk.m" />
@@ -462,6 +475,82 @@ export function MonthYearPicker({
               Apply
             </Button>
           </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+export function CommissionRateSelector({
+  value,
+  onChange,
+  className,
+}: {
+  value: CommissionRate;
+  onChange: (value: CommissionRate) => void;
+  className?: string;
+}) {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const getDisplayText = (rate: CommissionRate) => {
+    switch (rate) {
+      case "0.5":
+        return "0.5 Months Rent";
+      case "1":
+        return "1 Month Rent";
+      case "1.5":
+        return "1.5 Months Rent";
+      case "2":
+        return "2 Months Rent";
+      case "other":
+        return "Other";
+      case "none":
+        return "No Comm Payable";
+      default:
+        return "Select Comm Rate";
+    }
+  };
+
+  // Show placeholder text when no commission rate is selected
+  const getButtonText = (rate: CommissionRate) => {
+    if (!rate || rate === "") {
+      return "Select Comm Rate";
+    }
+    return getDisplayText(rate);
+  };
+
+  const options: CommissionRate[] = ["0.5", "1", "1.5", "2", "other", "none"];
+
+  return (
+    <Popover open={isOpen} onOpenChange={setIsOpen} data-oid="owvwtb9">
+      <PopoverTrigger asChild data-oid="8kk34mo">
+        <Button
+          variant="outline"
+          className={`h-9 w-32 justify-start text-left font-normal px-2 py-1 text-xs text-slate-500 border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${className || ""}`}
+          data-oid="qgxtfuy"
+        >
+          {getButtonText(value)}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-48 p-2 z-[10]" data-oid="2h73z6g">
+        <div className="space-y-1" data-oid="x1:boam">
+          {options.map((option) => (
+            <button
+              key={option}
+              onClick={() => {
+                onChange(option);
+                setIsOpen(false);
+              }}
+              className={`w-full px-3 py-2 rounded-md text-xs transition-colors text-left ${
+                value === option
+                  ? "bg-slate-200 font-semibold text-slate-900"
+                  : "text-slate-600 hover:bg-slate-100"
+              }`}
+              data-oid="ehug2vs"
+            >
+              {getDisplayText(option)}
+            </button>
+          ))}
         </div>
       </PopoverContent>
     </Popover>

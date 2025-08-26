@@ -44,6 +44,7 @@ import {
   DataRow,
   MaybeNADataRow,
   ConditionalBUCDataRow,
+  CommissionRateDataRow,
 } from "./table-components";
 import PropertySummary from "./property-summary";
 import SelectPropertyButton from "./select-property-button";
@@ -53,10 +54,12 @@ interface PropertyTableProps {
   mode: Mode;
   taxBracket: number;
   vacancyMonth: number;
+  monthlyRental: number;
   selectedTaxId: string | undefined;
   setSelectedTaxId: (id: string) => void;
   setTaxBracket: (rate: number) => void;
   setVacancyMonth: (months: number) => void;
+  setMonthlyRental: (value: number) => void;
   removeProperty: (id: string) => void;
   updateProperty: (id: string, field: keyof Property, value: any) => void;
   onSelectSavedProperty: (property: SavedProperty) => void;
@@ -74,10 +77,12 @@ export default function PropertyTable({
   mode,
   taxBracket,
   vacancyMonth,
+  monthlyRental,
   selectedTaxId,
   setSelectedTaxId,
   setTaxBracket,
   setVacancyMonth,
+  setMonthlyRental,
   removeProperty,
   updateProperty,
   onSelectSavedProperty,
@@ -580,7 +585,12 @@ export default function PropertyTable({
             label={`Projected Property Growth`}
             properties={displayProperties}
             render={(p) => {
-              const d = calculateValues(p, { mode, taxBracket, vacancyMonth });
+              const d = calculateValues(p, {
+                mode,
+                taxBracket,
+                vacancyMonth,
+                monthlyRental,
+              });
               return (
                 <DualCell
                   left={
@@ -607,7 +617,22 @@ export default function PropertyTable({
           {mode === "investment" && (
             <>
               <ConditionalBUCDataRow
-                label={`Rental Income`}
+                label={
+                  <div className="flex items-center gap-3" data-oid="0ycg6n6">
+                    <div data-oid="zx6q267">
+                      <div data-oid="-o85emd">Rental Income</div>
+                    </div>
+                    <div className="ml-auto" data-oid="2higym_">
+                      <LabeledCurrency
+                        label="Monthly"
+                        value={monthlyRental}
+                        step={100}
+                        onChange={(v) => setMonthlyRental(v)}
+                        data-oid="47oo:hu"
+                      />
+                    </div>
+                  </div>
+                }
                 properties={displayProperties}
                 fieldKey="monthlyRental"
                 mode={mode}
@@ -617,27 +642,12 @@ export default function PropertyTable({
                     mode,
                     taxBracket,
                     vacancyMonth,
+                    monthlyRental,
                   });
                   return (
-                    <DualCell
-                      left={
-                        <ValueText data-oid="uge03nr">
-                          {fmtCurrency(d.rentalIncome)}
-                        </ValueText>
-                      }
-                      right={
-                        <LabeledCurrency
-                          label="Monthly"
-                          value={p.monthlyRental}
-                          step={100}
-                          onChange={(v) =>
-                            updateProperty(p.id, "monthlyRental", v)
-                          }
-                          data-oid="47oo:hu"
-                        />
-                      }
-                      data-oid="2kcoh_y"
-                    />
+                    <ValueText data-oid="uge03nr">
+                      {fmtCurrency(d.rentalIncome)}
+                    </ValueText>
                   );
                 }}
                 data-oid="ka0-27u"
@@ -645,11 +655,11 @@ export default function PropertyTable({
 
               <DataRow
                 label={
-                  <div className="flex items-center gap-3" data-oid="0ycg6n6">
-                    <div data-oid="zx6q267">
-                      <div data-oid="-o85emd">Vacancy Month</div>
+                  <div className="flex items-center gap-3" data-oid="uc3:1nw">
+                    <div data-oid="frmogb5">
+                      <div data-oid="zsz.avm">Vacancy Month</div>
                     </div>
-                    <div className="ml-auto" data-oid="2higym_">
+                    <div className="ml-auto" data-oid="m:ud7u1">
                       <Select
                         value={String(vacancyMonth)}
                         onValueChange={(v: string) =>
@@ -658,7 +668,7 @@ export default function PropertyTable({
                         data-oid="1hx_z7x"
                       >
                         <SelectTrigger
-                          className="h-8 w-[140px]"
+                          className="h-8 w-[140px] border border-slate-200 rounded"
                           data-oid="7e77le."
                         >
                           <SelectValue data-oid="saplwx1" />
@@ -684,6 +694,7 @@ export default function PropertyTable({
                     mode,
                     taxBracket,
                     vacancyMonth,
+                    monthlyRental,
                   });
 
                   // For BUC properties, check if balance months after TOP > 0
@@ -732,7 +743,12 @@ export default function PropertyTable({
               Est. Gross Profit
             </td>
             {displayProperties.map((p, i) => {
-              const d = calculateValues(p, { mode, taxBracket, vacancyMonth });
+              const d = calculateValues(p, {
+                mode,
+                taxBracket,
+                vacancyMonth,
+                monthlyRental,
+              });
               return (
                 <td
                   key={p.id}
@@ -773,6 +789,7 @@ export default function PropertyTable({
                   mode,
                   taxBracket,
                   vacancyMonth,
+                  monthlyRental,
                 });
                 const isNA = p.type === "Resale";
                 return isNA ? (
@@ -864,6 +881,55 @@ export default function PropertyTable({
             data-oid="dldzsso"
           />
 
+          {/* SSD Payable - only show if holding period is less than 4 years (selling in 4th year or earlier) */}
+          {displayProperties[0]?.holdingPeriod < 4 && (
+            <DataRow
+              label="SSD Payable"
+              properties={displayProperties}
+              render={(p) => {
+                const d = calculateValues(p, {
+                  mode,
+                  taxBracket,
+                  vacancyMonth,
+                });
+
+                // The holding period represents minimum time held, selling happens in the next year
+                const sellingYear = p.holdingPeriod + 1;
+                let rateText = "";
+
+                if (sellingYear === 1) {
+                  rateText = "16%";
+                } else if (sellingYear === 2) {
+                  rateText = "12%";
+                } else if (sellingYear === 3) {
+                  rateText = "8%";
+                } else if (sellingYear === 4) {
+                  rateText = "4%";
+                }
+
+                return (
+                  <DualCell
+                    left={
+                      <ValueText data-oid="7:n890i">
+                        {fmtCurrency(d.ssdPayable)}
+                      </ValueText>
+                    }
+                    right={
+                      <div
+                        className="text-xs text-slate-600 text-center"
+                        data-oid="c6pisv3"
+                      >
+                        {rateText}
+                      </div>
+                    }
+                    data-oid=":9p9.4y"
+                  />
+                );
+              }}
+              data-oid="zubdv:_"
+            />
+          )}
+
           <ConditionalBUCDataRow
             label={`Est. Property Tax`}
             properties={displayProperties}
@@ -901,7 +967,7 @@ export default function PropertyTable({
                       data-oid="cbjcu:q"
                     >
                       <SelectTrigger
-                        className="h-8 w-[210px]"
+                        className="h-8 w-[210px] border border-slate-200 rounded"
                         data-oid="l5fpyx:"
                       >
                         {selectedTax ? (
@@ -998,20 +1064,26 @@ export default function PropertyTable({
           />
 
           {mode === "investment" && (
-            <ConditionalBUCDataRow
+            <CommissionRateDataRow
               label="Rental Agent Commission"
               properties={displayProperties}
-              fieldKey="agentCommission"
               mode={mode}
               balanceMonthsMap={balanceMonthsMap}
-              renderInput={(p) => (
-                <CurrencyInput
-                  value={p.agentCommission}
-                  onChange={(v) => updateProperty(p.id, "agentCommission", v)}
-                  data-oid=":-boaux"
-                />
-              )}
-              data-oid="63jk4bj"
+              onCommissionRateChange={(propertyId, rate) => {
+                updateProperty(propertyId, "commissionRate", rate);
+                // Clear the commission amount when "none" is selected
+                if (rate === "none") {
+                  updateProperty(propertyId, "agentCommission", 0);
+                }
+                // Clear the commission amount when "other" is selected so user can enter their own value
+                if (rate === "other") {
+                  updateProperty(propertyId, "agentCommission", 0);
+                }
+              }}
+              onAgentCommissionChange={(propertyId, value) =>
+                updateProperty(propertyId, "agentCommission", value)
+              }
+              data-oid="0rkaj-k"
             />
           )}
 
@@ -1067,6 +1139,7 @@ export default function PropertyTable({
             mode={mode}
             taxBracket={taxBracket}
             vacancyMonth={vacancyMonth}
+            monthlyRental={monthlyRental}
             data-oid="6l1mavg"
           />
         </tbody>

@@ -1,7 +1,15 @@
 import type { Property, TaxBracket, SavedProperty } from "./types";
 
-export const YEARS = 4;
 export const INTEREST_RATE_PCT = 1.94;
+
+// SSD (Seller's Stamp Duty) rates based on holding period
+export const SSD_RATES = {
+  UP_TO_1_YEAR: 0.16,      // 16%
+  UP_TO_2_YEARS: 0.12,     // 12%
+  UP_TO_3_YEARS: 0.08,     // 8%
+  UP_TO_4_YEARS: 0.04,     // 4%
+  ABOVE_4_YEARS: 0,        // No SSD payable
+} as const;
 
 export const mockFolders = [
   "Singapore Properties",
@@ -83,9 +91,11 @@ export const defaultPropertyBase: Omit<Property, "id"> = {
   minorRenovation: 0,
   furnitureFittings: 0,
   agentCommission: 0,
+  commissionRate: "",
   otherExpenses: 0,
   monthlyRentWhileWaiting: 0,
   estTOP: null,
   balanceMonthAftTOP: 48,
   holdingPeriod: 4,
+  ssdPayable: 0,
 };

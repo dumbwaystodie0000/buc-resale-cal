@@ -28,6 +28,7 @@ export default function PropertyCalculator() {
   );
   const [taxBracket, setTaxBracket] = useState<number>(0);
   const [vacancyMonth, setVacancyMonth] = useState<number>(0);
+  const [monthlyRental, setMonthlyRental] = useState<number>(0);
   const [properties, setProperties] = useState<Property[]>([
     {
       ...defaultPropertyBase,
@@ -116,7 +117,76 @@ export default function PropertyCalculator() {
 
   const updateProperty = (id: string, field: keyof Property, value: any) => {
     setProperties((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, [field]: value } : p)),
+      prev.map((p) => {
+        if (p.id === id) {
+          const updatedProperty = { ...p, [field]: value };
+
+          // Auto-calculate agent commission when commission rate, monthly rental, estTOP, holding period, or property type changes
+          if (
+            (field === "commissionRate" ||
+              field === "monthlyRental" ||
+              field === "estTOP" ||
+              field === "holdingPeriod" ||
+              field === "type") &&
+            (field === "commissionRate" ? value : p.commissionRate) !==
+              "other" &&
+            (field === "commissionRate" ? value : p.commissionRate) !== ""
+          ) {
+            // Handle "none" option or empty string - clear the commission
+            if (
+              (field === "commissionRate" ? value : p.commissionRate) ===
+                "none" ||
+              (field === "commissionRate" ? value : p.commissionRate) === ""
+            ) {
+              updatedProperty.agentCommission = 0;
+            } else {
+              const rateMultiplier = parseFloat(
+                field === "commissionRate" ? value : p.commissionRate,
+              );
+              const monthlyRent =
+                field === "monthlyRental" ? value : p.monthlyRental;
+
+              const propertyType = field === "type" ? value : p.type;
+
+              if (propertyType === "BUC") {
+                // For BUC properties, calculate based on balance months after TOP
+                const currentDate = new Date();
+                const topDate = field === "estTOP" ? value : p.estTOP;
+                if (topDate) {
+                  const monthsToTOP =
+                    (topDate.getFullYear() - currentDate.getFullYear()) * 12 +
+                    (topDate.getMonth() - currentDate.getMonth());
+                  const holdingPeriodMonths =
+                    (field === "holdingPeriod" ? value : p.holdingPeriod) * 12;
+                  const balanceMonths = Math.max(
+                    0,
+                    holdingPeriodMonths - monthsToTOP,
+                  );
+
+                  if (balanceMonths > 0) {
+                    const annualCommission = monthlyRent * rateMultiplier;
+                    const totalCommission =
+                      annualCommission * (balanceMonths / 12);
+                    updatedProperty.agentCommission =
+                      Math.round(totalCommission);
+                  }
+                }
+              } else {
+                // For Resale properties, calculate for full holding period
+                const annualCommission = monthlyRent * rateMultiplier;
+                const holdingPeriod =
+                  field === "holdingPeriod" ? value : p.holdingPeriod;
+                updatedProperty.agentCommission = Math.round(
+                  annualCommission * holdingPeriod,
+                );
+              }
+            }
+          }
+
+          return updatedProperty;
+        }
+        return p;
+      }),
     );
   };
 
@@ -251,10 +321,12 @@ export default function PropertyCalculator() {
             mode={mode}
             taxBracket={taxBracket}
             vacancyMonth={vacancyMonth}
+            monthlyRental={monthlyRental}
             selectedTaxId={selectedTaxId}
             setSelectedTaxId={setSelectedTaxId}
             setTaxBracket={setTaxBracket}
             setVacancyMonth={setVacancyMonth}
+            setMonthlyRental={setMonthlyRental}
             removeProperty={removeProperty}
             updateProperty={updateProperty}
             onSelectSavedProperty={handleSelectSavedProperty}

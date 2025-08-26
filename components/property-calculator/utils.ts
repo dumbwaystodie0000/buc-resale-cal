@@ -83,6 +83,7 @@ export function isFieldNotApplicable(
     "maintenanceFee",
     "monthlyRental",
     "agentCommission",
+    "commissionRate",
   ];
 
   if (property.type === "BUC") {
@@ -99,7 +100,7 @@ export function isFieldNotApplicable(
 
   // Specific conditions for agent commission
   if (
-    field === "agentCommission" &&
+    (field === "agentCommission" || field === "commissionRate") &&
     mode === "own" &&
     property.type === "Resale"
   ) {

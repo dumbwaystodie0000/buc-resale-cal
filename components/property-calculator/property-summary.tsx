@@ -9,6 +9,7 @@ interface PropertySummaryProps {
   mode: Mode;
   taxBracket: number;
   vacancyMonth: number;
+  monthlyRental: number;
 }
 
 export default function PropertySummary({
@@ -16,6 +17,7 @@ export default function PropertySummary({
   mode,
   taxBracket,
   vacancyMonth,
+  monthlyRental,
 }: PropertySummaryProps) {
   return (
     <>
@@ -32,8 +34,12 @@ export default function PropertySummary({
         properties={properties}
         renderValue={(p) =>
           fmtCurrency(
-            calculateValues(p, { mode, taxBracket, vacancyMonth })
-              .projectedValuation,
+            calculateValues(p, {
+              mode,
+              taxBracket,
+              vacancyMonth,
+              monthlyRental,
+            }).projectedValuation,
           )
         }
         data-oid="wqes:dc"
@@ -54,6 +60,7 @@ export default function PropertySummary({
             mode,
             taxBracket,
             vacancyMonth,
+            monthlyRental,
           }).netProfit;
           const isNegative = netProfit < 0;
           return (
@@ -81,6 +88,7 @@ export default function PropertySummary({
             mode,
             taxBracket,
             vacancyMonth,
+            monthlyRental,
           }).roe;
           return roe === 0 ? "0%" : fmtPercent(roe);
         }}
@@ -101,8 +109,12 @@ export default function PropertySummary({
         properties={properties}
         renderValue={(p) =>
           fmtCurrency(
-            calculateValues(p, { mode, taxBracket, vacancyMonth })
-              .totalCashReturn,
+            calculateValues(p, {
+              mode,
+              taxBracket,
+              vacancyMonth,
+              monthlyRental,
+            }).totalCashReturn,
           )
         }
         data-oid="_7i2lh:"
