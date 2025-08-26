@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { PropertyType, CommissionRate } from "./types";
+import type { PropertyType, CommissionRate, SalesCommissionRate } from "./types";
 import { fmtCurrency } from "./utils";
 import {
   Tooltip,
@@ -575,6 +575,100 @@ export function CommissionRateSelector({
                   : "text-slate-600 hover:bg-slate-100"
               }`}
               data-oid="ehug2vs"
+            >
+              {getDisplayText(option)}
+            </button>
+          ))}
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+export function SalesCommissionRateSelector({
+  value,
+  onChange,
+  className,
+}: {
+  value: SalesCommissionRate;
+  onChange: (value: SalesCommissionRate) => void;
+  className?: string;
+}) {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const getDisplayText = (rate: SalesCommissionRate) => {
+    switch (rate) {
+      case "0.50":
+        return "0.50%";
+      case "0.75":
+        return "0.75%";
+      case "1.00":
+        return "1.00%";
+      case "1.25":
+        return "1.25%";
+      case "1.50":
+        return "1.50%";
+      case "1.75":
+        return "1.75%";
+      case "2.00":
+        return "2.00%";
+      case "2.50":
+        return "2.50%";
+      case "3.00":
+        return "3.00%";
+      case "3.50":
+        return "3.50%";
+      case "none":
+        return "No Comm Payable";
+      case "other":
+        return "Others";
+
+      default:
+        return "Select Comm Rate";
+    }
+  };
+
+  // Show placeholder text when no commission rate is selected
+  const getButtonText = (rate: SalesCommissionRate) => {
+    if (!rate || rate === "") {
+      return "Select Comm Rate";
+    }
+    return getDisplayText(rate);
+  };
+
+  const options: SalesCommissionRate[] = ["0.50", "0.75", "1.00", "1.25", "1.50", "1.75", "2.00", "2.50", "3.00", "3.50", "none", "other"];
+
+  return (
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          className={`h-9 w-40 justify-between text-left font-normal px-2 py-1 text-xs border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${className || ""}`}
+        >
+          <span
+            className={`truncate ${!value || value === "" ? "text-slate-500" : "text-black"}`}
+          >
+            {getButtonText(value)}
+          </span>
+          <ChevronDownIcon
+            className="h-3 w-3 ml-1 flex-shrink-0"
+          />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-40 p-2 z-[10]">
+        <div className="space-y-1">
+          {options.map((option) => (
+            <button
+              key={option}
+              onClick={() => {
+                onChange(option);
+                setIsOpen(false);
+              }}
+              className={`w-full px-3 py-2 rounded-md text-xs transition-colors text-left ${
+                value === option
+                  ? "bg-slate-200 font-semibold text-slate-900"
+                  : "text-slate-600 hover:bg-slate-100"
+              }`}
             >
               {getDisplayText(option)}
             </button>

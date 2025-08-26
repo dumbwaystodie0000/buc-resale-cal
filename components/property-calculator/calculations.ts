@@ -140,7 +140,7 @@ function calculateResaleBankInterest(loanAmount: number, annualInterestRate: num
   return Math.round(totalInterest)
 }
 
-function calculateAgentCommission(property: Property, YEARS: number, monthlyRental: number): number {
+function calculateAgentCommission(property: Property, YEARS: number, monthlyRental: number, gstEnabled: boolean = false): number {
   if (property.commissionRate === "other") {
     return property.agentCommission;
   }
@@ -152,6 +152,8 @@ function calculateAgentCommission(property: Property, YEARS: number, monthlyRent
   const monthlyRent = monthlyRental;
   const rateMultiplier = parseFloat(property.commissionRate);
   
+  let commission = 0;
+  
   if (property.type === "BUC") {
     // For BUC properties, calculate based on balance months after TOP
     const balanceMonths = calculateBalanceMonthAftTOP(property.estTOP, YEARS);
@@ -160,12 +162,45 @@ function calculateAgentCommission(property: Property, YEARS: number, monthlyRent
     // Calculate annual commission: monthly rent * rate multiplier
     const annualCommission = monthlyRent * rateMultiplier;
     // Calculate total commission for balance months: annual commission * (balance months / 12)
-    return annualCommission * (balanceMonths / 12);
+    commission = annualCommission * (balanceMonths / 12);
   } else {
     // For Resale properties, calculate for full holding period
     const annualCommission = monthlyRent * rateMultiplier;
-    return annualCommission * YEARS;
+    commission = annualCommission * YEARS;
   }
+  
+  // Apply GST if enabled
+  if (gstEnabled) {
+    commission = commission * 1.09;
+  }
+  
+  return Math.round(commission);
+}
+
+function calculateSalesCommission(property: Property, projectedGrowth: number, gstEnabled: boolean = false): number {
+  if (property.salesCommissionRate === "other") {
+    return property.salesCommission;
+  }
+  
+  if (property.salesCommissionRate === "none" || property.salesCommissionRate === "") {
+    return 0;
+  }
+
+  // Calculate selling price (purchase price + projected growth)
+  const sellingPrice = property.purchasePrice + projectedGrowth;
+  
+  // Convert percentage to decimal (e.g., "1.50" -> 0.015)
+  const rateMultiplier = parseFloat(property.salesCommissionRate) / 100;
+  
+  // Calculate base commission
+  let commission = sellingPrice * rateMultiplier;
+  
+  // Apply GST if enabled
+  if (gstEnabled) {
+    commission = commission * 1.09;
+  }
+  
+  return Math.round(commission);
 }
 
 export function calculateValues(
@@ -247,7 +282,8 @@ export function calculateValues(
         })()
       : 0;
 
-  const agentCommission = calculateAgentCommission(property, YEARS, ctx.monthlyRental);
+  const agentCommission = calculateAgentCommission(property, YEARS, ctx.monthlyRental, property.rentalGstEnabled);
+  const salesCommission = calculateSalesCommission(property, projectedGrowth, property.salesGstEnabled);
 
   // Calculate SSD based on holding period
   const ssdPayable = calculateSSD(property.purchasePrice, YEARS, projectedGrowth);
@@ -280,7 +316,8 @@ export function calculateValues(
     ssdPayable +
     bsd +
     absd +
-    property.otherExpenses
+    property.otherExpenses +
+    salesCommission
 
   const projectedValuation = property.purchasePrice + projectedGrowth
   const netProfit = grossProfit - totalOtherExpenses
@@ -306,5 +343,7 @@ export function calculateValues(
     ssdPayable,
     bsd,
     absd,
+    salesCommission,
+    agentCommission,
   }
 }

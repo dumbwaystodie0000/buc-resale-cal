@@ -10,6 +10,7 @@ import {
   DualCell,
   ValueText,
   CommissionRateSelector,
+  SalesCommissionRateSelector,
   TooltipLabel,
 } from "./ui-components";
 import {
@@ -477,6 +478,27 @@ export default function ExpensesSection({
                   }}
                   data-oid="8h4lige"
                 />
+                <div className="flex items-center gap-1">
+                  <input
+                    type="checkbox"
+                    id="rental-gst-toggle"
+                    checked={properties[0]?.rentalGstEnabled || false}
+                    onChange={(e) => {
+                      properties.forEach((property) => {
+                        updateProperty(property.id, "rentalGstEnabled", e.target.checked);
+                      });
+                    }}
+                    className="h-3 w-3 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    data-oid="rental-gst-toggle-checkbox"
+                  />
+                  <label
+                    htmlFor="rental-gst-toggle"
+                    className="text-xs text-slate-600 whitespace-nowrap"
+                    data-oid="rental-gst-toggle-label"
+                  >
+                    GST
+                  </label>
+                </div>
               </div>
             </div>
           }
@@ -498,9 +520,124 @@ export default function ExpensesSection({
           onAgentCommissionChange={(propertyId, value) =>
             updateProperty(propertyId, "agentCommission", value)
           }
+          render={(p) => {
+            const d = calculateValues(p, {
+              mode,
+              taxBracket: 0, // We don't need tax bracket for commission calculation
+              vacancyMonth: p.vacancyMonth,
+              monthlyRental,
+            });
+            
+            // Show the calculated commission amount (including GST if enabled)
+            return (
+              <div className="space-y-1" data-oid="rental-comm-value">
+                <div className="text-sm font-medium text-slate-900" data-oid="rental-comm-amount">
+                  {fmtCurrency(d.agentCommission || 0)}
+                </div>
+                {p.commissionRate === "other" && (
+                  <LabeledCurrency
+                    label="Custom"
+                    value={p.agentCommission}
+                    step={1000}
+                    onChange={(v) =>
+                      updateProperty(p.id, "agentCommission", v)
+                    }
+                    data-oid="rental-comm-custom"
+                  />
+                )}
+              </div>
+            );
+          }}
           data-oid="ti_k_sk"
         />
       )}
+
+      {/* Sales Commission Agent - shown in both own and investment modes */}
+      <DataRow
+        label={
+          <div className="flex items-center gap-3" data-oid="sales-comm-label">
+            <TooltipLabel
+              label="Sales Commission Agent"
+              tooltip="Commission paid to property agents when selling the property. Based on projected selling price (purchase price + projected growth)."
+              data-oid="sales-comm-tooltip"
+            />
+
+            <div
+              className="ml-auto flex flex-col items-start gap-1"
+              data-oid="sales-comm-selector"
+            >
+              <SalesCommissionRateSelector
+                value={properties[0]?.salesCommissionRate || ""}
+                onChange={(rate) => {
+                  // Apply the rate to all properties
+                  properties.forEach((property) => {
+                    updateProperty(property.id, "salesCommissionRate", rate);
+                    // Clear the commission amount when "none" is selected
+                    if (rate === "none") {
+                      updateProperty(property.id, "salesCommission", 0);
+                    }
+                    // Clear the commission amount when "other" is selected so user can enter their own value
+                    if (rate === "other") {
+                      updateProperty(property.id, "salesCommission", 0);
+                    }
+                  });
+                }}
+                data-oid="sales-comm-rate-selector"
+              />
+              <div className="flex items-center gap-1">
+                <input
+                  type="checkbox"
+                  id="gst-toggle"
+                  checked={properties[0]?.salesGstEnabled || false}
+                  onChange={(e) => {
+                    properties.forEach((property) => {
+                      updateProperty(property.id, "salesGstEnabled", e.target.checked);
+                    });
+                  }}
+                  className="h-3 w-3 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  data-oid="gst-toggle-checkbox"
+                />
+                <label
+                  htmlFor="gst-toggle"
+                  className="text-xs text-slate-600 whitespace-nowrap"
+                  data-oid="gst-toggle-label"
+                >
+                  GST
+                </label>
+              </div>
+            </div>
+          </div>
+        }
+        properties={properties}
+        render={(p) => {
+          const d = calculateValues(p, {
+            mode,
+            taxBracket,
+            vacancyMonth: p.vacancyMonth,
+            monthlyRental,
+          });
+          
+          return (
+            <div className="space-y-1" data-oid="sales-comm-value">
+              <div className="text-sm font-medium text-slate-900" data-oid="sales-comm-amount">
+                {fmtCurrency(d.salesCommission || 0)}
+              </div>
+              {p.salesCommissionRate === "other" && (
+                <LabeledCurrency
+                  label="Custom"
+                  value={p.salesCommission}
+                  step={1000}
+                  onChange={(v) =>
+                    updateProperty(p.id, "salesCommission", v)
+                  }
+                  data-oid="sales-comm-custom"
+                />
+              )}
+            </div>
+          );
+        }}
+        data-oid="sales-comm-row"
+      />
 
       <DataRow
         label={

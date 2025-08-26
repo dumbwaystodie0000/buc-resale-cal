@@ -2,6 +2,7 @@ export type PropertyType = "BUC" | "Resale"
 export type Mode = "investment" | "own"
 
 export type CommissionRate = "0.5" | "1" | "1.5" | "2" | "other" | "none" | ""
+export type SalesCommissionRate = "0.50" | "0.75" | "1.00" | "1.25" | "1.50" | "1.75" | "2.00" | "2.50" | "3.00" | "3.50" | "other" | "none" | ""
 
 export interface SavedProperty {
   id: string
@@ -33,6 +34,10 @@ export interface Property {
   furnitureFittings: number
   agentCommission: number
   commissionRate: CommissionRate
+  rentalGstEnabled: boolean
+  salesCommission: number
+  salesCommissionRate: SalesCommissionRate
+  salesGstEnabled: boolean
   otherExpenses: number
   monthlyRentWhileWaiting: number
   estTOP: Date | null
@@ -59,6 +64,8 @@ export interface CalculationResult {
   ssdPayable: number
   bsd: number
   absd: number
+  salesCommission: number
+  agentCommission: number
 }
 
 export interface TaxBracket {

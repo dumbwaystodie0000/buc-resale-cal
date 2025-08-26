@@ -227,6 +227,7 @@ export function CommissionRateDataRow({
   globalCommissionRate,
   onCommissionRateChange,
   onAgentCommissionChange,
+  render,
 }: {
   label: React.ReactNode;
   properties: Property[];
@@ -235,6 +236,7 @@ export function CommissionRateDataRow({
   globalCommissionRate: CommissionRate;
   onCommissionRateChange: (propertyId: string, rate: CommissionRate) => void;
   onAgentCommissionChange: (propertyId: string, value: number) => void;
+  render?: (property: Property) => React.ReactNode;
 }) {
   const inputRefs = React.useRef<{ [key: string]: HTMLInputElement | null }>(
     {},
@@ -256,6 +258,7 @@ export function CommissionRateDataRow({
       }, 0);
     }
   };
+  
   return (
     <tr className="hover:bg-slate-100" data-oid=":7oj0y6">
       <td
@@ -265,6 +268,19 @@ export function CommissionRateDataRow({
         {label}
       </td>
       {properties.map((p, i) => {
+        // If a render function is provided, use it
+        if (render) {
+          return (
+            <td
+              key={p.id}
+              className={`px-4 py-3 border-b border-r border-slate-200 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+              data-oid="commission-render"
+            >
+              {render(p)}
+            </td>
+          );
+        }
+        
         // For BUC properties, check if balance months after TOP > 0
         if (p.type === "BUC") {
           const balanceMonths = balanceMonthsMap.get(p.id) || 0;
