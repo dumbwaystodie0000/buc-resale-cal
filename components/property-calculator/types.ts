@@ -1,7 +1,7 @@
 export type PropertyType = "BUC" | "Resale"
 export type Mode = "investment" | "own"
 
-export type CommissionRate = "0.5" | "1" | "1.5" | "2" | "other" | "none" | ""
+export type CommissionRate = "0.5" | "1" | "1.5" | "2" | "other" | "none"
 
 export interface SavedProperty {
   id: string
@@ -33,6 +33,7 @@ export interface Property {
   furnitureFittings: number
   agentCommission: number
   commissionRate: CommissionRate
+  commissionGST: boolean
   otherExpenses: number
   monthlyRentWhileWaiting: number
   estTOP: Date | null

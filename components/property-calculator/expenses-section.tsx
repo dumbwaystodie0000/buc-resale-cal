@@ -477,6 +477,21 @@ export default function ExpensesSection({
                   }}
                   data-oid="8h4lige"
                 />
+                <div className="flex items-center gap-2 text-xs text-slate-600">
+                  <input
+                    type="checkbox"
+                    id="global-commission-gst"
+                    checked={properties.every(p => p.commissionGST)}
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      properties.forEach((property) => {
+                        updateProperty(property.id, "commissionGST", checked);
+                      });
+                    }}
+                    className="h-3 w-3 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <label htmlFor="global-commission-gst">GST is payable</label>
+                </div>
               </div>
             </div>
           }
@@ -484,6 +499,7 @@ export default function ExpensesSection({
           mode={mode}
           balanceMonthsMap={balanceMonthsMap}
           globalCommissionRate={globalCommissionRate}
+          monthlyRental={monthlyRental}
           onCommissionRateChange={(propertyId, rate) => {
             updateProperty(propertyId, "commissionRate", rate);
             // Clear the commission amount when "none" is selected
@@ -497,6 +513,9 @@ export default function ExpensesSection({
           }}
           onAgentCommissionChange={(propertyId, value) =>
             updateProperty(propertyId, "agentCommission", value)
+          }
+          onCommissionGSTChange={(propertyId, value) =>
+            updateProperty(propertyId, "commissionGST", value)
           }
           data-oid="ti_k_sk"
         />

@@ -225,20 +225,56 @@ export function CommissionRateDataRow({
   mode,
   balanceMonthsMap,
   globalCommissionRate,
+  monthlyRental,
   onCommissionRateChange,
   onAgentCommissionChange,
+  onCommissionGSTChange,
 }: {
   label: React.ReactNode;
   properties: Property[];
   mode: Mode;
   balanceMonthsMap: Map<string, number>;
   globalCommissionRate: CommissionRate;
+  monthlyRental: number;
   onCommissionRateChange: (propertyId: string, rate: CommissionRate) => void;
   onAgentCommissionChange: (propertyId: string, value: number) => void;
+  onCommissionGSTChange: (propertyId: string, value: boolean) => void;
 }) {
   const inputRefs = React.useRef<{ [key: string]: HTMLInputElement | null }>(
     {},
   );
+
+  // Function to calculate the display value for the input field
+  const getDisplayValue = (property: Property, monthlyRental: number) => {
+    let baseCommission = 0;
+    
+    if (property.commissionRate === "other") {
+      baseCommission = property.agentCommission;
+    } else if (property.commissionRate === "none") {
+      baseCommission = 0;
+    } else {
+      const rateMultiplier = parseFloat(property.commissionRate);
+      const monthlyRent = monthlyRental;
+      
+      if (property.type === "BUC") {
+        const balanceMonths = balanceMonthsMap.get(property.id) || 0;
+        if (balanceMonths > 0) {
+          const annualCommission = monthlyRent * rateMultiplier;
+          baseCommission = annualCommission * (balanceMonths / 12);
+        }
+      } else {
+        const annualCommission = monthlyRent * rateMultiplier;
+        baseCommission = annualCommission * (property.holdingPeriod || 4);
+      }
+    }
+    
+    // Apply GST if checkbox is checked
+    if (property.commissionGST) {
+      return baseCommission * 1.09;
+    }
+    
+    return baseCommission;
+  };
 
   const handleCommissionRateChange = (
     propertyId: string,
@@ -279,8 +315,16 @@ export function CommissionRateDataRow({
                 <div className="flex gap-2" data-oid="2xvam09">
                   <div className="flex-1" data-oid=":.flldb">
                     <CurrencyInput
-                      value={p.agentCommission}
-                      onChange={(v) => onAgentCommissionChange(p.id, v)}
+                      value={getDisplayValue(p, monthlyRental)}
+                      onChange={(v) => {
+                        // If GST is checked, convert the input value back to base amount
+                        if (p.commissionGST) {
+                          const baseAmount = v / 1.09;
+                          onAgentCommissionChange(p.id, baseAmount);
+                        } else {
+                          onAgentCommissionChange(p.id, v);
+                        }
+                      }}
                       disabled={globalCommissionRate !== "other"}
                       data-oid="commission-input"
                       ref={(el) => {
@@ -323,8 +367,16 @@ export function CommissionRateDataRow({
               <div className="flex gap-2" data-oid="ktnvwxl">
                 <div className="flex-1" data-oid="9v5xsga">
                   <CurrencyInput
-                    value={p.agentCommission}
-                    onChange={(v) => onAgentCommissionChange(p.id, v)}
+                    value={getDisplayValue(p, monthlyRental)}
+                    onChange={(v) => {
+                      // If GST is checked, convert the input value back to base amount
+                      if (p.commissionGST) {
+                        const baseAmount = v / 1.09;
+                        onAgentCommissionChange(p.id, baseAmount);
+                      } else {
+                        onAgentCommissionChange(p.id, v);
+                      }
+                    }}
                     disabled={globalCommissionRate !== "other"}
                     data-oid="aqhupzb"
                     ref={(el) => {

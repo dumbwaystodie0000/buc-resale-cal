@@ -95,17 +95,13 @@ export default function PropertyTable({
 }: PropertyTableProps) {
   // Global commission rate state
   const [globalCommissionRate, setGlobalCommissionRate] =
-    useState<CommissionRate>(""); // Default to empty string to show "Select Comm Rate"
+    useState<CommissionRate>("none"); // Default to "none" to show "Select Comm Rate"
 
   // Initialize global commission rate from first property (only if it has a meaningful value)
   useEffect(() => {
     if (properties.length > 0 && !globalCommissionRate) {
       const firstProperty = properties[0];
-      if (
-        firstProperty.commissionRate &&
-        firstProperty.commissionRate !== "" &&
-        firstProperty.commissionRate !== undefined
-      ) {
+      if (firstProperty.commissionRate && firstProperty.commissionRate !== "none") {
         setGlobalCommissionRate(firstProperty.commissionRate);
       }
     }
@@ -1150,6 +1146,21 @@ export default function PropertyTable({
                       }}
                       data-oid="m_:f1z_"
                     />
+                    <div className="flex items-center gap-2 text-xs text-slate-600">
+                      <input
+                        type="checkbox"
+                        id="global-commission-gst-table"
+                        checked={displayProperties.every(p => p.commissionGST)}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          displayProperties.forEach((property) => {
+                            updateProperty(property.id, "commissionGST", checked);
+                          });
+                        }}
+                        className="h-3 w-3 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                      />
+                      <label htmlFor="global-commission-gst-table">GST is payable</label>
+                    </div>
                   </div>
                 </div>
               }
@@ -1157,6 +1168,7 @@ export default function PropertyTable({
               mode={mode}
               balanceMonthsMap={balanceMonthsMap}
               globalCommissionRate={globalCommissionRate}
+              monthlyRental={monthlyRental}
               onCommissionRateChange={(propertyId, rate) => {
                 updateProperty(propertyId, "commissionRate", rate);
                 // Clear the commission amount when "none" is selected
@@ -1171,6 +1183,9 @@ export default function PropertyTable({
               }}
               onAgentCommissionChange={(propertyId, value) =>
                 updateProperty(propertyId, "agentCommission", value)
+              }
+              onCommissionGSTChange={(propertyId, value) =>
+                updateProperty(propertyId, "commissionGST", value)
               }
               data-oid="0rkaj-k"
             />

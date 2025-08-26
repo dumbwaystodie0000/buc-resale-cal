@@ -141,31 +141,38 @@ function calculateResaleBankInterest(loanAmount: number, annualInterestRate: num
 }
 
 function calculateAgentCommission(property: Property, YEARS: number, monthlyRental: number): number {
+  let commission = 0;
+  
   if (property.commissionRate === "other") {
-    return property.agentCommission;
-  }
-  
-  if (property.commissionRate === "none" || property.commissionRate === "") {
-    return 0;
-  }
-
-  const monthlyRent = monthlyRental;
-  const rateMultiplier = parseFloat(property.commissionRate);
-  
-  if (property.type === "BUC") {
-    // For BUC properties, calculate based on balance months after TOP
-    const balanceMonths = calculateBalanceMonthAftTOP(property.estTOP, YEARS);
-    if (balanceMonths <= 0) return 0;
-    
-    // Calculate annual commission: monthly rent * rate multiplier
-    const annualCommission = monthlyRent * rateMultiplier;
-    // Calculate total commission for balance months: annual commission * (balance months / 12)
-    return annualCommission * (balanceMonths / 12);
+    commission = property.agentCommission;
+  } else if (property.commissionRate === "none") {
+    commission = 0;
   } else {
-    // For Resale properties, calculate for full holding period
-    const annualCommission = monthlyRent * rateMultiplier;
-    return annualCommission * YEARS;
+    const monthlyRent = monthlyRental;
+    const rateMultiplier = parseFloat(property.commissionRate);
+    
+    if (property.type === "BUC") {
+      // For BUC properties, calculate based on balance months after TOP
+      const balanceMonths = calculateBalanceMonthAftTOP(property.estTOP, YEARS);
+      if (balanceMonths <= 0) return 0;
+      
+      // Calculate annual commission: monthly rent * rate multiplier
+      const annualCommission = monthlyRent * rateMultiplier;
+      // Calculate total commission for balance months: annual commission * (balance months / 12)
+      commission = annualCommission * (balanceMonths / 12);
+    } else {
+      // For Resale properties, calculate for full holding period
+      const annualCommission = monthlyRent * rateMultiplier;
+      commission = annualCommission * YEARS;
+    }
   }
+  
+  // Apply GST if checkbox is checked
+  if (property.commissionGST) {
+    commission = commission * 1.09;
+  }
+  
+  return commission;
 }
 
 export function calculateValues(

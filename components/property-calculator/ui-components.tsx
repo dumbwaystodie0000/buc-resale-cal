@@ -532,7 +532,7 @@ export function CommissionRateSelector({
 
   // Show placeholder text when no commission rate is selected
   const getButtonText = (rate: CommissionRate) => {
-    if (!rate || rate === "") {
+    if (!rate || rate === "none") {
       return "Select Comm Rate";
     }
     return getDisplayText(rate);
@@ -549,7 +549,7 @@ export function CommissionRateSelector({
           data-oid="qgxtfuy"
         >
           <span
-            className={`truncate ${!value || value === "" ? "text-slate-500" : "text-black"}`}
+            className={`truncate ${!value || value === "none" ? "text-slate-500" : "text-black"}`}
             data-oid="nknc5vx"
           >
             {getButtonText(value)}
