@@ -8,7 +8,6 @@ interface PropertySummaryProps {
   properties: Property[];
   mode: Mode;
   taxBracket: number;
-  vacancyMonth: number;
   monthlyRental: number;
 }
 
@@ -16,7 +15,6 @@ export default function PropertySummary({
   properties,
   mode,
   taxBracket,
-  vacancyMonth,
   monthlyRental,
 }: PropertySummaryProps) {
   return (
@@ -37,7 +35,7 @@ export default function PropertySummary({
             calculateValues(p, {
               mode,
               taxBracket,
-              vacancyMonth,
+              vacancyMonth: p.vacancyMonth,
               monthlyRental,
             }).projectedValuation,
           )
@@ -59,7 +57,7 @@ export default function PropertySummary({
           const netProfit = calculateValues(p, {
             mode,
             taxBracket,
-            vacancyMonth,
+            vacancyMonth: p.vacancyMonth,
             monthlyRental,
           }).netProfit;
           const isNegative = netProfit < 0;
@@ -87,7 +85,7 @@ export default function PropertySummary({
           const roe = calculateValues(p, {
             mode,
             taxBracket,
-            vacancyMonth,
+            vacancyMonth: p.vacancyMonth,
             monthlyRental,
           }).roe;
           return roe === 0 ? "0%" : fmtPercent(roe);
@@ -112,7 +110,7 @@ export default function PropertySummary({
             calculateValues(p, {
               mode,
               taxBracket,
-              vacancyMonth,
+              vacancyMonth: p.vacancyMonth,
               monthlyRental,
             }).totalCashReturn,
           )

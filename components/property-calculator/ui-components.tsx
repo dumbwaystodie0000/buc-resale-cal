@@ -505,7 +505,7 @@ export function CommissionRateSelector({
       case "none":
         return "No Comm Payable";
       case "other":
-        return "Other";
+        return "Others";
 
       default:
         return "Select Comm Rate";
@@ -527,10 +527,13 @@ export function CommissionRateSelector({
       <PopoverTrigger asChild data-oid="8kk34mo">
         <Button
           variant="outline"
-          className={`h-9 w-40 justify-between text-left font-normal px-2 py-1 text-xs text-slate-500 border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${className || ""}`}
+          className={`h-9 w-40 justify-between text-left font-normal px-2 py-1 text-xs border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${className || ""}`}
           data-oid="qgxtfuy"
         >
-          <span className="truncate" data-oid="nknc5vx">
+          <span
+            className={`truncate ${!value || value === "" ? "text-slate-500" : "text-black"}`}
+            data-oid="nknc5vx"
+          >
             {getButtonText(value)}
           </span>
           <ChevronDownIcon

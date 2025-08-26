@@ -60,12 +60,10 @@ interface PropertyTableProps {
   properties: Property[];
   mode: Mode;
   taxBracket: number;
-  vacancyMonth: number;
   monthlyRental: number;
   selectedTaxId: string | undefined;
   setSelectedTaxId: (id: string) => void;
   setTaxBracket: (rate: number) => void;
-  setVacancyMonth: (months: number) => void;
   setMonthlyRental: (value: number) => void;
   removeProperty: (id: string) => void;
   updateProperty: (id: string, field: keyof Property, value: any) => void;
@@ -83,12 +81,10 @@ export default function PropertyTable({
   properties,
   mode,
   taxBracket,
-  vacancyMonth,
   monthlyRental,
   selectedTaxId,
   setSelectedTaxId,
   setTaxBracket,
-  setVacancyMonth,
   setMonthlyRental,
   removeProperty,
   updateProperty,
@@ -613,7 +609,7 @@ export default function PropertyTable({
               const d = calculateValues(p, {
                 mode,
                 taxBracket,
-                vacancyMonth,
+                vacancyMonth: p.vacancyMonth,
                 monthlyRental,
               });
               return (
@@ -666,7 +662,7 @@ export default function PropertyTable({
                   const d = calculateValues(p, {
                     mode,
                     taxBracket,
-                    vacancyMonth,
+                    vacancyMonth: p.vacancyMonth,
                     monthlyRental,
                   });
                   return (
@@ -679,53 +675,9 @@ export default function PropertyTable({
               />
 
               <DataRow
-                label={
-                  <div className="flex items-center gap-3" data-oid="uc3:1nw">
-                    <div data-oid="frmogb5">
-                      <div data-oid="zsz.avm">Vacancy Month</div>
-                    </div>
-                    <div className="ml-auto" data-oid="m:ud7u1">
-                      <Select
-                        value={String(vacancyMonth)}
-                        onValueChange={(v: string) =>
-                          setVacancyMonth(Number.parseInt(v))
-                        }
-                        data-oid="1hx_z7x"
-                      >
-                        <SelectTrigger
-                          className="h-8 w-[120px] border border-slate-200 rounded text-xs text-slate-500"
-                          data-oid="7e77le."
-                        >
-                          <SelectValue data-oid="saplwx1" />
-                        </SelectTrigger>
-                        <SelectContent
-                          className="max-h-64 text-xs text-slate-600"
-                          data-oid="eta089g"
-                        >
-                          {Array.from({ length: 25 }, (_, i) => (
-                            <SelectItem
-                              key={i}
-                              value={String(i)}
-                              data-oid="d3hzv4g"
-                              className="text-xs text-slate-500"
-                            >
-                              {i} {i === 1 ? "month" : "months"}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                }
+                label="Vacancy Month"
                 properties={displayProperties}
                 render={(p) => {
-                  const d = calculateValues(p, {
-                    mode,
-                    taxBracket,
-                    vacancyMonth,
-                    monthlyRental,
-                  });
-
                   // For BUC properties, check if balance months after TOP > 0
                   if (p.type === "BUC") {
                     const balanceMonths = balanceMonthsMap.get(p.id) || 0;
@@ -733,7 +685,7 @@ export default function PropertyTable({
                       return (
                         <div
                           className="text-xs text-slate-500"
-                          data-oid="y4q9ood"
+                          data-oid="v2exb7q"
                         >
                           N/A
                         </div>
@@ -741,25 +693,66 @@ export default function PropertyTable({
                     }
                   }
 
-                  // Show neutral text when no vacancy, red negative value when there is vacancy
-                  if (d.vacancyDeduction === 0) {
-                    return (
-                      <div className="text-slate-600" data-oid="0iu6v2j">
-                        $0
-                      </div>
-                    );
-                  }
-                  // Display vacancy deduction as negative value in red text since it represents a loss
                   return (
-                    <div
-                      className="text-red-600 font-medium"
-                      data-oid="u-3:swd"
-                    >
-                      -{fmtCurrency(d.vacancyDeduction)}
-                    </div>
+                    <DualCell
+                      left={
+                        <div
+                          className="text-red-600 font-medium"
+                          data-oid="ppgd6av"
+                        >
+                          {(() => {
+                            const d = calculateValues(p, {
+                              mode,
+                              taxBracket,
+                              vacancyMonth: p.vacancyMonth,
+                              monthlyRental,
+                            });
+                            return d.vacancyDeduction === 0
+                              ? "$0"
+                              : `-${fmtCurrency(d.vacancyDeduction)}`;
+                          })()}
+                        </div>
+                      }
+                      right={
+                        <Select
+                          value={String(p.vacancyMonth)}
+                          onValueChange={(v: string) =>
+                            updateProperty(
+                              p.id,
+                              "vacancyMonth",
+                              Number.parseInt(v),
+                            )
+                          }
+                          data-oid="ktrb-8j"
+                        >
+                          <SelectTrigger
+                            className="h-9 w-24 border border-slate-200 rounded text-xs"
+                            data-oid="v4d9juz"
+                          >
+                            <SelectValue data-oid="xl4thsl" />
+                          </SelectTrigger>
+                          <SelectContent
+                            className="max-h-64 text-xs text-slate-600"
+                            data-oid=":6.j8-4"
+                          >
+                            {Array.from({ length: 25 }, (_, i) => (
+                              <SelectItem
+                                key={i}
+                                value={String(i)}
+                                className="text-xs text-slate-500"
+                                data-oid="2nxe593"
+                              >
+                                {i} {i === 1 ? "month" : "months"}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      }
+                      data-oid="7p36tue"
+                    />
                   );
                 }}
-                data-oid="s0ir0r."
+                data-oid="ipb8w0m"
               />
             </>
           )}
@@ -775,7 +768,7 @@ export default function PropertyTable({
               const d = calculateValues(p, {
                 mode,
                 taxBracket,
-                vacancyMonth,
+                vacancyMonth: p.vacancyMonth,
                 monthlyRental,
               });
               return (
@@ -817,7 +810,7 @@ export default function PropertyTable({
                 const d = calculateValues(p, {
                   mode,
                   taxBracket,
-                  vacancyMonth,
+                  vacancyMonth: p.vacancyMonth,
                   monthlyRental,
                 });
                 const isNA = p.type === "Resale";
@@ -860,7 +853,7 @@ export default function PropertyTable({
               const d = calculateValues(p, {
                 mode,
                 taxBracket,
-                vacancyMonth,
+                vacancyMonth: p.vacancyMonth,
                 monthlyRental,
               });
               return (
@@ -892,7 +885,7 @@ export default function PropertyTable({
               const d = calculateValues(p, {
                 mode,
                 taxBracket,
-                vacancyMonth,
+                vacancyMonth: p.vacancyMonth,
                 monthlyRental,
               });
               return (
@@ -929,7 +922,7 @@ export default function PropertyTable({
                 const d = calculateValues(p, {
                   mode,
                   taxBracket,
-                  vacancyMonth,
+                  vacancyMonth: p.vacancyMonth,
                   monthlyRental,
                 });
 
@@ -1065,7 +1058,7 @@ export default function PropertyTable({
                     calculateValues(p, {
                       mode,
                       taxBracket,
-                      vacancyMonth,
+                      vacancyMonth: p.vacancyMonth,
                       monthlyRental,
                     }).taxOnRental,
                   )}
@@ -1195,7 +1188,7 @@ export default function PropertyTable({
                     calculateValues(p, {
                       mode,
                       taxBracket,
-                      vacancyMonth,
+                      vacancyMonth: p.vacancyMonth,
                       monthlyRental,
                     }).totalOtherExpenses,
                   )}
@@ -1216,7 +1209,6 @@ export default function PropertyTable({
             properties={displayProperties}
             mode={mode}
             taxBracket={taxBracket}
-            vacancyMonth={vacancyMonth}
             monthlyRental={monthlyRental}
             data-oid="6l1mavg"
           />

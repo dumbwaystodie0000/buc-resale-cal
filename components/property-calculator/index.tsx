@@ -27,7 +27,6 @@ export default function PropertyCalculator() {
     undefined,
   );
   const [taxBracket, setTaxBracket] = useState<number>(0);
-  const [vacancyMonth, setVacancyMonth] = useState<number>(0);
   const [monthlyRental, setMonthlyRental] = useState<number>(0);
   const [properties, setProperties] = useState<Property[]>([
     {
@@ -320,12 +319,10 @@ export default function PropertyCalculator() {
             properties={properties}
             mode={mode}
             taxBracket={taxBracket}
-            vacancyMonth={vacancyMonth}
             monthlyRental={monthlyRental}
             selectedTaxId={selectedTaxId}
             setSelectedTaxId={setSelectedTaxId}
             setTaxBracket={setTaxBracket}
-            setVacancyMonth={setVacancyMonth}
             setMonthlyRental={setMonthlyRental}
             removeProperty={removeProperty}
             updateProperty={updateProperty}
