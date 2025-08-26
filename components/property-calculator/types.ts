@@ -57,6 +57,8 @@ export interface CalculationResult {
   roe: number
   totalCashReturn: number
   ssdPayable: number
+  bsd: number
+  absd: number
 }
 
 export interface TaxBracket {

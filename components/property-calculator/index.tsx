@@ -9,7 +9,7 @@ import type {
   SavedProperty,
 } from "@/components/property-calculator/types";
 import { defaultPropertyBase } from "@/components/property-calculator/constants";
-import PropertyTable from "@/components/property-calculator/property-table";
+import PropertyTable from "@/components/property-calculator/property-table-refactored";
 import AddPropertyDropdown from "@/components/property-calculator/add-property-dropdown";
 import CreatePropertyDialog from "@/components/property-calculator/create-property-dialog";
 import { Plus } from "lucide-react";

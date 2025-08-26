@@ -188,7 +188,7 @@ export function IconRow({
   properties,
   renderValue,
 }: {
-  label: string;
+  label: React.ReactNode;
   icon: React.ComponentType<{ className?: string }>;
   properties: Property[];
   renderValue: (p: Property) => string;
@@ -201,7 +201,7 @@ export function IconRow({
       >
         <div className="flex items-center gap-2" data-oid="itx8yac">
           <Icon className="h-4 w-4 text-slate-600" data-oid="q.do1so" />
-          <span data-oid="sagl26a">{label}</span>
+          {label}
         </div>
       </td>
       {properties.map((p, i) => (

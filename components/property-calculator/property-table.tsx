@@ -154,6 +154,15 @@ export default function PropertyTable({
   const [holdingPeriodInput, setHoldingPeriodInput] = useState<string>(
     String(displayProperties[0]?.holdingPeriod || 4),
   );
+  const [isHoldingPeriodEditing, setIsHoldingPeriodEditing] = useState(false);
+
+  // Sync holding period input when properties change (only when not editing)
+  useEffect(() => {
+    if (!isHoldingPeriodEditing && properties.length > 0) {
+      const newHoldingPeriod = properties[0]?.holdingPeriod || 4;
+      setHoldingPeriodInput(String(newHoldingPeriod));
+    }
+  }, [properties, isHoldingPeriodEditing]);
 
   // Handle starting to edit a property name
   const handleStartEdit = (property: Property) => {
@@ -257,10 +266,15 @@ export default function PropertyTable({
                     type="number"
                     min="0"
                     step="0.5"
-                    value={holdingPeriodInput}
+                    value={
+                      isHoldingPeriodEditing
+                        ? holdingPeriodInput
+                        : displayProperties[0]?.holdingPeriod || 4
+                    }
                     onChange={(e) => {
                       const newValue = e.target.value;
                       setHoldingPeriodInput(newValue);
+                      // Only update properties if we have a valid number
                       if (newValue && !isNaN(parseFloat(newValue))) {
                         const numValue = parseFloat(newValue);
                         displayProperties.forEach((p) =>
@@ -268,7 +282,15 @@ export default function PropertyTable({
                         );
                       }
                     }}
+                    onFocus={() => {
+                      setIsHoldingPeriodEditing(true);
+                      // Start with current value or empty string if it's the default
+                      const currentValue =
+                        displayProperties[0]?.holdingPeriod || 4;
+                      setHoldingPeriodInput(String(currentValue));
+                    }}
                     onBlur={() => {
+                      setIsHoldingPeriodEditing(false);
                       // If input is empty or invalid, revert to default
                       if (
                         !holdingPeriodInput ||

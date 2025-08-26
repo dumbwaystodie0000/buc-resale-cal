@@ -2,6 +2,65 @@ import type { Property, Mode, CalculationResult } from "./types"
 import { INTEREST_RATE_PCT, SSD_RATES } from "./constants"
 import { fmtCurrency, fmtRate, calculateBalanceMonthAftTOP, calculateMonthsToTOP } from "./utils";
 
+// Function to calculate BSD (Buyer Stamp Duty) based on purchase price
+function calculateBSD(purchasePrice: number): number {
+  let bsd = 0;
+  let remainingAmount = purchasePrice;
+  
+  // First $180,000: 1%
+  if (remainingAmount > 0) {
+    const firstTier = Math.min(remainingAmount, 180000);
+    bsd += firstTier * 0.01;
+    remainingAmount -= firstTier;
+  }
+  
+  // Next $180,000: 2%
+  if (remainingAmount > 0) {
+    const secondTier = Math.min(remainingAmount, 180000);
+    bsd += secondTier * 0.02;
+    remainingAmount -= secondTier;
+  }
+  
+  // Remaining amount: 3%
+  if (remainingAmount > 0) {
+    bsd += remainingAmount * 0.03;
+  }
+  
+  return Math.round(bsd);
+}
+
+// Function to calculate ABSD (Additional Buyer Stamp Duty) based on purchase price, citizenship, and property count
+function calculateABSD(purchasePrice: number, citizenship: "SC" | "PR" | "Foreigner" = "SC", propertyCount: number = 1): number {
+  let absdRate = 0;
+  
+  if (citizenship === "SC") {
+    // Singapore Citizens
+    if (propertyCount === 1) {
+      absdRate = 0; // No ABSD for 1st property
+    } else if (propertyCount === 2) {
+      absdRate = 0.20; // 20% for 2nd property
+    } else if (propertyCount === 3) {
+      absdRate = 0.25; // 25% for 3rd property
+    } else {
+      absdRate = 0.30; // 30% for 4th+ property
+    }
+  } else if (citizenship === "PR") {
+    // Permanent Residents
+    if (propertyCount === 1) {
+      absdRate = 0.25; // 25% for 1st property
+    } else if (propertyCount === 2) {
+      absdRate = 0.30; // 30% for 2nd property
+    } else {
+      absdRate = 0.35; // 35% for 3rd+ property
+    }
+  } else {
+    // Foreigners
+    absdRate = 0.60; // 60% for all properties
+  }
+  
+  return Math.round(purchasePrice * absdRate);
+}
+
 // Function to calculate SSD (Seller's Stamp Duty) based on holding period
 function calculateSSD(purchasePrice: number, holdingPeriod: number, projectedGrowth: number): number {
   // The holding period represents minimum time held, selling happens in the next year
@@ -177,6 +236,12 @@ export function calculateValues(
   const rentWhileWaitingTotal =
     ctx.mode === "own" && property.type === "BUC" 
       ? (() => {
+          // If no TOP date is entered, use holding period * monthly rent
+          if (!property.estTOP) {
+            return property.monthlyRentWhileWaiting * YEARS * 12;
+          }
+          
+          // If TOP date is entered, calculate months from now until TOP
           const monthsToTOP = calculateMonthsToTOP(property.estTOP);
           return monthsToTOP > 0 ? property.monthlyRentWhileWaiting * monthsToTOP : 0;
         })()
@@ -186,6 +251,10 @@ export function calculateValues(
 
   // Calculate SSD based on holding period
   const ssdPayable = calculateSSD(property.purchasePrice, YEARS, projectedGrowth);
+
+  // Calculate BSD and ABSD
+  const bsd = calculateBSD(property.purchasePrice);
+  const absd = calculateABSD(property.purchasePrice);
 
   // For BUC properties, only include minor renovation and furniture & fittings if balance months after TOP > 0
   let applicableMinorRenovation = property.minorRenovation;
@@ -209,6 +278,8 @@ export function calculateValues(
     applicableFurnitureFittings +
     agentCommission +
     ssdPayable +
+    bsd +
+    absd +
     property.otherExpenses
 
   const projectedValuation = property.purchasePrice + projectedGrowth
@@ -233,5 +304,7 @@ export function calculateValues(
     roe,
     totalCashReturn,
     ssdPayable,
+    bsd,
+    absd,
   }
 }

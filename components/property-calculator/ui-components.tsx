@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { X, Calendar, ChevronDownIcon } from "lucide-react";
+import { X, Calendar, ChevronDownIcon, Info } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +18,12 @@ import {
 } from "@/components/ui/select";
 import type { PropertyType, CommissionRate } from "./types";
 import { fmtCurrency } from "./utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const ClearableNumberInput = React.forwardRef<
   HTMLInputElement,
@@ -73,6 +79,17 @@ export const ClearableNumberInput = React.forwardRef<
       setInputValue(e.target.value);
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        setIsEditing(false);
+        const numValue = Number.parseFloat(inputValue || "0");
+        onChange(numValue);
+        // Use the current target (the input element that received the key press) to blur
+        e.currentTarget.blur();
+      }
+    };
+
     const handleWheel = (e: React.WheelEvent<HTMLInputElement>) => {
       // Prevent mouse wheel from changing the input value
       e.currentTarget.blur();
@@ -98,6 +115,7 @@ export const ClearableNumberInput = React.forwardRef<
           onFocus={handleFocus}
           onBlur={handleBlur}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
           onWheel={handleWheel}
           disabled={disabled}
           className="h-9 text-left pr-8 px-2 py-1 text-sm border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
@@ -245,7 +263,7 @@ export function LabeledCurrency({
         value={value}
         onChange={onChange}
         step={step}
-        className="w-24"
+        className="w-22"
         showCurrency={true}
         data-oid="y1kg3ff"
       />
@@ -273,7 +291,7 @@ export function LabeledNumber({
         value={value}
         onChange={onChange}
         step={step}
-        className="w-24"
+        className="w-22"
         data-oid="yighzuw"
       />
     </div>
@@ -564,5 +582,53 @@ export function CommissionRateSelector({
         </div>
       </PopoverContent>
     </Popover>
+  );
+}
+
+export function InfoIcon({ className }: { className?: string }) {
+  return (
+    <Info
+      className={`h-4 w-4 text-slate-400 ${className || ""}`}
+      data-oid="x.dw4-x"
+    />
+  );
+}
+
+
+
+export function TooltipLabel({
+  label,
+  tooltip,
+  className = "",
+}: {
+  label: string;
+  tooltip: string;
+  className?: string;
+}) {
+  return (
+    <div className={`flex items-center gap-2 ${className}`} data-oid="m0eo4g-">
+  <span data-oid="k7ewjna">{label}</span>
+  <Tooltip data-oid="l-xhyzg">
+    <TooltipTrigger asChild data-oid="j189w6a">
+      <div 
+        className="cursor-help hover:text-slate-600 transition-colors"
+        data-oid="nmr1vh4"
+      >
+        <Info className="h-3 w-3 text-slate-400" />
+      </div>
+    </TooltipTrigger>
+         <TooltipContent 
+       className="z-[100] bg-slate-50 text-black border border-slate-400 shadow-md px-3 py-2 rounded-md max-w-54 pointer-events-none [&_[data-radix-tooltip-arrow]]:hidden"
+       side="right"
+       sideOffset={5}
+       align="start"
+       data-oid="lk9o2zu"
+     >
+      <p className="text-xs leading-5 text-black" data-oid="c2w8xd_">
+        {tooltip}
+      </p>
+    </TooltipContent>
+  </Tooltip>
+</div>
   );
 }
