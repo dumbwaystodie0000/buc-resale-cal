@@ -131,14 +131,6 @@ function SelectItem({
       {...props}
       data-oid="fk37utk"
     >
-      <span
-        className="absolute right-2 flex size-3.5 items-center justify-center"
-        data-oid="l8crfm7"
-      >
-        <SelectPrimitive.ItemIndicator data-oid="7250g8.">
-          <CheckIcon className="size-4" data-oid="70ojyfv" />
-        </SelectPrimitive.ItemIndicator>
-      </span>
       <SelectPrimitive.ItemText data-oid="ovxpw8t">
         {children}
       </SelectPrimitive.ItemText>

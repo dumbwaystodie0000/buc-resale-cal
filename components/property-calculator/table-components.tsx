@@ -2,7 +2,6 @@ import React from "react";
 import type { Property, Mode, CommissionRate } from "./types";
 import { isFieldNotApplicable } from "./utils";
 import { CurrencyInput } from "./ui-components";
-import { CommissionRateSelector } from "./ui-components";
 
 export function SectionRow({
   title,
@@ -225,6 +224,7 @@ export function CommissionRateDataRow({
   properties,
   mode,
   balanceMonthsMap,
+  globalCommissionRate,
   onCommissionRateChange,
   onAgentCommissionChange,
 }: {
@@ -232,6 +232,7 @@ export function CommissionRateDataRow({
   properties: Property[];
   mode: Mode;
   balanceMonthsMap: Map<string, number>;
+  globalCommissionRate: CommissionRate;
   onCommissionRateChange: (propertyId: string, rate: CommissionRate) => void;
   onAgentCommissionChange: (propertyId: string, value: number) => void;
 }) {
@@ -280,18 +281,13 @@ export function CommissionRateDataRow({
                     <CurrencyInput
                       value={p.agentCommission}
                       onChange={(v) => onAgentCommissionChange(p.id, v)}
-                      disabled={p.commissionRate !== "other"}
+                      disabled={globalCommissionRate !== "other"}
                       data-oid="commission-input"
                       ref={(el) => {
                         inputRefs.current[p.id] = el;
                       }}
                     />
                   </div>
-                  <CommissionRateSelector
-                    value={p.commissionRate}
-                    onChange={(rate) => handleCommissionRateChange(p.id, rate)}
-                    data-oid="m4:a4:_"
-                  />
                 </div>
               </td>
             );
@@ -329,18 +325,13 @@ export function CommissionRateDataRow({
                   <CurrencyInput
                     value={p.agentCommission}
                     onChange={(v) => onAgentCommissionChange(p.id, v)}
-                    disabled={p.commissionRate !== "other"}
+                    disabled={globalCommissionRate !== "other"}
                     data-oid="aqhupzb"
                     ref={(el) => {
                       inputRefs.current[p.id] = el;
                     }}
                   />
                 </div>
-                <CommissionRateSelector
-                  value={p.commissionRate}
-                  onChange={(rate) => handleCommissionRateChange(p.id, rate)}
-                  data-oid="2d--:2a"
-                />
               </div>
             )}
           </td>

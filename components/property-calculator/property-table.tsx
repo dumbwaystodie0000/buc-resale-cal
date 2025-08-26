@@ -25,7 +25,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { Property, Mode, SavedProperty, PropertyType } from "./types";
+import type {
+  Property,
+  Mode,
+  SavedProperty,
+  PropertyType,
+  CommissionRate,
+} from "./types";
 import { TAX_BRACKETS, defaultPropertyBase, mockFolders } from "./constants";
 import { calculateValues } from "./calculations";
 import { fmtCurrency, fmtRate, calculateBalanceMonthAftTOP } from "./utils";
@@ -38,6 +44,7 @@ import {
   ValueText,
   ClearableNumberInput,
   MonthYearPicker,
+  CommissionRateSelector,
 } from "./ui-components";
 import {
   SectionRow,
@@ -90,6 +97,24 @@ export default function PropertyTable({
   onCreateFolder,
   onSaveExistingProperty,
 }: PropertyTableProps) {
+  // Global commission rate state
+  const [globalCommissionRate, setGlobalCommissionRate] =
+    useState<CommissionRate>(""); // Default to empty string to show "Select Comm Rate"
+
+  // Initialize global commission rate from first property (only if it has a meaningful value)
+  useEffect(() => {
+    if (properties.length > 0 && !globalCommissionRate) {
+      const firstProperty = properties[0];
+      if (
+        firstProperty.commissionRate &&
+        firstProperty.commissionRate !== "" &&
+        firstProperty.commissionRate !== undefined
+      ) {
+        setGlobalCommissionRate(firstProperty.commissionRate);
+      }
+    }
+  }, [properties, globalCommissionRate]);
+
   // State for inline editing of property names
   const [editingPropertyId, setEditingPropertyId] = useState<string | null>(
     null,
@@ -668,17 +693,21 @@ export default function PropertyTable({
                         data-oid="1hx_z7x"
                       >
                         <SelectTrigger
-                          className="h-8 w-[140px] border border-slate-200 rounded"
+                          className="h-8 w-[120px] border border-slate-200 rounded text-xs text-slate-500"
                           data-oid="7e77le."
                         >
                           <SelectValue data-oid="saplwx1" />
                         </SelectTrigger>
-                        <SelectContent className="max-h-64" data-oid="eta089g">
+                        <SelectContent
+                          className="max-h-64 text-xs text-slate-600"
+                          data-oid="eta089g"
+                        >
                           {Array.from({ length: 25 }, (_, i) => (
                             <SelectItem
                               key={i}
                               value={String(i)}
                               data-oid="d3hzv4g"
+                              className="text-xs text-slate-500"
                             >
                               {i} {i === 1 ? "month" : "months"}
                             </SelectItem>
@@ -823,7 +852,7 @@ export default function PropertyTable({
           )}
 
           <MaybeNADataRow
-            label={`Bank Interest`}
+            label={`Total Interest Payable (Bank Loan)`}
             properties={displayProperties}
             fieldKey="bankLoan" // Assuming bank loan is always applicable, but including for structure
             mode={mode}
@@ -978,19 +1007,19 @@ export default function PropertyTable({
                       data-oid="cbjcu:q"
                     >
                       <SelectTrigger
-                        className="h-8 w-[210px] border border-slate-200 rounded"
+                        className="h-8 w-[180px] text-xs text-slate-500 border border-slate-200 rounded"
                         data-oid="l5fpyx:"
                       >
                         {selectedTax ? (
                           <div
-                            className="flex w-full items-center justify-between"
+                            className="flex w-full items-center justify-between text-xs text-slate-500"
                             data-oid="hvjnyhy"
                           >
                             <span className="truncate pr-2" data-oid="nohf4a1">
                               {selectedTax.range}
                             </span>
                             <span
-                              className="text-right text-slate-600 tabular-nums"
+                              className="text-right tabular-nums"
                               data-oid="xe7p9j3"
                             >
                               ({fmtRate(selectedTax.rate)})
@@ -1004,7 +1033,7 @@ export default function PropertyTable({
                         )}
                       </SelectTrigger>
                       <SelectContent
-                        className="max-h-72 w-[200px]"
+                        className="max-h-72 w-[180px] text-xs text-slate-600"
                         data-oid="om6b01w"
                       >
                         {TAX_BRACKETS.map((o) => (
@@ -1012,12 +1041,12 @@ export default function PropertyTable({
                             key={o.id}
                             value={o.id}
                             textValue={`${o.range} (${fmtRate(o.rate)})`}
-                            className="relative pl-3 pr-20"
+                            className="relative pl-3 pr-3 text-xs text-slate-500"
                             data-oid="jyeswp3"
                           >
                             <span data-oid="j.q1uwu">{o.range}</span>
                             <span
-                              className="absolute right-8 top-1/2 -translate-y-1/2 text-slate-600"
+                              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-600"
                               data-oid="tuiyzrg"
                             >
                               ({fmtRate(o.rate)})
@@ -1080,10 +1109,39 @@ export default function PropertyTable({
 
           {mode === "investment" && (
             <CommissionRateDataRow
-              label="Rental Agent Commission"
+              label={
+                <div className="flex items-center gap-3" data-oid="14:db0a">
+                  <span data-oid="8nuz85-">Rental Agent Commission</span>
+                  <div
+                    className="ml-auto flex flex-col items-start gap-1"
+                    data-oid="iydun8b"
+                  >
+                    <CommissionRateSelector
+                      value={globalCommissionRate}
+                      onChange={(rate) => {
+                        setGlobalCommissionRate(rate);
+                        // Apply the global rate to all properties
+                        displayProperties.forEach((property) => {
+                          updateProperty(property.id, "commissionRate", rate);
+                          // Clear the commission amount when "none" is selected
+                          if (rate === "none") {
+                            updateProperty(property.id, "agentCommission", 0);
+                          }
+                          // Clear the commission amount when "other" is selected so user can enter their own value
+                          if (rate === "other") {
+                            updateProperty(property.id, "agentCommission", 0);
+                          }
+                        });
+                      }}
+                      data-oid="m_:f1z_"
+                    />
+                  </div>
+                </div>
+              }
               properties={displayProperties}
               mode={mode}
               balanceMonthsMap={balanceMonthsMap}
+              globalCommissionRate={globalCommissionRate}
               onCommissionRateChange={(propertyId, rate) => {
                 updateProperty(propertyId, "commissionRate", rate);
                 // Clear the commission amount when "none" is selected

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { X, Calendar } from "lucide-react";
+import { X, Calendar, ChevronDownIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -381,11 +381,11 @@ export function MonthYearPicker({
           className="h-9 w-28 justify-start text-left font-normal px-2 py-1 text-xs text-slate-500 border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           data-oid="ka:49am"
         >
-          <Calendar className="mr-1 h-2 w-2" data-oid="i8vhk.m" />
+          <Calendar className="h-1 w-1" data-oid="i8vhk.m" />
           {value ? formatDate(value) : "Select date"}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-72 p-3 z-[10]" data-oid="v1omtcq">
+      <PopoverContent className="w-72 p-3 z-[50]" data-oid="v1omtcq">
         <div className="space-y-3" data-oid="i9tj-.x">
           {/* Header showing current selection */}
           <div
@@ -502,10 +502,11 @@ export function CommissionRateSelector({
         return "1.5 Months Rent";
       case "2":
         return "2 Months Rent";
-      case "other":
-        return "Other";
       case "none":
         return "No Comm Payable";
+      case "other":
+        return "Other";
+
       default:
         return "Select Comm Rate";
     }
@@ -519,20 +520,26 @@ export function CommissionRateSelector({
     return getDisplayText(rate);
   };
 
-  const options: CommissionRate[] = ["0.5", "1", "1.5", "2", "other", "none"];
+  const options: CommissionRate[] = ["0.5", "1", "1.5", "2", "none", "other"];
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen} data-oid="owvwtb9">
       <PopoverTrigger asChild data-oid="8kk34mo">
         <Button
           variant="outline"
-          className={`h-9 w-32 justify-start text-left font-normal px-2 py-1 text-xs text-slate-500 border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${className || ""}`}
+          className={`h-9 w-40 justify-between text-left font-normal px-2 py-1 text-xs text-slate-500 border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${className || ""}`}
           data-oid="qgxtfuy"
         >
-          {getButtonText(value)}
+          <span className="truncate" data-oid="nknc5vx">
+            {getButtonText(value)}
+          </span>
+          <ChevronDownIcon
+            className="h-3 w-3 ml-1 flex-shrink-0"
+            data-oid="0xjpd3c"
+          />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-48 p-2 z-[10]" data-oid="2h73z6g">
+      <PopoverContent className="w-40 p-2 z-[10]" data-oid="2h73z6g">
         <div className="space-y-1" data-oid="x1:boam">
           {options.map((option) => (
             <button

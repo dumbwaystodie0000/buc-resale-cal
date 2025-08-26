@@ -187,14 +187,26 @@ export function calculateValues(
   // Calculate SSD based on holding period
   const ssdPayable = calculateSSD(property.purchasePrice, YEARS, projectedGrowth);
 
+  // For BUC properties, only include minor renovation and furniture & fittings if balance months after TOP > 0
+  let applicableMinorRenovation = property.minorRenovation;
+  let applicableFurnitureFittings = property.furnitureFittings;
+  
+  if (property.type === "BUC") {
+    const balanceMonths = calculateBalanceMonthAftTOP(property.estTOP, YEARS);
+    if (balanceMonths <= 0) {
+      applicableMinorRenovation = 0;
+      applicableFurnitureFittings = 0;
+    }
+  }
+
   const totalOtherExpenses =
     bankInterest +
     maintenanceFeeTotal +
     property.propertyTax +
     taxOnRental +
     rentWhileWaitingTotal +
-    property.minorRenovation +
-    property.furnitureFittings +
+    applicableMinorRenovation +
+    applicableFurnitureFittings +
     agentCommission +
     ssdPayable +
     property.otherExpenses
