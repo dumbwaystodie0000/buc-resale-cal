@@ -177,7 +177,7 @@ export default function BasicPropertyData({
                   className="text-xs text-slate-600 whitespace-normal leading-tight max-w-[120px] break-words"
                   data-oid="dakjrsa"
                 >
-                  {balanceMonths} months to end Holding Period
+                  Remaining Holding Period: {balanceMonths} months
                 </div>
               }
               data-oid="19vdar:"

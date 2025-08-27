@@ -28,6 +28,71 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+// ABSD Profile Selector Component
+function ABSDProfileSelector({ 
+  citizenship, 
+  propertyCount, 
+  onChange 
+}: { 
+  citizenship: "SC" | "PR" | "Foreigner" | "Company"
+  propertyCount: number
+  onChange: (citizenship: "SC" | "PR" | "Foreigner" | "Company", propertyCount: number) => void
+}) {
+  const buyerProfileOptions = [
+    { value: "SC", label: "SG Citizen" },
+    { value: "PR", label: "PR" },
+    { value: "Foreigner", label: "Foreigner" },
+    { value: "Company", label: "Company" }
+  ];
+
+  const propertyCountOptions = [
+    { value: 1, label: "1st" },
+    { value: 2, label: "2nd" },
+    { value: 3, label: "3rd+" }
+  ];
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2">
+        <div className="text-xs font-medium text-gray-800">Buyer Profile:</div>
+        <div className="grid grid-cols-2 gap-1">
+          {buyerProfileOptions.map((option) => (
+            <button
+              key={option.value}
+              className={`h-6 px-2 text-[11px] rounded border ${
+                citizenship === option.value
+                  ? "bg-blue-600 hover:bg-blue-700 text-white border-blue-600"
+                  : "text-slate-400 hover:text-slate-600 bg-slate-50/50 border-slate-200 opacity-60 hover:opacity-80"
+              }`}
+              onClick={() => onChange(option.value as "SC" | "PR" | "Foreigner" | "Company", propertyCount)}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <div className="text-xs font-medium text-gray-800">Property Count:</div>
+        <div className="flex gap-1">
+          {propertyCountOptions.map((option) => (
+            <button
+              key={option.value}
+              className={`h-6 px-2 text-[11px] rounded border ${
+                propertyCount === option.value
+                  ? "bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600"
+                  : "text-slate-400 hover:text-slate-600 bg-slate-50/50 border-slate-200 opacity-60 hover:opacity-80"
+              }`}
+              onClick={() => onChange(citizenship, option.value)}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface ExpensesSectionProps {
   properties: Property[];
   mode: Mode;
@@ -221,11 +286,31 @@ export default function ExpensesSection({
 
       <DataRow
         label={
-          <TooltipLabel
-            label="Additional Buyer Stamp Duty (ABSD)"
-            tooltip="Additional Buyer Stamp Duty is an additional tax on property purchases. Rates vary by citizenship and number of properties owned."
-            data-oid="absd-tooltip"
-          />
+          <div className="flex items-center gap-3" data-oid="absd-label">
+            <TooltipLabel
+              label="Additional Buyer Stamp Duty (ABSD)"
+              tooltip="Additional Buyer Stamp Duty is an additional tax on property purchases. Rates vary by citizenship and number of properties owned."
+              data-oid="absd-tooltip"
+            />
+
+            <div
+              className="ml-auto flex flex-col items-start gap-1 min-w-[160px]"
+              data-oid="absd-selector"
+            >
+              <ABSDProfileSelector
+                citizenship={properties[0]?.absdCitizenship || "SC"}
+                propertyCount={properties[0]?.absdPropertyCount || 1}
+                onChange={(citizenship, propertyCount) => {
+                  // Apply the settings to all properties
+                  properties.forEach((property) => {
+                    updateProperty(property.id, "absdCitizenship", citizenship);
+                    updateProperty(property.id, "absdPropertyCount", propertyCount);
+                  });
+                }}
+                data-oid="absd-profile-selector"
+              />
+            </div>
+          </div>
         }
         properties={properties}
         render={(p) => {

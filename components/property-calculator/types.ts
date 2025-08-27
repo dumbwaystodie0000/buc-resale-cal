@@ -44,6 +44,8 @@ export interface Property {
   balanceMonthAftTOP: number
   holdingPeriod: number
   ssdPayable: number
+  absdCitizenship: "SC" | "PR" | "Foreigner" | "Company"
+  absdPropertyCount: number
 }
 
 export interface CalculationResult {

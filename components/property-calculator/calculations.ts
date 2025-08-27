@@ -74,7 +74,7 @@ function calculateBSD(purchasePrice: number): number {
 }
 
 // Function to calculate ABSD (Additional Buyer Stamp Duty) based on purchase price, citizenship, and property count
-function calculateABSD(purchasePrice: number, citizenship: "SC" | "PR" | "Foreigner" = "SC", propertyCount: number = 1): number {
+function calculateABSD(purchasePrice: number, citizenship: "SC" | "PR" | "Foreigner" | "Company" = "SC", propertyCount: number = 1): number {
   let absdRate = 0;
   
   if (citizenship === "SC") {
@@ -97,6 +97,9 @@ function calculateABSD(purchasePrice: number, citizenship: "SC" | "PR" | "Foreig
     } else {
       absdRate = 0.35; // 35% for 3rd+ property
     }
+  } else if (citizenship === "Company") {
+    // Companies
+    absdRate = 0.65; // 65% for all properties
   } else {
     // Foreigners
     absdRate = 0.60; // 60% for all properties
@@ -560,7 +563,7 @@ export function calculateValues(
 
   // Calculate BSD and ABSD
   const bsd = calculateBSD(property.purchasePrice);
-  const absd = calculateABSD(property.purchasePrice);
+  const absd = calculateABSD(property.purchasePrice, property.absdCitizenship || "SC", property.absdPropertyCount || 1);
 
   // For BUC properties, only include minor renovation and furniture & fittings if balance months after TOP > 0
   let applicableMinorRenovation = property.minorRenovation;

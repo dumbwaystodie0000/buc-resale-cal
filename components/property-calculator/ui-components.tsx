@@ -291,7 +291,7 @@ export function LabeledNumber({
         value={value}
         onChange={onChange}
         step={step}
-        className="w-22"
+        className="w-20"
         data-oid="yighzuw"
       />
     </div>
