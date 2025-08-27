@@ -1,7 +1,7 @@
 "use client";
 
 import type { Property, Mode } from "./types";
-import { calculateValues } from "./calculations";
+import { calculateValues, calculateMonthlyInstalmentForProperty, getBUCMonthlyInstalmentBreakdown } from "./calculations";
 import { fmtCurrency, calculateBalanceMonthAftTOP } from "./utils";
 import {
   CurrencyInput,
@@ -101,33 +101,8 @@ export default function BasicPropertyData({
       <DataRow
         label={
           <TooltipLabel
-            label="LTV %"
-            tooltip="Loan-to-Value ratio: the percentage of the property value that you can borrow. Maximum 75% for most properties."
-            data-oid="y665:.p"
-          />
-        }
-        properties={properties}
-        render={(p) => (
-          <div className="flex items-center gap-2" data-oid="fzw2gkq">
-            <ClearableNumberInput
-              value={p.ltv || 75}
-              onChange={(v: number) =>
-                updateProperty(p.id, "ltv", Math.min(Math.max(v, 1), 75))
-              }
-              step={1}
-              className="w-20"
-              data-oid="vrbvo_8"
-            />
-          </div>
-        )}
-        data-oid="wb5zg35"
-      />
-
-      <DataRow
-        label={
-          <TooltipLabel
             label="Bank Loan"
-            tooltip="The actual loan amount you will receive from the bank, calculated as Purchase Price × LTV %."
+            tooltip="Loan-to-Value ratio and the actual loan amount you will receive from the bank, calculated as Purchase Price × LTV %."
             data-oid="15v-uwu"
           />
         }
@@ -135,14 +110,30 @@ export default function BasicPropertyData({
         render={(p) => {
           const bankLoan = (p.purchasePrice * (p.ltv || 75)) / 100;
           return (
-            <div className="space-y-1" data-oid="4d5tyjk">
-              <div
-                className="text-sm font-medium text-slate-900"
-                data-oid="3gsbne8"
-              >
-                {fmtCurrency(bankLoan)}
-              </div>
-            </div>
+            <DualCell
+              left={
+                <div className="flex items-center gap-2" data-oid="3gsbne8">
+                  <span className="text-sm font-medium text-slate-900">
+                    {fmtCurrency(bankLoan)}
+                  </span>
+                </div>
+              }
+              right={
+                <div className="flex items-center gap-2" data-oid="fzw2gkq">
+                  <span className="text-[11px] text-slate-600 whitespace-nowrap">LTV %</span>
+                  <ClearableNumberInput
+                    value={p.ltv || 75}
+                    onChange={(v: number) =>
+                      updateProperty(p.id, "ltv", Math.min(Math.max(v, 1), 75))
+                    }
+                    step={1}
+                    className="w-20"
+                    data-oid="vrbvo_8"
+                  />
+                </div>
+              }
+              data-oid="0_8y40y"
+            />
           );
         }}
         data-oid="0_8y40y"
@@ -194,6 +185,60 @@ export default function BasicPropertyData({
           );
         }}
         data-oid="2y:l4fg"
+      />
+
+      <DataRow
+        label={
+          <TooltipLabel
+            label="Monthly Instalment"
+            tooltip="Your monthly mortgage payment amount. For BUC properties, this shows Year 1-4 breakdown based on construction progress. For Resale properties, this is the standard monthly payment."
+            data-oid="monthly-instalment-tooltip"
+          />
+        }
+        properties={properties}
+        render={(p) => {
+          if (p.type === "BUC" && p.estTOP) {
+            // For BUC properties, show breakdown by years
+            const breakdown = getBUCMonthlyInstalmentBreakdown(p, p.estTOP);
+            return (
+              <div className="space-y-2" data-oid="monthly-instalment-buc-breakdown">
+                <div className="grid grid-cols-2 gap-4 text-xs">
+                  <div className="text-left">
+                    <span className="text-slate-600">Yr 1:</span>
+                    <span className="font-medium ml-2">{fmtCurrency(breakdown.year1)}</span>
+                  </div>
+                  <div className="text-left">
+                    <span className="text-slate-600">Yr 2:</span>
+                    <span className="font-medium ml-2">{fmtCurrency(breakdown.year2)}</span>
+                  </div>
+                  <div className="text-left">
+                    <span className="text-slate-600">Yr 3:</span>
+                    <span className="font-medium ml-2">{fmtCurrency(breakdown.year3)}</span>
+                  </div>
+                  <div className="text-left">
+                    <span className="text-slate-600">Yr 4:</span>
+                    <span className="font-medium ml-2">{fmtCurrency(breakdown.year4)}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          } else {
+            // For Resale properties or BUC without TOP date, show standard calculation
+            const monthlyInstalment = calculateMonthlyInstalmentForProperty(p, p.estTOP);
+            return (
+              <div className="space-y-1" data-oid="monthly-instalment-value">
+                <div
+                  className="text-sm font-medium text-slate-900"
+                  data-oid="monthly-instalment-amount"
+                >
+                  {fmtCurrency(monthlyInstalment)}
+                </div>
+
+              </div>
+            );
+          }
+        }}
+        data-oid="monthly-instalment-row"
       />
 
       <tr className="h-4 bg-white" data-oid="8501bzl">

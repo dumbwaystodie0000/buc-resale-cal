@@ -204,9 +204,15 @@ export default function ExpensesSection({
         }
         properties={properties}
         render={(p) => {
+          const d = calculateValues(p, {
+            mode,
+            taxBracket,
+            vacancyMonth: p.vacancyMonth,
+            monthlyRental,
+          });
           return (
             <ValueText data-oid="bsd-value">
-              $0
+              {fmtCurrency(d.bsd)}
             </ValueText>
           );
         }}
@@ -223,9 +229,15 @@ export default function ExpensesSection({
         }
         properties={properties}
         render={(p) => {
+          const d = calculateValues(p, {
+            mode,
+            taxBracket,
+            vacancyMonth: p.vacancyMonth,
+            monthlyRental,
+          });
           return (
             <ValueText data-oid="absd-value">
-              $0
+              {fmtCurrency(d.absd)}
             </ValueText>
           );
         }}
@@ -237,7 +249,7 @@ export default function ExpensesSection({
         <DataRow
           label={
             <TooltipLabel
-              label="SSD Payable"
+              label="Seller Stamp Duty (SSD)"
               tooltip="Seller's Stamp Duty (SSD) is payable if you sell your property within 4 years of purchase. Rates: 16% (1st year), 12% (2nd year), 8% (3rd year), 4% (4th year)."
               data-oid="75zo1b7"
             />
@@ -496,7 +508,7 @@ export default function ExpensesSection({
                     className="text-xs text-slate-600 whitespace-nowrap"
                     data-oid="rental-gst-toggle-label"
                   >
-                    GST
+                    GST is Payable
                   </label>
                 </div>
               </div>
@@ -602,7 +614,7 @@ export default function ExpensesSection({
                   className="text-xs text-slate-600 whitespace-nowrap"
                   data-oid="gst-toggle-label"
                 >
-                  GST
+                  GST is Payable
                 </label>
               </div>
             </div>

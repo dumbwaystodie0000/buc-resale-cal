@@ -160,7 +160,7 @@ export default function GrowthRentalSection({
                           monthlyRental,
                         });
                         return d.vacancyDeduction === 0
-                          ? "$0"
+                          ? fmtCurrency(0)
                           : `-${fmtCurrency(d.vacancyDeduction)}`;
                       })()}
                     </div>
