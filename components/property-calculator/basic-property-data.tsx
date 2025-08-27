@@ -104,34 +104,60 @@ export default function BasicPropertyData({
         label={
           <TooltipLabel
             label="Bank Loan"
-            tooltip="Loan-to-Value ratio and the actual loan amount you will receive from the bank, calculated as Purchase Price × LTV %."
+            tooltip="Loan-to-Value ratio and the actual loan amount you will receive from the bank. You can edit either the loan amount or LTV percentage - the other will be calculated automatically."
             data-oid="15v-uwu"
           />
         }
         properties={properties}
         render={(p) => {
-          const bankLoan = (p.purchasePrice * (p.ltv || 75)) / 100;
+          const currentBankLoan = p.bankLoan > 0 ? p.bankLoan : (p.purchasePrice * (p.ltv || 75)) / 100;
+          const currentLtv = p.ltv || 75;
+          
           return (
             <DualCell
               left={
                 <div className="flex items-center gap-2" data-oid="3gsbne8">
-                  <span className="text-sm font-medium text-slate-900">
-                    {fmtCurrency(bankLoan)}
-                  </span>
+                                      <CurrencyInput
+                      value={currentBankLoan}
+                      onChange={(v) => {
+                        // When user inputs bank loan amount, calculate and update LTV
+                        if (v > 0 && p.purchasePrice > 0) {
+                          // Enforce maximum LTV of 75%
+                          const calculatedLtv = (v / p.purchasePrice) * 100;
+                          const newLtv = Math.min(calculatedLtv, 75);
+                          const maxAllowedLoan = (p.purchasePrice * 75) / 100;
+                          const finalLoanAmount = Math.min(v, maxAllowedLoan);
+                          
+                          updateProperty(p.id, "ltv", Math.round(newLtv));
+                          updateProperty(p.id, "bankLoan", finalLoanAmount);
+                        } else {
+                          updateProperty(p.id, "bankLoan", v);
+                        }
+                      }}
+                      data-oid="bank-loan-input"
+                    />
                 </div>
               }
               right={
                 <div className="flex items-center gap-2" data-oid="fzw2gkq">
                   <span className="text-[11px] text-slate-600 whitespace-nowrap">LTV %</span>
                   <ClearableNumberInput
-                    value={p.ltv ?? 0}
+                    value={currentLtv}
                     onChange={(v: number) => {
-                      // Allow 0 for cleared state, but validate non-zero values
-                      const validatedValue = v === 0 ? 0 : Math.min(Math.max(v, 1), 75);
-                      updateProperty(p.id, "ltv", validatedValue);
+                      // When user inputs LTV percentage, calculate and update bank loan amount
+                      // Enforce maximum LTV of 75%
+                      const validatedLtv = Math.min(v, 75);
+                      if (validatedLtv > 0 && p.purchasePrice > 0) {
+                        const newBankLoan = (p.purchasePrice * validatedLtv) / 100;
+                        updateProperty(p.id, "ltv", validatedLtv);
+                        updateProperty(p.id, "bankLoan", newBankLoan);
+                      } else {
+                        updateProperty(p.id, "ltv", validatedLtv);
+                        updateProperty(p.id, "bankLoan", 0);
+                      }
                     }}
                     step={1}
-                    className="w-20"
+                    className="w-16"
                     placeholder="0"
                     data-oid="vrbvo_8"
                   />
