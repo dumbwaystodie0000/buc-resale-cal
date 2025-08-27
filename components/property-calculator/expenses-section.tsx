@@ -2,7 +2,7 @@
 
 import type { Property, Mode, CommissionRate } from "./types";
 import { TAX_BRACKETS } from "./constants";
-import { calculateValues } from "./calculations";
+import { calculateValues, calculateABSD } from "./calculations";
 import { fmtCurrency, fmtRate } from "./utils";
 import {
   CurrencyInput,
@@ -42,7 +42,7 @@ function ABSDProfileSelector({
     { value: "SC", label: "SG Citizen" },
     { value: "PR", label: "PR" },
     { value: "Foreigner", label: "Foreigner" },
-    { value: "Company", label: "Company" }
+    { value: "Company", label: "Entity" }
   ];
 
   const propertyCountOptions = [
@@ -289,7 +289,12 @@ export default function ExpensesSection({
           <div className="flex items-center gap-3" data-oid="absd-label">
             <TooltipLabel
               label="Additional Buyer Stamp Duty (ABSD)"
-              tooltip="Additional Buyer Stamp Duty is an additional tax on property purchases. Rates vary by citizenship and number of properties owned."
+              tooltip={`Additional Buyer Stamp Duty is an additional tax on property purchases. Current rate: ${(() => {
+                const citizenship = properties[0]?.absdCitizenship || "SC";
+                const propertyCount = properties[0]?.absdPropertyCount || 1;
+                const rate = calculateABSD(1000000, citizenship, propertyCount) / 1000000 * 100;
+                return rate === 0 ? "0%" : `${rate.toFixed(0)}%`;
+              })()}`}
               data-oid="absd-tooltip"
             />
 
@@ -320,6 +325,7 @@ export default function ExpensesSection({
             vacancyMonth: p.vacancyMonth,
             monthlyRental,
           });
+          
           return (
             <ValueText data-oid="absd-value">
               {fmtCurrency(d.absd)}

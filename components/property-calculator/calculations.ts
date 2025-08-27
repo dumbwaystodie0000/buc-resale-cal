@@ -74,7 +74,7 @@ function calculateBSD(purchasePrice: number): number {
 }
 
 // Function to calculate ABSD (Additional Buyer Stamp Duty) based on purchase price, citizenship, and property count
-function calculateABSD(purchasePrice: number, citizenship: "SC" | "PR" | "Foreigner" | "Company" = "SC", propertyCount: number = 1): number {
+export function calculateABSD(purchasePrice: number, citizenship: "SC" | "PR" | "Foreigner" | "Company" = "SC", propertyCount: number = 1): number {
   let absdRate = 0;
   
   if (citizenship === "SC") {
@@ -83,22 +83,20 @@ function calculateABSD(purchasePrice: number, citizenship: "SC" | "PR" | "Foreig
       absdRate = 0; // No ABSD for 1st property
     } else if (propertyCount === 2) {
       absdRate = 0.20; // 20% for 2nd property
-    } else if (propertyCount === 3) {
-      absdRate = 0.25; // 25% for 3rd property
     } else {
-      absdRate = 0.30; // 30% for 4th+ property
+      absdRate = 0.30; // 30% for 3rd+ property
     }
   } else if (citizenship === "PR") {
     // Permanent Residents
     if (propertyCount === 1) {
-      absdRate = 0.25; // 25% for 1st property
+      absdRate = 0.05; // 5% for 1st property
     } else if (propertyCount === 2) {
       absdRate = 0.30; // 30% for 2nd property
     } else {
       absdRate = 0.35; // 35% for 3rd+ property
     }
   } else if (citizenship === "Company") {
-    // Companies
+    // Companies/Entities
     absdRate = 0.65; // 65% for all properties
   } else {
     // Foreigners
