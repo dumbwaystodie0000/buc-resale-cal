@@ -2,6 +2,14 @@ import type { Property, TaxBracket, SavedProperty } from "./types";
 
 export const INTEREST_RATE_PCT = 1.94;
 
+// AV (Annual Value) yield rate for property tax calculation
+export const AV_YIELD_RATE = 0.026; // 2.6%
+
+// Property tax rebate year (only applicable in 2025)
+export const PROPERTY_TAX_REBATE_YEAR = 2025;
+export const PROPERTY_TAX_REBATE_RATE = 0.15; // 15%
+export const PROPERTY_TAX_REBATE_CAP = 1000; // $1,000 cap
+
 // SSD (Seller's Stamp Duty) rates based on holding period
 export const SSD_RATES = {
   UP_TO_1_YEAR: 0.16,      // 16%

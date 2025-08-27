@@ -128,8 +128,8 @@ export const ClearableNumberInput = React.forwardRef<
           title="Clear"
           onClick={() => {
             onChange(0);
-            setInputValue("0");
-            setIsEditing(true); // Keep in editing mode to show the cleared "0"
+            setInputValue(""); // Set to empty string instead of "0"
+            setIsEditing(true); // Keep in editing mode to show empty input
             setTimeout(() => {
               if (inputRef.current) {
                 inputRef.current.focus();
@@ -538,7 +538,7 @@ export function CommissionRateSelector({
     return getDisplayText(rate);
   };
 
-  const options: CommissionRate[] = ["0.5", "1", "1.5", "2", "none", "other"];
+  const options: CommissionRate[] = ["0.5", "1", "1.5", "2", "none", "other", ""] as CommissionRate[];
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen} data-oid="owvwtb9">
@@ -636,7 +636,7 @@ export function SalesCommissionRateSelector({
     return getDisplayText(rate);
   };
 
-  const options: SalesCommissionRate[] = ["0.50", "0.75", "1.00", "1.25", "1.50", "1.75", "2.00", "2.50", "3.00", "3.50", "none", "other"];
+  const options: SalesCommissionRate[] = ["0.50", "0.75", "1.00", "1.25", "1.50", "1.75", "2.00", "2.50", "3.00", "3.50", "none", "other", ""] as SalesCommissionRate[];
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>

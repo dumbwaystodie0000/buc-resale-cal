@@ -1,5 +1,5 @@
 import type { Property, Mode, CalculationResult } from "./types"
-import { INTEREST_RATE_PCT, SSD_RATES } from "./constants"
+import { INTEREST_RATE_PCT, SSD_RATES, AV_YIELD_RATE, PROPERTY_TAX_REBATE_YEAR, PROPERTY_TAX_REBATE_RATE, PROPERTY_TAX_REBATE_CAP } from "./constants"
 import { fmtCurrency, fmtRate, calculateBalanceMonthAftTOP, calculateMonthsToTOP } from "./utils";
 
 // Function to calculate BSD (Buyer Stamp Duty) based on purchase price
@@ -173,16 +173,178 @@ function calculateBUCBankInterest(loanAmount: number, purchasePrice: number, ann
 }
 
 // Function to calculate bank interest for resale properties
-// For resale properties, we calculate interest on the full loan amount for the holding period
+// For resale properties, we calculate total interest payable over the loan term using amortization formula
 function calculateResaleBankInterest(loanAmount: number, annualInterestRate: number, holdingPeriod: number): number {
   const monthlyRate = annualInterestRate / 100 / 12
   const months = holdingPeriod * 12 // Use dynamic holding period
   
-  // Simple interest calculation: Principal × Rate × Time
-  // For resale properties, the full loan amount is disbursed immediately
-  const totalInterest = loanAmount * monthlyRate * months
+  // Calculate monthly payment using amortization formula: P = L[c(1 + c)^n]/[(1 + c)^n - 1]
+  // Where: P = monthly payment, L = loan amount, c = monthly interest rate, n = total number of payments
+  if (monthlyRate === 0) {
+    return 0; // No interest if rate is 0
+  }
+  
+  const numerator = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, months)
+  const denominator = Math.pow(1 + monthlyRate, months) - 1
+  const monthlyPayment = numerator / denominator
+  
+  // Calculate total interest: (Monthly Payment × n) - Principal
+  const totalInterest = (monthlyPayment * months) - loanAmount
   
   return Math.round(totalInterest)
+}
+
+// Function to calculate Annual Value (AV) for a specific year
+function calculateAnnualValue(purchasePrice: number, annualGrowthRate: number, yearNumber: number): number {
+  // Year 1: AV = Property Price × 2.6%
+  if (yearNumber === 1) {
+    return purchasePrice * AV_YIELD_RATE;
+  }
+  
+  // Year N onwards: AV = AV_1 × (1 + annualGrowth%)^(n-1)
+  const year1AV = purchasePrice * AV_YIELD_RATE;
+  return year1AV * Math.pow(1 + (annualGrowthRate / 100), yearNumber - 1);
+}
+
+// Function to calculate property tax for owner-occupied properties (effective 1 Jan 2025)
+function calculateOwnerOccupiedPropertyTax(annualValue: number, taxYear: number): number {
+  let totalTax = 0;
+  
+  // Progressive tax brackets for owner-occupied properties
+  if (annualValue <= 12000) {
+    // First $12,000: 0%
+    totalTax = 0;
+  } else if (annualValue <= 40000) {
+    // First $12,000: 0%
+    // Next $28,000: 4%
+    totalTax = (annualValue - 12000) * 0.04;
+  } else if (annualValue <= 50000) {
+    // First $40,000: $1,120 (cumulative)
+    // Next $10,000: 6%
+    totalTax = 1120 + (annualValue - 40000) * 0.06;
+  } else if (annualValue <= 75000) {
+    // First $50,000: $1,720 (cumulative)
+    // Next $25,000: 10%
+    totalTax = 1720 + (annualValue - 50000) * 0.10;
+  } else if (annualValue <= 85000) {
+    // First $75,000: $4,220 (cumulative)
+    // Next $10,000: 14%
+    totalTax = 4220 + (annualValue - 85000) * 0.14;
+  } else if (annualValue <= 100000) {
+    // First $85,000: $5,620 (cumulative)
+    // Next $15,000: 20%
+    totalTax = 5620 + (annualValue - 85000) * 0.20;
+  } else if (annualValue <= 140000) {
+    // First $100,000: $8,620 (cumulative)
+    // Next $40,000: 26%
+    totalTax = 8620 + (annualValue - 100000) * 0.26;
+  } else {
+    // First $140,000: $19,020 (cumulative)
+    // Above $140,000: 32%
+    totalTax = 19020 + (annualValue - 140000) * 0.32;
+  }
+  
+  // Apply 15% rebate (capped at $1,000) only for year 2025
+  // The rebate is only applicable if the tax year is 2025
+  const isRebateApplicable = taxYear === PROPERTY_TAX_REBATE_YEAR;
+  
+  if (isRebateApplicable) {
+    const rebate = Math.min(totalTax * PROPERTY_TAX_REBATE_RATE, PROPERTY_TAX_REBATE_CAP);
+    totalTax = Math.max(0, totalTax - rebate);
+  }
+  
+  return Math.round(totalTax);
+}
+
+// Function to calculate property tax for non-owner-occupied (investment) properties (effective 1 Jan 2024)
+function calculateInvestmentPropertyTax(annualValue: number): number {
+  let totalTax = 0;
+  
+  // Progressive tax brackets for non-owner-occupied properties
+  if (annualValue <= 30000) {
+    // First $30,000: 12%
+    totalTax = annualValue * 0.12;
+  } else if (annualValue <= 45000) {
+    // First $30,000: $3,600
+    // Next $15,000: 20%
+    totalTax = 3600 + (annualValue - 30000) * 0.20;
+  } else if (annualValue <= 60000) {
+    // First $45,000: $6,600
+    // Next $15,000: 28%
+    totalTax = 6600 + (annualValue - 45000) * 0.28;
+  } else {
+    // First $60,000: $10,800
+    // Above $60,000: 36%
+    totalTax = 10800 + (annualValue - 60000) * 0.36;
+  }
+  
+  return Math.round(totalTax);
+}
+
+// Function to calculate total property tax for the entire holding period
+function calculateTotalPropertyTax(
+  property: Property, 
+  mode: Mode, 
+  holdingPeriod: number
+): number {
+  let totalPropertyTax = 0;
+  
+  if (property.type === "BUC") {
+    // For BUC properties, property tax is only charged after TOP
+    const balanceMonths = calculateBalanceMonthAftTOP(property.estTOP, holdingPeriod);
+    
+    if (balanceMonths <= 0) {
+      // No property tax if TOP hasn't been reached yet
+      return 0;
+    }
+    
+    // Calculate how many years of property tax to charge
+    // If there are partial months, round up to the nearest year
+    const taxableYears = Math.ceil(balanceMonths / 12);
+    
+    // Calculate the actual tax year when property tax becomes payable
+    // This is based on the TOP date, not the year of ownership
+    if (!property.estTOP) {
+      return 0; // No TOP date specified, no property tax
+    }
+    const topDate = new Date(property.estTOP);
+    const topYear = topDate.getFullYear();
+    
+    // Calculate property tax for the taxable years only
+    for (let year = 1; year <= taxableYears; year++) {
+      const annualValue = calculateAnnualValue(property.purchasePrice, property.annualGrowth || 0, year);
+      
+      if (mode === "own") {
+        // Owner-occupied: use owner-occupied rates
+        // The tax year is the TOP year + (year - 1) since year 1 starts from TOP
+        const taxYear = topYear + (year - 1);
+        totalPropertyTax += calculateOwnerOccupiedPropertyTax(annualValue, taxYear);
+      } else {
+        // Investment: use non-owner-occupied rates
+        totalPropertyTax += calculateInvestmentPropertyTax(annualValue);
+      }
+    }
+  } else {
+    // For Resale properties, calculate property tax for the full holding period
+    // For Resale, we assume the current year is when the property is purchased
+    const currentYear = new Date().getFullYear();
+    
+    for (let year = 1; year <= holdingPeriod; year++) {
+      const annualValue = calculateAnnualValue(property.purchasePrice, property.annualGrowth || 0, year);
+      
+      if (mode === "own") {
+        // Owner-occupied: use owner-occupied rates
+        // The tax year is the current year + (year - 1)
+        const taxYear = currentYear + (year - 1);
+        totalPropertyTax += calculateOwnerOccupiedPropertyTax(annualValue, taxYear);
+      } else {
+        // Investment: use non-owner-occupied rates
+        totalPropertyTax += calculateInvestmentPropertyTax(annualValue);
+      }
+    }
+  }
+  
+  return totalPropertyTax;
 }
 
 function calculateAgentCommission(property: Property, YEARS: number, monthlyRental: number, gstEnabled: boolean = false): number {
@@ -575,10 +737,13 @@ export function calculateValues(
     }
   }
 
+  // Calculate automatic property tax based on mode and holding period
+  const automaticPropertyTax = calculateTotalPropertyTax(property, ctx.mode, YEARS);
+  
   const totalOtherExpenses =
     bankInterest +
     maintenanceFeeTotal +
-    property.propertyTax +
+    automaticPropertyTax +
     taxOnRental +
     rentWhileWaitingTotal +
     applicableMinorRenovation +
@@ -616,5 +781,6 @@ export function calculateValues(
     absd,
     salesCommission,
     agentCommission,
+    propertyTax: automaticPropertyTax,
   }
 }

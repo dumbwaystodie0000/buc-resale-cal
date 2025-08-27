@@ -68,6 +68,7 @@ export interface CalculationResult {
   absd: number
   salesCommission: number
   agentCommission: number
+  propertyTax: number
 }
 
 export interface TaxBracket {

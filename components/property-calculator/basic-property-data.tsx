@@ -56,12 +56,15 @@ export default function BasicPropertyData({
         render={(p) => (
           <div className="flex items-center gap-2" data-oid="24imvpn">
             <ClearableNumberInput
-              value={p.loanTenure || 30}
-              onChange={(v: number) =>
-                updateProperty(p.id, "loanTenure", Math.min(Math.max(v, 1), 35))
-              }
+              value={p.loanTenure || 0}
+              onChange={(v: number) => {
+                // Allow 0 for cleared state, but validate non-zero values
+                const validatedValue = v === 0 ? 0 : Math.min(Math.max(v, 1), 35);
+                updateProperty(p.id, "loanTenure", validatedValue);
+              }}
               step={1}
               className="w-20"
+              placeholder="0"
               data-oid="_76z9mp"
             />
           </div>
@@ -81,16 +84,15 @@ export default function BasicPropertyData({
         render={(p) => (
           <div className="flex items-center gap-2" data-oid="3jrtn_w">
             <ClearableNumberInput
-              value={p.interestRate || 2.0}
-              onChange={(v: number) =>
-                updateProperty(
-                  p.id,
-                  "interestRate",
-                  Math.min(Math.max(v, 0.01), 5.0),
-                )
-              }
+              value={p.interestRate ?? 0}
+              onChange={(v: number) => {
+                // Allow 0 for cleared state, but validate non-zero values
+                const validatedValue = v === 0 ? 0 : Math.min(Math.max(v, 0.01), 5.0);
+                updateProperty(p.id, "interestRate", validatedValue);
+              }}
               step={0.01}
               className="w-20"
+              placeholder="0"
               data-oid="gjto0-."
             />
           </div>
@@ -122,12 +124,15 @@ export default function BasicPropertyData({
                 <div className="flex items-center gap-2" data-oid="fzw2gkq">
                   <span className="text-[11px] text-slate-600 whitespace-nowrap">LTV %</span>
                   <ClearableNumberInput
-                    value={p.ltv || 75}
-                    onChange={(v: number) =>
-                      updateProperty(p.id, "ltv", Math.min(Math.max(v, 1), 75))
-                    }
+                    value={p.ltv ?? 0}
+                    onChange={(v: number) => {
+                      // Allow 0 for cleared state, but validate non-zero values
+                      const validatedValue = v === 0 ? 0 : Math.min(Math.max(v, 1), 75);
+                      updateProperty(p.id, "ltv", validatedValue);
+                    }}
                     step={1}
                     className="w-20"
+                    placeholder="0"
                     data-oid="vrbvo_8"
                   />
                 </div>

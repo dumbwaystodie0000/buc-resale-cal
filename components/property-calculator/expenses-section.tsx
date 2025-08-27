@@ -368,47 +368,33 @@ export default function ExpensesSection({
             }
 
             return (
-              <DualCell
-                left={
-                  <ValueText data-oid="zftl7u9">
-                    {fmtCurrency(d.ssdPayable)}
-                  </ValueText>
-                }
-                right={
-                  <div
-                    className="text-xs text-slate-600 text-center"
-                    data-oid="otmukr8"
-                  >
-                    {rateText}
-                  </div>
-                }
-                data-oid="0g67wio"
-              />
+              <ValueText data-oid="zftl7u9">
+                {fmtCurrency(d.ssdPayable)}
+              </ValueText>
             );
           }}
           data-oid="9d4d.q7"
         />
       )}
 
-      <ConditionalBUCDataRow
+      <DataRow
         label={
           <TooltipLabel
             label="Est. Property Tax"
-            tooltip="Estimated annual property tax based on the Annual Value (AV) of your property."
+            tooltip="Automatically calculated property tax based on Annual Value (AV) and Singapore property tax rates."
             data-oid="i-a4-of"
           />
         }
         properties={properties}
-        fieldKey="propertyTax"
-        mode={mode}
-        balanceMonthsMap={balanceMonthsMap}
-        renderInput={(p) => (
-          <CurrencyInput
-            value={p.propertyTax}
-            onChange={(v) => updateProperty(p.id, "propertyTax", v)}
-            data-oid="xy5y3sq"
-          />
-        )}
+        render={(p) => {
+          const calculatedValues = calculateValues(p, {
+            mode,
+            taxBracket,
+            vacancyMonth: p.vacancyMonth,
+            monthlyRental,
+          });
+          return fmtCurrency(calculatedValues.propertyTax);
+        }}
         data-oid="812boo."
       />
 
