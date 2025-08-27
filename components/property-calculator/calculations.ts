@@ -173,29 +173,52 @@ function calculateBUCBankInterest(loanAmount: number, purchasePrice: number, ann
 }
 
 // Function to calculate bank interest for resale properties
-// For resale properties, we calculate total interest payable over the loan term using amortization formula
-function calculateResaleBankInterest(loanAmount: number, annualInterestRate: number, holdingPeriod: number): number {
-  const monthlyRate = annualInterestRate / 100 / 12
-  const months = holdingPeriod * 12 // Use dynamic holding period
-  
-  // Calculate monthly payment using amortization formula: P = L[c(1 + c)^n]/[(1 + c)^n - 1]
-  // Where: P = monthly payment, L = loan amount, c = monthly interest rate, n = total number of payments
-  if (monthlyRate === 0) {
-    return 0; // No interest if rate is 0
+// For resale properties, we calculate total interest paid during the holding period using proper amortization formula
+// 
+// Formula breakdown:
+// 1. Monthly Payment = P × [r(1+r)ⁿ] / [(1+r)ⁿ - 1]
+// 2. Remaining Balance = P × [(1+r)ⁿ - (1+r)ᵖ] / [(1+r)ⁿ - 1]
+// 3. Total Interest = (Monthly Payment × p) - Principal Paid
+// 
+// Where:
+// P = Principal loan amount
+// r = Monthly interest rate (annual rate ÷ 12)
+// n = Total number of payments (loan tenure × 12)
+// p = Number of payments made during holding period (holding period × 12)
+//
+// Example: $750k loan, 3% annual rate, 30-year term, 4-year holding period
+// Expected result: ~$86,227 interest paid in first 4 years
+function calculateResaleBankInterest(loanAmount: number, annualInterestRate: number, holdingPeriod: number, loanTenureYears: number = 30): number {
+  if (loanAmount <= 0 || annualInterestRate <= 0 || holdingPeriod <= 0 || loanTenureYears <= 0) {
+    return 0;
   }
-  
-  const numerator = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, months)
-  const denominator = Math.pow(1 + monthlyRate, months) - 1
-  const monthlyPayment = numerator / denominator
-  
-  // Calculate total interest: (Monthly Payment × n) - Principal
-  const totalInterest = (monthlyPayment * months) - loanAmount
-  
-  return Math.round(totalInterest)
+
+  const monthlyRate = annualInterestRate / 100 / 12;
+  const totalPayments = loanTenureYears * 12; // Use actual loan tenure
+  const targetPayments = holdingPeriod * 12; // Number of payments made during holding period
+
+  // Step 1: Calculate monthly payment using standard mortgage formula
+  // PMT = P × [r(1+r)ⁿ] / [(1+r)ⁿ - 1]
+  const numerator = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, totalPayments);
+  const denominator = Math.pow(1 + monthlyRate, totalPayments) - 1;
+  const monthlyPayment = numerator / denominator;
+
+  // Step 2: Calculate remaining balance after target payments
+  // Remaining Balance = P × [(1+r)ⁿ - (1+r)ᵖ] / [(1+r)ⁿ - 1]
+  const remainingBalance = loanAmount * (Math.pow(1 + monthlyRate, totalPayments) - Math.pow(1 + monthlyRate, targetPayments)) / (Math.pow(1 + monthlyRate, totalPayments) - 1);
+
+  // Step 3: Calculate principal paid during holding period
+  const principalPaid = loanAmount - remainingBalance;
+
+  // Step 4: Calculate total interest paid during holding period
+  // Total Interest = (Monthly Payment × Number of Payments) - Principal Paid
+  const totalInterest = (monthlyPayment * targetPayments) - principalPaid;
+
+  return Math.round(totalInterest);
 }
 
 // Function to calculate Annual Value (AV) for a specific year
-function calculateAnnualValue(purchasePrice: number, annualGrowthRate: number, yearNumber: number): number {
+export function calculateAnnualValue(purchasePrice: number, annualGrowthRate: number, yearNumber: number): number {
   // Year 1: AV = Property Price × 2.6%
   if (yearNumber === 1) {
     return purchasePrice * AV_YIELD_RATE;
@@ -207,7 +230,7 @@ function calculateAnnualValue(purchasePrice: number, annualGrowthRate: number, y
 }
 
 // Function to calculate property tax for owner-occupied properties (effective 1 Jan 2025)
-function calculateOwnerOccupiedPropertyTax(annualValue: number, taxYear: number): number {
+export function calculateOwnerOccupiedPropertyTax(annualValue: number, taxYear: number): number {
   let totalTax = 0;
   
   // Progressive tax brackets for owner-occupied properties
@@ -228,27 +251,27 @@ function calculateOwnerOccupiedPropertyTax(annualValue: number, taxYear: number)
     totalTax = 1720 + (annualValue - 50000) * 0.10;
   } else if (annualValue <= 85000) {
     // First $75,000: $4,220 (cumulative)
-    // Next $10,000: 14%
-    totalTax = 4220 + (annualValue - 85000) * 0.14;
+    // Next $10,000: 12%
+    totalTax = 4220 + (annualValue - 75000) * 0.12;
   } else if (annualValue <= 100000) {
-    // First $85,000: $5,620 (cumulative)
-    // Next $15,000: 20%
-    totalTax = 5620 + (annualValue - 85000) * 0.20;
-  } else if (annualValue <= 140000) {
-    // First $100,000: $8,620 (cumulative)
-    // Next $40,000: 26%
-    totalTax = 8620 + (annualValue - 100000) * 0.26;
+    // First $85,000: $5,420 (cumulative)
+    // Next $15,000: 14%
+    totalTax = 5420 + (annualValue - 85000) * 0.14;
+  } else if (annualValue <= 150000) {
+    // First $100,000: $7,520 (cumulative)
+    // Next $50,000: 16%
+    totalTax = 7520 + (annualValue - 100000) * 0.16;
+  } else if (annualValue <= 200000) {
+    // First $150,000: $15,520 (cumulative)
+    // Next $50,000: 18%
+    totalTax = 1520 + (annualValue - 150000) * 0.18;
   } else {
-    // First $140,000: $19,020 (cumulative)
-    // Above $140,000: 32%
-    totalTax = 19020 + (annualValue - 140000) * 0.32;
+    // Above $200,000: $24,520 (cumulative) + 20% on remaining
+    totalTax = 24520 + (annualValue - 200000) * 0.20;
   }
   
-  // Apply 15% rebate (capped at $1,000) only for year 2025
-  // The rebate is only applicable if the tax year is 2025
-  const isRebateApplicable = taxYear === PROPERTY_TAX_REBATE_YEAR;
-  
-  if (isRebateApplicable) {
+  // Apply 2025 rebate if applicable
+  if (taxYear === PROPERTY_TAX_REBATE_YEAR) {
     const rebate = Math.min(totalTax * PROPERTY_TAX_REBATE_RATE, PROPERTY_TAX_REBATE_CAP);
     totalTax = Math.max(0, totalTax - rebate);
   }
@@ -257,7 +280,7 @@ function calculateOwnerOccupiedPropertyTax(annualValue: number, taxYear: number)
 }
 
 // Function to calculate property tax for non-owner-occupied (investment) properties (effective 1 Jan 2024)
-function calculateInvestmentPropertyTax(annualValue: number): number {
+export function calculateInvestmentPropertyTax(annualValue: number): number {
   let totalTax = 0;
   
   // Progressive tax brackets for non-owner-occupied properties
@@ -282,7 +305,7 @@ function calculateInvestmentPropertyTax(annualValue: number): number {
 }
 
 // Function to calculate total property tax for the entire holding period
-function calculateTotalPropertyTax(
+export function calculateTotalPropertyTax(
   property: Property, 
   mode: Mode, 
   holdingPeriod: number
@@ -447,12 +470,12 @@ export function calculateBUCMonthlyInstalment(
   }
 
   const totalLoanAmount = (property.purchasePrice * (property.ltv || 75)) / 100;
-  const annualInterestRate = property.interestRate || 2.0;
+  const annualInterestRate = property.interestRate ?? INTEREST_RATE_PCT;
   const loanTenureYears = property.loanTenure || 30;
   const totalPayments = loanTenureYears * 12;
   const monthlyRate = annualInterestRate / 100 / 12;
 
-  if (totalLoanAmount <= 0 || annualInterestRate <= 0 || loanTenureYears <= 0) {
+  if (totalLoanAmount <= 0 || loanTenureYears <= 0) {
     return 0;
   }
 
@@ -532,7 +555,7 @@ export function calculateMonthlyInstalmentForProperty(
   } else {
     // For Resale properties, use standard calculation
     const loanAmount = (property.purchasePrice * (property.ltv || 75)) / 100;
-    return calculateMonthlyInstalment(loanAmount, property.interestRate || 2.0, property.loanTenure || 30);
+    return calculateMonthlyInstalment(loanAmount, property.interestRate ?? INTEREST_RATE_PCT, property.loanTenure || 30);
   }
 }
 
@@ -547,11 +570,11 @@ export function calculateBUCMonthlyInstalmentByYear(
   }
 
   const totalLoanAmount = (property.purchasePrice * (property.ltv || 75)) / 100;
-  const annualInterestRate = property.interestRate || 2.0;
+  const annualInterestRate = property.interestRate ?? INTEREST_RATE_PCT;
   const loanTenureYears = property.loanTenure || 30;
   const monthlyRate = annualInterestRate / 100 / 12;
 
-  if (totalLoanAmount <= 0 || annualInterestRate <= 0 || loanTenureYears <= 0) {
+  if (totalLoanAmount <= 0 || loanTenureYears <= 0) {
     return 0;
   }
 
@@ -683,10 +706,10 @@ export function calculateValues(
   
   if (property.type === "BUC") {
     // Use phased disbursement calculation for BUC properties
-    bankInterest = calculateBUCBankInterest(actualLoanAmount, property.purchasePrice, property.interestRate || INTEREST_RATE_PCT)
+    bankInterest = calculateBUCBankInterest(actualLoanAmount, property.purchasePrice, property.interestRate ?? INTEREST_RATE_PCT)
   } else {
     // Use the specific formula for resale properties
-    bankInterest = calculateResaleBankInterest(actualLoanAmount, property.interestRate || INTEREST_RATE_PCT, YEARS)
+    bankInterest = calculateResaleBankInterest(actualLoanAmount, property.interestRate ?? INTEREST_RATE_PCT, YEARS, property.loanTenure || 30)
   }
   
   // Calculate maintenance fee total differently for BUC vs Resale properties

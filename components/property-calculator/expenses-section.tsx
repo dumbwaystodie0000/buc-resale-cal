@@ -207,7 +207,7 @@ export default function ExpensesSection({
               </div>
               <div className="text-xs text-slate-600" data-oid="dakjrsa">
                 {p.type === "BUC" ? "BUC Int: " : "Resale Int: "}
-                {fmtRate(p.interestRate || 2.0)}
+                {fmtRate(p.interestRate ?? 2.0)}
               </div>
             </div>
           );

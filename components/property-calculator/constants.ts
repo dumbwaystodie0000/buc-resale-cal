@@ -1,6 +1,6 @@
 import type { Property, TaxBracket, SavedProperty } from "./types";
 
-export const INTEREST_RATE_PCT = 1.94;
+export const INTEREST_RATE_PCT = 2.0;
 
 // AV (Annual Value) yield rate for property tax calculation
 export const AV_YIELD_RATE = 0.026; // 2.6%
@@ -84,7 +84,7 @@ export const defaultPropertyBase: Omit<Property, "id"> = {
   type: "BUC",
   purchasePrice: 0,
   loanTenure: 30,
-  interestRate: 1.94,
+  interestRate: 2.0,
   ltv: 75,
   bankLoan: 0,
   projectedGrowth: 0,
