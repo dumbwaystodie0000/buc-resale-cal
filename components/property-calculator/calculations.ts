@@ -722,7 +722,39 @@ export function calculateValues(
     // For Resale properties, use the full holding period
     maintenanceFeeTotal = property.monthlyMaintenance * 12 * YEARS
   }
-  const taxOnRental = isRentalApplicable ? rentalIncome * ((ctx.taxBracket || 0) / 100) : 0 // Tax on rental also depends on rental applicability
+  // Calculate rental income tax based on new formula:
+  // 1. Monthly rent × 12 × 0.85 (15% deduction for rental expenses) = net rental income per year
+  // 2. Apply tax bracket percentage to get annual rental income tax
+  // 3. Multiply by rental years to get total rental income tax for the rental period
+  let taxOnRental = 0;
+  
+  if (isRentalApplicable && ctx.taxBracket > 0) {
+    // Calculate net rental income per year (assuming 0 vacancy months)
+    const annualRentalIncome = ctx.monthlyRental * 12;
+    
+    // Apply 15% deduction for rental expenses
+    const netAnnualRentalIncome = annualRentalIncome * 0.85;
+    
+    // Calculate annual rental income tax based on selected tax bracket
+    const annualRentalIncomeTax = netAnnualRentalIncome * (ctx.taxBracket / 100);
+    
+    // Calculate total rental income tax for the rental period
+    if (property.type === "BUC") {
+      // For BUC properties, calculate based on balance months after TOP
+      const balanceMonths = calculateBalanceMonthAftTOP(property.estTOP, YEARS);
+      
+      if (balanceMonths > 0) {
+        // Convert balance months to years and round up to nearest year
+        // Example: 6 months = 1 year, 18 months = 2 years, etc.
+        const rentalYears = Math.ceil(balanceMonths / 12);
+        taxOnRental = annualRentalIncomeTax * rentalYears;
+      }
+      // If balanceMonths is 0, taxOnRental remains 0
+    } else {
+      // For Resale properties, use the full holding period
+      taxOnRental = annualRentalIncomeTax * YEARS;
+    }
+  }
 
   const rentWhileWaitingTotal =
     ctx.mode === "own" && property.type === "BUC" 

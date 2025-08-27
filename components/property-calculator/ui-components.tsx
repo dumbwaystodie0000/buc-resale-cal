@@ -532,7 +532,7 @@ export function CommissionRateSelector({
 
   // Show placeholder text when no commission rate is selected
   const getButtonText = (rate: CommissionRate) => {
-    if (!rate || rate === "") {
+    if (!rate || rate === "" as CommissionRate) {
       return "Select Comm Rate";
     }
     return getDisplayText(rate);
@@ -549,7 +549,7 @@ export function CommissionRateSelector({
           data-oid="qgxtfuy"
         >
           <span
-            className={`truncate ${!value || value === "" ? "text-slate-500" : "text-black"}`}
+            className={`truncate ${!value || value === "" as CommissionRate ? "text-slate-500" : "text-black"}`}
             data-oid="nknc5vx"
           >
             {getButtonText(value)}
@@ -561,7 +561,7 @@ export function CommissionRateSelector({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-40 p-2 z-[10]" data-oid="2h73z6g">
-        <div className="space-y-1" data-oid="x1:boam">
+        <div className="space-y-1 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent" data-oid="x1:boam">
           {options.map((option) => (
             <button
               key={option}
@@ -630,7 +630,7 @@ export function SalesCommissionRateSelector({
 
   // Show placeholder text when no commission rate is selected
   const getButtonText = (rate: SalesCommissionRate) => {
-    if (!rate || rate === "") {
+    if (!rate || rate === "" as SalesCommissionRate) {
       return "Select Comm Rate";
     }
     return getDisplayText(rate);
@@ -646,7 +646,7 @@ export function SalesCommissionRateSelector({
           className={`h-9 w-40 justify-between text-left font-normal px-2 py-1 text-xs border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${className || ""}`}
         >
           <span
-            className={`truncate ${!value || value === "" ? "text-slate-500" : "text-black"}`}
+            className={`truncate ${!value || value === "" as SalesCommissionRate ? "text-slate-500" : "text-black"}`}
           >
             {getButtonText(value)}
           </span>
@@ -656,7 +656,7 @@ export function SalesCommissionRateSelector({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-40 p-2 z-[10]">
-        <div className="space-y-1">
+        <div className="space-y-1 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
           {options.map((option) => (
             <button
               key={option}

@@ -88,7 +88,7 @@ export default function GrowthRentalSection({
                 <div data-oid="6akjmzc">
                   <TooltipLabel
                     label="Rental Income"
-                    tooltip="Monthly rental income you expect to receive from the property. This affects your cash flow and investment returns."
+                    tooltip="Monthly rental income you expect to receive from the property. This amount is used to calculate rental income tax: Monthly rent × 12 × 0.85 (15% deduction) × tax bracket rate × rental years. For BUC properties, rental years = balance months after TOP ÷ 12 (rounded up). For Resale properties, rental years = holding period. This affects your cash flow and investment returns."
                     data-oid="nco80p6"
                   />
                 </div>
@@ -127,7 +127,7 @@ export default function GrowthRentalSection({
             label={
               <TooltipLabel
                 label="Vacancy Month"
-                tooltip="The number of months per year when the property is vacant and not generating rental income. This affects your total rental income calculation."
+                tooltip="The number of months per year when the property is vacant and not generating rental income. This affects your total rental income calculation but does not affect rental income tax calculation (tax is calculated assuming 0 vacancy months for both BUC and Resale properties)."
                 data-oid="la74_5y"
               />
             }
