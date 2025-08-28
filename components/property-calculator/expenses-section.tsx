@@ -403,7 +403,7 @@ export default function ExpensesSection({
             <div className="flex items-center gap-3" data-oid="qkc4565">
               <TooltipLabel
                 label="Income Tax on Net Rental Received"
-                tooltip="Income tax payable on your net rental income. Calculation: Monthly rent × 12 × 0.85 (15% deduction for rental expenses) × tax bracket rate × rental years. For BUC properties, rental years = balance months after TOP ÷ 12 (rounded up). For Resale properties, rental years = holding period. This represents the total rental income tax you'll pay throughout the rental period."
+                tooltip="Income tax payable on your net rental income. This field estimates the income tax on your rental earnings based on your highest tax rate. To find your rate, please calculate your total chargeable income for the year: Your Personal Annual Income + This Property's Net Rental Income."
                 data-oid="0n9vwx9"
               />
 
