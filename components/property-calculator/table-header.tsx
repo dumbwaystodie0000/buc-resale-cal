@@ -135,6 +135,7 @@ export default function TableHeader({
                         variant="ghost"
                         className="h-5 w-5 p-0"
                         onClick={() => onStartEdit(property)}
+                        title="Rename the title"
                         data-oid="srzyls0"
                       >
                         <Edit2 className="h-3 w-3" data-oid="3sjj.4p" />
@@ -146,6 +147,7 @@ export default function TableHeader({
                               size="sm"
                               variant="ghost"
                               className="h-5 w-5 p-0"
+                              title="Save the record"
                               data-oid="9u4-jio"
                             >
                               <Save className="h-3 w-3" data-oid="-jl.arq" />
