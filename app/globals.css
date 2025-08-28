@@ -5,74 +5,89 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  /* Keller Williams Brand Colors */
+  --kw-red: #B40101;
+  --kw-main-gray: #999999;
+  --kw-light-gray: #CCCCCC;
+  --kw-medium-gray: #666666;
+  --kw-black: #000000;
+  --kw-white: #FFFFFF;
+  --kw-section-bg: #F8F9FA;
+  --kw-highlight-bg: #F9E6E6;
+  --kw-profit-bg: #E6F2E6; /* Lighter version of #006900 */
+  --kw-checkbox: #006900;
+  
+  /* Legacy variables for compatibility */
+  --background: var(--kw-white);
+  --foreground: var(--kw-black);
+  --card: var(--kw-white);
+  --card-foreground: var(--kw-black);
+  --popover: var(--kw-white);
+  --popover-foreground: var(--kw-black);
+  --primary: var(--kw-red);
+  --primary-foreground: var(--kw-white);
+  --secondary: var(--kw-section-bg);
+  --secondary-foreground: var(--kw-black);
+  --muted: var(--kw-section-bg);
+  --muted-foreground: var(--kw-medium-gray);
+  --accent: var(--kw-section-bg);
+  --accent-foreground: var(--kw-black);
+  --destructive: var(--kw-red);
+  --destructive-foreground: var(--kw-white);
+  --border: var(--kw-light-gray);
+  --input: var(--kw-white);
+  --ring: var(--kw-main-gray);
+  --chart-1: var(--kw-red);
+  --chart-2: var(--kw-main-gray);
+  --chart-3: var(--kw-medium-gray);
+  --chart-4: var(--kw-light-gray);
+  --chart-5: var(--kw-black);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: var(--kw-white);
+  --sidebar-foreground: var(--kw-black);
+  --sidebar-primary: var(--kw-red);
+  --sidebar-primary-foreground: var(--kw-white);
+  --sidebar-accent: var(--kw-section-bg);
+  --sidebar-accent-foreground: var(--kw-black);
+  --sidebar-border: var(--kw-light-gray);
+  --sidebar-ring: var(--kw-main-gray);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  --background: var(--kw-black);
+  --foreground: var(--kw-white);
+  --card: var(--kw-black);
+  --card-foreground: var(--kw-white);
+  --popover: var(--kw-black);
+  --popover-foreground: var(--kw-white);
+  --primary: var(--kw-red);
+  --primary-foreground: var(--kw-white);
+  --secondary: var(--kw-medium-gray);
+  --secondary-foreground: var(--kw-white);
+  --muted: var(--kw-medium-gray);
+  --muted-foreground: var(--kw-light-gray);
+  --accent: var(--kw-medium-gray);
+  --accent-foreground: var(--kw-white);
+  --destructive: var(--kw-red);
+  --destructive-foreground: var(--kw-white);
+  --border: var(--kw-medium-gray);
+  --input: var(--kw-black);
+  --ring: var(--kw-light-gray);
+  --chart-1: var(--kw-red);
+  --chart-2: var(--kw-main-gray);
+  --chart-3: var(--kw-medium-gray);
+  --chart-4: var(--kw-light-gray);
+  --chart-5: var(--kw-white);
+  --sidebar: var(--kw-black);
+  --sidebar-foreground: var(--kw-white);
+  --sidebar-primary: var(--kw-red);
+  --sidebar-primary-foreground: var(--kw-white);
+  --sidebar-accent: var(--kw-medium-gray);
+  --sidebar-accent-foreground: var(--kw-white);
+  --sidebar-border: var(--kw-medium-gray);
+  --sidebar-ring: var(--kw-light-gray);
+  --kw-profit-bg: #1A3D1A; /* Darker version for dark mode */
+  --kw-checkbox: #4CAF50; /* Lighter version for dark mode */
 }
 
 @theme inline {
@@ -120,5 +135,27 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-weight: 400;
+  }
+  
+  /* Input field focus states */
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--kw-main-gray) !important;
+    outline-color: var(--kw-main-gray) !important;
+  }
+  
+  /* Highlighted rows styling */
+  .kw-highlight {
+    background-color: var(--kw-highlight-bg);
+  }
+  
+  /* Profit rows styling */
+  .kw-profit-highlight {
+    background-color: var(--kw-profit-bg);
+  }
+  
+  /* Button hover states */
+  .btn-primary:hover {
+    background-color: #9D0101 !important;
   }
 }

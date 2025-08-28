@@ -63,11 +63,11 @@ export default function TableHeader({
   return (
     <thead className="text-sm" data-oid=".idf25f">
       <tr
-        className="sticky top-0 z-20 bg-white border-b border-slate-200"
+        className="sticky top-0 z-20 bg-white border-b border-[#CCCCCC]"
         data-oid="ow:60ja"
       >
         <th
-          className="sticky left-0 z-30 bg-white px-4 py-3 text-left text-slate-700 font-medium border-r border-slate-200"
+                      className="sticky left-0 z-30 bg-white px-4 py-3 text-left text-[#666666] font-semibold border-r border-[#CCCCCC]"
           data-oid="zc5ej9s"
         >
           <HoldingPeriodInput
@@ -80,7 +80,7 @@ export default function TableHeader({
         {properties.map((property, i) => (
           <th
             key={property.id}
-            className="px-4 py-3 text-left font-medium text-slate-800 border-r border-slate-200 last:border-r-0"
+            className="px-4 py-3 text-left font-medium text-[#666666] border-r border-[#CCCCCC] last:border-r-0"
             data-oid=":9l4t-s"
           >
             <div
@@ -88,14 +88,14 @@ export default function TableHeader({
               data-oid="zib-52d"
             >
               <PropertyTypeBadge type={property.type} data-oid="sm3fxhb" />
-              <div className="text-slate-900 font-semibold" data-oid="df1i4q5">
+              <div className="text-[#000000] font-bold" data-oid="df1i4q5">
                 {editingPropertyId === property.id ? (
                   // Inline editing mode
                   <div className="flex items-center gap-2" data-oid="o0pkewl">
                     <Input
                       value={editingName}
                       onChange={(e) => onEditingNameChange(e.target.value)}
-                      className="h-7 text-xs text-center"
+                      className="h-7 text-xs text-center border-[#CCCCCC] focus:border-[#999999] focus:outline-[#999999] text-[#000000]"
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           onSaveEdit(property.id);
@@ -125,7 +125,7 @@ export default function TableHeader({
                       data-oid="ejgwlz9"
                     >
                       <div
-                        className="font-semibold text-slate-900"
+                        className="font-bold text-[#000000]"
                         data-oid="domsef_"
                       >
                         {property.name}
@@ -210,7 +210,7 @@ export default function TableHeader({
                 <button
                   onClick={() => onRemoveProperty(property.id)}
                   aria-label="Remove property"
-                  className="absolute top-0 right-0 rounded-full p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50"
+                  className="absolute top-0 right-0 rounded-full p-1.5 text-[#999999] hover:text-[#B40101] hover:bg-[#F9E6E6]"
                   data-oid=".p-aiqi"
                 >
                   <X className="h-4 w-4" data-oid="5yu9yin" />

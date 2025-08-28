@@ -50,13 +50,13 @@ export default function PropertySummary({
         data-oid="wqes:dc"
       />
 
-      <tr className="hover:bg-slate-100" data-oid="u4vga3l">
+      <tr className="hover:bg-[#F8F9FA]" data-oid="u4vga3l">
         <td
-          className="sticky left-0 z-10 px-4 py-3 border-b border-r border-slate-200 text-slate-900 font-medium align-middle"
+                      className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC] font-medium text-sm align-middle"
           data-oid="ij90bu2"
         >
           <div className="flex items-center gap-2" data-oid="_bbc3a5">
-            <DollarSign className="h-4 w-4 text-slate-600" data-oid="clcgrvi" />
+            <DollarSign className="h-4 w-4 text-[#666666]" data-oid="clcgrvi" />
             <TooltipLabel
               label="Est. Net Profit"
               tooltip="The estimated net profit after selling the property, calculated as Projected Property Valuation minus Purchase Price minus Total Expenses."
@@ -75,11 +75,11 @@ export default function PropertySummary({
           return (
             <td
               key={p.id}
-              className={`px-4 py-3 border-b border-r border-slate-200 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+              className={`px-4 py-3 border-b border-r border-[#CCCCCC] align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
               data-oid="c_vlo:6"
             >
               <div
-                className={`font-semibold ${isNegative ? "text-red-600" : "text-green-600"}`}
+                className={`font-bold ${isNegative ? "text-[#B40101]" : "text-[#000000]"}`}
                 data-oid="ewqwwi8"
               >
                 {fmtCurrency(netProfit)}

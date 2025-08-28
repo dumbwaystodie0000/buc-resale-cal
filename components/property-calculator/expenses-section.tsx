@@ -27,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 
 // ABSD Profile Selector Component
 function ABSDProfileSelector({ 
@@ -54,15 +55,15 @@ function ABSDProfileSelector({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-2">
-        <div className="text-xs font-medium text-gray-800">Buyer Profile:</div>
+                        <div className="text-xs font-medium text-[#666666]">Buyer Profile:</div>
         <div className="grid grid-cols-2 gap-1">
           {buyerProfileOptions.map((option) => (
             <button
               key={option.value}
               className={`h-6 px-2 text-[11px] rounded border ${
                 citizenship === option.value
-                  ? "bg-blue-600 hover:bg-blue-700 text-white border-blue-600"
-                  : "text-slate-400 hover:text-slate-600 bg-slate-50/50 border-slate-200 opacity-60 hover:opacity-80"
+                  ? "bg-[#B40101] hover:bg-[#9D0101] text-white border-[#B40101]"
+                  : "text-[#CCCCCC] bg-[#F5F5F5] border-[#E5E5E5] opacity-60"
               }`}
               onClick={() => onChange(option.value as "SC" | "PR" | "Foreigner" | "Company", propertyCount)}
             >
@@ -72,15 +73,15 @@ function ABSDProfileSelector({
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <div className="text-xs font-medium text-gray-800">Property Count:</div>
+        <div className="text-xs font-medium text-[#666666]">Property Count:</div>
         <div className="flex gap-1">
           {propertyCountOptions.map((option) => (
             <button
               key={option.value}
               className={`h-6 px-2 text-[11px] rounded border ${
                 propertyCount === option.value
-                  ? "bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600"
-                  : "text-slate-400 hover:text-slate-600 bg-slate-50/50 border-slate-200 opacity-60 hover:opacity-80"
+                  ? "bg-[#B40101] hover:bg-[#9D0101] text-white border-[#B40101]"
+                  : "text-[#CCCCCC] bg-[#F5F5F5] border-[#E5E5E5] opacity-60 cursor-not-allowed"
               }`}
               onClick={() => onChange(citizenship, option.value)}
             >
@@ -127,7 +128,7 @@ export default function ExpensesSection({
   return (
     <>
       <SectionRow
-        title="Other Expenses"
+        title="Expenses"
         colSpan={properties.length + 1}
         icon="piggy-bank"
         data-oid="7boy0a8"
@@ -568,21 +569,19 @@ export default function ExpensesSection({
                   data-oid="8h4lige"
                 />
                 <div className="flex items-center gap-1">
-                  <input
-                    type="checkbox"
+                  <Checkbox
                     id="rental-gst-toggle"
                     checked={properties[0]?.rentalGstEnabled || false}
-                    onChange={(e) => {
+                    onCheckedChange={(checked) => {
                       properties.forEach((property) => {
-                        updateProperty(property.id, "rentalGstEnabled", e.target.checked);
+                        updateProperty(property.id, "rentalGstEnabled", checked as boolean);
                       });
                     }}
-                    className="h-3 w-3 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                     data-oid="rental-gst-toggle-checkbox"
                   />
                   <label
                     htmlFor="rental-gst-toggle"
-                    className="text-xs text-slate-600 whitespace-nowrap"
+                    className="text-xs text-[#666666] whitespace-nowrap"
                     data-oid="rental-gst-toggle-label"
                   >
                     GST is Payable
@@ -674,21 +673,19 @@ export default function ExpensesSection({
                 data-oid="sales-comm-rate-selector"
               />
               <div className="flex items-center gap-1">
-                <input
-                  type="checkbox"
+                <Checkbox
                   id="gst-toggle"
                   checked={properties[0]?.salesGstEnabled || false}
-                  onChange={(e) => {
+                  onCheckedChange={(checked) => {
                     properties.forEach((property) => {
-                      updateProperty(property.id, "salesGstEnabled", e.target.checked);
+                      updateProperty(property.id, "salesGstEnabled", checked as boolean);
                     });
                   }}
-                  className="h-3 w-3 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                   data-oid="gst-toggle-checkbox"
                 />
                 <label
                   htmlFor="gst-toggle"
-                  className="text-xs text-slate-600 whitespace-nowrap"
+                  className="text-xs text-[#666666] whitespace-nowrap"
                   data-oid="gst-toggle-label"
                 >
                   GST is Payable
@@ -747,9 +744,9 @@ export default function ExpensesSection({
         data-oid="4-b9kwv"
       />
 
-      <tr className="bg-red-50 hover:bg-red-100" data-oid="2a6r:21">
+      <tr className="kw-highlight hover:bg-[#F0E6E6]" data-oid="2a6r:21">
         <td
-          className="sticky left-0 z-10 px-4 py-3 border-b border-r border-slate-200 text-slate-900 font-medium align-middle"
+          className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC] text-[#000000] font-semibold text-[14px]align-middle"
           data-oid="oe3c-h6"
         >
           <TooltipLabel
@@ -761,11 +758,11 @@ export default function ExpensesSection({
         {properties.map((p, i) => (
           <td
             key={p.id}
-            className={`px-4 py-3 border-b border-r border-slate-200 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+            className={`px-4 py-3 border-b border-r border-[#CCCCCC] align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
             data-oid="4xmg1sn"
           >
             <ValueText
-              className="text-rose-700 font-semibold"
+              className="text-[#000000] font-bold"
               data-oid="ivd2ebf"
             >
               {fmtCurrency(

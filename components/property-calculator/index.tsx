@@ -274,15 +274,15 @@ export default function PropertyCalculator() {
   };
 
   return (
-    <div className="font-sans" data-oid="x3r6umr">
+    <div className="" data-oid="x3r6umr">
       <div className="mb-4" data-oid="588w6pn">
         <h1
-          className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight"
+          className="text-2xl md:text-3xl font-bold text-[#000000] tracking-tight"
           data-oid="fc.bukb"
         >
           Property Comparison Calculator
         </h1>
-        <p className="text-sm text-slate-600" data-oid="w-mmxjy">
+        <p className="text-sm text-[#666666] font-normal" data-oid="w-mmxjy">
           Compare up to 3 properties side by side
         </p>
       </div>
@@ -294,17 +294,17 @@ export default function PropertyCalculator() {
           className="mb-0"
           data-oid="9kjdmhr"
         >
-          <TabsList className="h-11 md:h-12 p-1" data-oid="nrd7983">
+          <TabsList className="h-11 md:h-12 p-1 bg-[#FFFFFF] border border-[#CCCCCC] gap-1" data-oid="nrd7983">
             <TabsTrigger
               value="own"
-              className="px-5 md:px-6 py-2.5 md:py-3 text-[13px] md:text-[14px] font-semibold"
+              className="px-4 md:px-5 py-2.5 md:py-3 text-[14px] md:text-md font-semibold data-[state=active]:bg-[#B40101] data-[state=active]:text-[#FFFFFF] data-[state=active]:border-b-2 data-[state=active]:border-[#B40101] data-[state=inactive]:bg-[#CCCCCC]/30 data-[state=inactive]:text-[#666666]"
               data-oid="3x03xdo"
             >
               Own Stay Analysis
             </TabsTrigger>
             <TabsTrigger
               value="investment"
-              className="px-5 md:px-6 py-2.5 md:py-3 text-[13px] md:text-[14px] font-semibold"
+              className="px-4 md:px-5 py-2.5 md:py-3 text-[14px] md:text-md font-semibold data-[state=active]:bg-[#B40101] data-[state=active]:text-[#FFFFFF] data-[state=active]:border-b-2 data-[state=active]:border-[#B40101] data-[state=inactive]:bg-[#CCCCCC]/30 data-[state=inactive]:text-[#666666]"
               data-oid="oxuwpg9"
             >
               Investment Analysis
@@ -337,15 +337,15 @@ export default function PropertyCalculator() {
 
         {properties.length < 3 && (
           <div
-            className="w-80 flex flex-col items-center justify-start p-8 border-2 border-dashed border-slate-300 rounded-xl bg-slate-50"
+            className="w-80 flex flex-col items-center justify-start p-8 border-2 border-dashed border-[#CCCCCC] rounded-xl bg-[#F8F9FA]"
             data-oid="oi17ms_"
           >
             <div className="text-center mb-6" data-oid="lvkb2pa">
               <div
-                className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-4 mx-auto"
+                className="w-12 h-12 bg-[#F9E6E6] rounded-full flex items-center justify-center mb-4 mx-auto"
                 data-oid="gzl5c2i"
               >
-                <Plus className="h-6 w-6 text-emerald-600" data-oid="tp13qsh" />
+                <Plus className="h-6 w-6 text-[#B40101]" data-oid="tp13qsh" />
               </div>
               <AddPropertyDropdown
                 onAddProperty={handleAddProperty}
@@ -356,7 +356,7 @@ export default function PropertyCalculator() {
                 data-oid="94-ikgd"
               />
 
-              <p className="text-sm text-slate-600 mt-4" data-oid="tarm-ra">
+              <p className="text-sm text-[#999999] mt-4 font-normal" data-oid="tarm-ra">
                 Click here to add a New Project
               </p>
             </div>

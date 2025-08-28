@@ -97,19 +97,19 @@ export default function CreatePropertyDialog({
     <Dialog open={isOpen} onOpenChange={onClose} data-oid="ac-1:i2">
       <DialogContent className="sm:max-w-md" data-oid="2k1g9ev">
         <DialogHeader className="pb-2" data-oid="5v:p0vb">
-          <DialogTitle className="flex items-center gap-2" data-oid="yoju06d">
+          <DialogTitle className="flex items-center gap-2 font-bold text-[#000000]" data-oid="yoju06d">
             {getPropertyIcon()}
             {getPropertyTitle()}
           </DialogTitle>
-          <p className="text-sm text-slate-600" data-oid=".fx4byd">
+          <p className="text-sm text-[#666666]" data-oid=".fx4byd">
             Enter the property details and choose a folder to organize your
             properties.
           </p>
         </DialogHeader>
 
-        <div className="space-y-6" data-oid="t9vbxoh">
-          <div className="space-y-3" data-oid="3kao.s6">
-            <Label htmlFor="property-name" data-oid="7dtz0:_">
+        <div className="space-y-4" data-oid="c1n0nz_">
+          <div className="space-y-3" data-oid="s7_1:ui">
+            <Label htmlFor="property-name" className="font-normal text-[#666666]" data-oid="9xetxxi">
               Property Name
             </Label>
             <Input
@@ -117,13 +117,13 @@ export default function CreatePropertyDialog({
               value={propertyName}
               onChange={(e) => setPropertyName(e.target.value)}
               placeholder="Enter property name"
-              className="w-full"
+              className="w-full border-[#CCCCCC] focus:border-[#999999] focus:outline-[#999999] text-[#000000]"
               data-oid="c1n0nz_"
             />
           </div>
 
           <div className="space-y-3" data-oid="s7_1:ui">
-            <Label htmlFor="folder" data-oid="9xetxxi">
+            <Label htmlFor="folder" className="font-normal text-[#666666]" data-oid="9xetxxi">
               Folder (Optional)
             </Label>
             {!isCreatingFolder ? (
@@ -131,10 +131,9 @@ export default function CreatePropertyDialog({
                 <Select
                   value={selectedFolder}
                   onValueChange={setSelectedFolder}
-                  className="flex-1"
                   data-oid="hwiru53"
                 >
-                  <SelectTrigger className="w-full" data-oid="qydwp65">
+                  <SelectTrigger className="w-full border-[#CCCCCC] focus:border-[#999999] focus:outline-[#999999]" data-oid="qydwp65">
                     <SelectValue placeholder="No Folder" data-oid="zbzcjbu" />
                   </SelectTrigger>
                   <SelectContent data-oid="_y6myon">
@@ -157,7 +156,7 @@ export default function CreatePropertyDialog({
                   variant="outline"
                   size="sm"
                   onClick={() => setIsCreatingFolder(true)}
-                  className="h-9 w-9 p-0 flex-shrink-0"
+                  className="h-9 w-9 p-0 flex-shrink-0 border-[#999999] text-[#666666] font-medium hover:bg-[#F8F9FA]"
                   data-oid="dxpl4sr"
                 >
                   <Plus className="h-4 w-4" data-oid="5ruqxt2" />
@@ -169,7 +168,7 @@ export default function CreatePropertyDialog({
                   value={newFolderName}
                   onChange={(e) => setNewFolderName(e.target.value)}
                   placeholder="Enter folder name"
-                  className="w-full"
+                  className="w-full border-[#CCCCCC] focus:border-[#999999] focus:outline-[#999999] text-[#000000]"
                   data-oid="h8zw4q4"
                 />
 
@@ -179,7 +178,7 @@ export default function CreatePropertyDialog({
                     variant="outline"
                     size="sm"
                     onClick={handleCreateFolder}
-                    className="flex-1"
+                    className="flex-1 border-[#999999] text-[#666666] font-medium hover:bg-[#F8F9FA]"
                     data-oid="6oqr9t4"
                   >
                     <Folder className="mr-2 h-4 w-4" data-oid="ydt:grs" />
@@ -190,7 +189,7 @@ export default function CreatePropertyDialog({
                     variant="outline"
                     size="sm"
                     onClick={() => setIsCreatingFolder(false)}
-                    className="flex-1"
+                    className="flex-1 border-[#999999] text-[#666666] font-medium hover:bg-[#F8F9FA]"
                     data-oid="8d4w5.4"
                   >
                     Cancel
@@ -202,12 +201,18 @@ export default function CreatePropertyDialog({
         </div>
 
         <div className="flex justify-end gap-2 pt-12" data-oid="-9tlq-_">
-          <Button variant="outline" onClick={onClose} data-oid="l933144">
+          <Button 
+            variant="outline" 
+            onClick={onClose} 
+            className="border-[#999999] text-[#666666] font-medium hover:bg-[#F8F9FA]"
+            data-oid="l933144"
+          >
             Cancel
           </Button>
           <Button
             onClick={handleConfirm}
             disabled={!propertyName.trim()}
+            className="bg-[#B40101] hover:bg-[#9D0101] text-white font-bold"
             data-oid="m4:b3:8"
           >
             Create Property

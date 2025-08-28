@@ -213,7 +213,7 @@ export default function AddPropertyDropdown({
         <DropdownMenuTrigger asChild disabled={disabled} data-oid="li1j0v8">
           <Button
             size="sm"
-            className={`h-8 md:h-9 gap-2 text-sm ${disabled ? "bg-slate-400 cursor-not-allowed" : "bg-emerald-600 hover:bg-emerald-700"}`}
+            className={`h-8 md:h-9 gap-2 text-sm font-bold ${disabled ? "bg-[#999999] cursor-not-allowed" : "bg-[#B40101] hover:bg-[#9D0101]"}`}
             disabled={disabled}
             title={
               disabled

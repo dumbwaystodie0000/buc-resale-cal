@@ -118,7 +118,7 @@ export const ClearableNumberInput = React.forwardRef<
           onKeyDown={handleKeyDown}
           onWheel={handleWheel}
           disabled={disabled}
-          className="h-9 text-left pr-8 px-2 py-1 text-sm border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          className="h-9 text-left pr-8 px-2 py-1 text-sm border border-[#CCCCCC] rounded focus:outline-none focus:ring-2 focus:ring-[#999999] focus:border-[#999999] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none text-[#000000] bg-[#FFFFFF]"
           data-oid="4udbg:w"
         />
 
@@ -138,7 +138,7 @@ export const ClearableNumberInput = React.forwardRef<
             }, 0);
           }}
           disabled={disabled}
-          className="absolute right-2 top-1.5 rounded p-0.5 text-slate-400 hover:text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="absolute right-2 top-1.5 rounded p-0.5 text-[#999999] hover:text-[#666666] disabled:opacity-50 disabled:cursor-not-allowed"
           data-oid="u1-sry3"
         >
           <X className="h-3.5 w-3.5" data-oid="t0erz_a" />
@@ -162,7 +162,7 @@ export function PropertyTypeBadge({ type }: { type: PropertyType }) {
       />
 
       <span
-        className={`text-xs font-bold ${type === "BUC" ? "text-orange-700" : "text-emerald-700"}`}
+        className={`text-md font-bold ${type === "BUC" ? "text-orange-700" : "text-emerald-700"}`}
         data-oid="7o3026i"
       >
         {type}
@@ -183,13 +183,13 @@ export function PropertyPlaceholderButton({
   return (
     <button
       onClick={onClick}
-      className="w-full h-32 bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg hover:bg-slate-100 hover:border-slate-400 transition-colors flex flex-col items-center justify-center gap-2 text-slate-600"
+      className="w-full h-32 bg-[#F8F9FA] border-2 border-dashed border-[#CCCCCC] rounded-lg hover:bg-[#F0F0F0] hover:border-[#999999] transition-colors flex flex-col items-center justify-center gap-2 text-[#666666]"
       data-oid="41q9x8y"
     >
       <div className="text-sm font-medium" data-oid="y48h4ra">
         Select / Create New Entry
       </div>
-      <div className="text-xs text-slate-500" data-oid="7qxuk6o">
+      <div className="text-xs text-[#999999]" data-oid="7qxuk6o">
         Click to add property details
       </div>
     </button>
@@ -438,8 +438,8 @@ export function MonthYearPicker({
                     onClick={() => setSelectedYear(year)}
                     className={`px-3 py-2 rounded-md text-xs transition-colors ${
                       selectedYear === year
-                        ? "bg-slate-200 font-semibold text-slate-900"
-                        : "text-slate-600 hover:bg-slate-100"
+                        ? "bg-[#B40101] hover:bg-[#9D0101] font-bold text-white"
+                        : "text-[#666666] hover:bg-[#F8F9FA]"
                     }`}
                     data-oid="m026voo"
                   >
@@ -464,8 +464,8 @@ export function MonthYearPicker({
                     onClick={() => setSelectedMonth(index)}
                     className={`px-3 py-2 rounded-md text-xs transition-colors ${
                       selectedMonth === index
-                        ? "bg-slate-200 font-semibold text-slate-900"
-                        : "text-slate-600 hover:bg-slate-100"
+                        ? "bg-[#B40101] hover:bg-[#9D0101] font-bold text-white"
+                        : "text-[#666666] hover:bg-[#F8F9FA]"
                     }`}
                     data-oid="k.z8w78"
                   >
@@ -478,18 +478,24 @@ export function MonthYearPicker({
 
           {/* Action Buttons */}
           <div
-            className="flex justify-between gap-2 pt-2 border-t border-slate-200"
+            className="flex justify-between gap-2 pt-2 border-t border-[#CCCCCC]"
             data-oid="ma01x99"
           >
             <Button
               variant="outline"
               size="sm"
               onClick={handleClear}
+              className="border-[#999999] text-[#666666] font-medium hover:bg-[#F8F9FA]"
               data-oid="rx6auks"
             >
               Clear
             </Button>
-            <Button size="sm" onClick={handleApply} data-oid="9xz1-n_">
+            <Button 
+              size="sm" 
+              onClick={handleApply} 
+              className="bg-[#B40101] hover:bg-[#9D0101] text-white font-bold"
+              data-oid="9xz1-n_"
+            >
               Apply
             </Button>
           </div>
@@ -561,7 +567,7 @@ export function CommissionRateSelector({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-40 p-2 z-[10]" data-oid="2h73z6g">
-        <div className="space-y-1 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent" data-oid="x1:boam">
+        <div className="space-y-1 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-[#CCCCCC] scrollbar-track-transparent" data-oid="x1:boam">
           {options.map((option) => (
             <button
               key={option}
@@ -571,8 +577,8 @@ export function CommissionRateSelector({
               }}
               className={`w-full px-3 py-2 rounded-md text-xs transition-colors text-left ${
                 value === option
-                  ? "bg-slate-200 font-semibold text-slate-900"
-                  : "text-slate-600 hover:bg-slate-100"
+                  ? "bg-[#B40101] hover:bg-[#9D0101] font-bold text-white"
+                  : "text-[#666666] hover:bg-[#F8F9FA]"
               }`}
               data-oid="ehug2vs"
             >
@@ -643,10 +649,10 @@ export function SalesCommissionRateSelector({
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={`h-9 w-40 justify-between text-left font-normal px-2 py-1 text-xs border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${className || ""}`}
+          className={`h-9 w-40 justify-between text-left font-normal px-2 py-1 text-xs border border-[#CCCCCC] rounded focus:outline-none focus:ring-2 focus:ring-[#999999] focus:border-[#999999] ${className || ""}`}
         >
           <span
-            className={`truncate ${!value || value === "" as SalesCommissionRate ? "text-slate-500" : "text-black"}`}
+            className={`truncate ${!value || value === "" as SalesCommissionRate ? "text-[#999999]" : "text-[#000000]"}`}
           >
             {getButtonText(value)}
           </span>
@@ -656,7 +662,7 @@ export function SalesCommissionRateSelector({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-40 p-2 z-[10]">
-        <div className="space-y-1 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
+        <div className="space-y-1 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-[#CCCCCC] scrollbar-track-transparent">
           {options.map((option) => (
             <button
               key={option}
@@ -666,8 +672,8 @@ export function SalesCommissionRateSelector({
               }}
               className={`w-full px-3 py-2 rounded-md text-xs transition-colors text-left ${
                 value === option
-                  ? "bg-slate-200 font-semibold text-slate-900"
-                  : "text-slate-600 hover:bg-slate-100"
+                  ? "bg-[#B40101] hover:bg-[#9D0101] font-bold text-white"
+                  : "text-[#666666] hover:bg-[#F8F9FA]"
               }`}
             >
               {getDisplayText(option)}
@@ -682,13 +688,11 @@ export function SalesCommissionRateSelector({
 export function InfoIcon({ className }: { className?: string }) {
   return (
     <Info
-      className={`h-4 w-4 text-slate-400 ${className || ""}`}
+      className={`h-4 w-4 text-[#999999] ${className || ""}`}
       data-oid="x.dw4-x"
     />
   );
 }
-
-
 
 export function TooltipLabel({
   label,
@@ -701,28 +705,28 @@ export function TooltipLabel({
 }) {
   return (
     <div className={`flex items-center gap-2 ${className}`} data-oid="m0eo4g-">
-  <span data-oid="k7ewjna">{label}</span>
-  <Tooltip data-oid="l-xhyzg">
-    <TooltipTrigger asChild data-oid="j189w6a">
-      <div 
-        className="cursor-help hover:text-slate-600 transition-colors"
-        data-oid="nmr1vh4"
-      >
-        <Info className="h-3 w-3 text-slate-400" />
-      </div>
-    </TooltipTrigger>
-         <TooltipContent 
-       className="z-[100] bg-slate-50 text-black border border-slate-400 shadow-md px-3 py-2 rounded-md max-w-54 pointer-events-none [&_[data-radix-tooltip-arrow]]:hidden"
-       side="right"
-       sideOffset={5}
-       align="start"
-       data-oid="lk9o2zu"
-     >
-      <p className="text-xs leading-5 text-black" data-oid="c2w8xd_">
-        {tooltip}
-      </p>
-    </TooltipContent>
-  </Tooltip>
-</div>
+      <span data-oid="k7ewjna">{label}</span>
+      <Tooltip data-oid="l-xhyzg">
+        <TooltipTrigger asChild data-oid="j189w6a">
+          <div 
+            className="cursor-default hover:text-[#666666] transition-colors"
+            data-oid="nmr1vh4"
+          >
+            <Info className="h-3 w-3 text-[#999999]" />
+          </div>
+        </TooltipTrigger>
+        <TooltipContent 
+          className="z-[100] bg-[#F8F9FA] text-[#000000] border border-[#CCCCCC] shadow-md px-3 py-2 rounded-md max-w-54 pointer-events-none [&_[data-radix-tooltip-arrow]]:hidden"
+          side="right"
+          sideOffset={5}
+          align="start"
+          data-oid="lk9o2zu"
+        >
+          <p className="text-xs leading-5 text-[#000000]" data-oid="c2w8xd_">
+            {tooltip}
+          </p>
+        </TooltipContent>
+      </Tooltip>
+    </div>
   );
 }
