@@ -185,7 +185,7 @@ export default function GrowthRentalSection({
 
       <tr className="bg-[#E6F2E6] hover:bg-[#D9E9D9]" data-oid="2mawz7.">
         <td
-                      className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC] text-[#000000] font-semibold text-[14px] align-middle"
+                      className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC]/50 text-[#000000] font-semibold text-[14px] align-middle"
           data-oid="5o9hi5:"
         >
           <TooltipLabel
@@ -204,7 +204,7 @@ export default function GrowthRentalSection({
           return (
             <td
               key={p.id}
-              className={`px-4 py-3 border-b border-r border-[#CCCCCC] align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+              className={`px-4 py-3 border-b border-r border-[#CCCCCC]/50 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
               data-oid="fqh9t2p"
             >
               <ValueText

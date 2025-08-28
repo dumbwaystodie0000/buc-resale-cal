@@ -203,10 +203,10 @@ export default function PropertyTableRefactored({
 
   return (
     <div
-      className="rounded-xl border border-slate-200 bg-white"
+      className="rounded-xl border border-[#CCCCCC]/50 bg-white"
       data-oid="9.st7bg"
     >
-      <table className="w-full border-collapse" data-oid="8:xg92g">
+      <table className="w-full border-separate border-spacing-0" data-oid="8:xg92g">
         <colgroup data-oid="-dbby1f">
           <col className="w-[360px]" data-oid="mav2lse" />
           {displayProperties.map((p) => (

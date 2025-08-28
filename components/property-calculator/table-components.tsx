@@ -16,7 +16,7 @@ export function SectionRow({
     <tr className="bg-[#F8F9FA]" data-oid="v3xvgj_">
       <td
         colSpan={colSpan}
-                    className="px-4 py-3 border-y border-[#CCCCCC] font-bold text-md"
+                    className="px-4 py-3 border-y border-[#CCCCCC]/50 font-bold text-md"
         data-oid="qxwoq2u"
       >
         <div className="flex items-center gap-2" data-oid=".z5h3mv">
@@ -45,7 +45,7 @@ export function DataRow({
   return (
     <tr className="hover:bg-[#F8F9FA]" data-oid="_s:lo4i">
       <td
-        className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC] font-medium text-sm align-middle"
+        className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC]/50 font-medium text-sm align-middle"
         data-oid="jei:uma"
       >
         {label}
@@ -53,7 +53,7 @@ export function DataRow({
       {properties.map((p, i) => (
         <td
           key={p.id}
-          className={`px-4 py-3 border-b border-r border-[#CCCCCC] align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+          className={`px-4 py-3 border-b border-r border-[#CCCCCC]/50 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
           data-oid="mn0:zbi"
         >
           {render(p)}
@@ -81,7 +81,7 @@ export function ConditionalBUCDataRow({
   return (
     <tr className="hover:bg-[#F8F9FA]" data-oid="ifl4wdv">
       <td
-        className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC] font-medium align-middle text-sm"
+        className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC]/50 font-medium align-middle text-sm"
         data-oid="vb9i5vx"
       >
         {label}
@@ -95,7 +95,7 @@ export function ConditionalBUCDataRow({
             return (
               <td
                 key={p.id}
-                className={`px-4 py-3 border-b border-r border-[#CCCCCC] align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+                className={`px-4 py-3 border-b border-r border-[#CCCCCC]/50 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
                 data-oid="1ku23_8"
               >
                 {renderInput(p)}
@@ -106,7 +106,7 @@ export function ConditionalBUCDataRow({
             return (
               <td
                 key={p.id}
-                className={`px-4 py-3 border-b border-r border-[#CCCCCC] align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+                className={`px-4 py-3 border-b border-r border-[#CCCCCC]/50 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
                 data-oid="a7-w0o-"
               >
                 <div className="text-xs text-[#999999]" data-oid="c40svp.">
@@ -122,7 +122,7 @@ export function ConditionalBUCDataRow({
         return (
           <td
             key={p.id}
-            className={`px-4 py-3 border-b border-r border-[#CCCCCC] align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+            className={`px-4 py-3 border-b border-r border-[#CCCCCC]/50 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
             data-oid="e2tlq0g"
           >
             {isNA ? (
@@ -153,7 +153,7 @@ export function IconRow({
   return (
     <tr className="hover:bg-[#F8F9FA]" data-oid="sxvv-et">
       <td
-        className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC] font-medium text-sm align-middle"
+        className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC]/50 font-medium text-sm align-middle"
         data-oid="z0.4b8-"
       >
         <div className="flex items-center gap-2" data-oid="itx8yac">
@@ -164,7 +164,7 @@ export function IconRow({
       {properties.map((p, i) => (
         <td
           key={p.id}
-          className={`px-4 py-3 border-b border-r border-[#CCCCCC] align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+          className={`px-4 py-3 border-b border-r border-[#CCCCCC]/50 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
           data-oid="ncr3nhq"
         >
           <div className="text-[#666666] font-semibold" data-oid=":28_piw">
@@ -219,7 +219,7 @@ export function CommissionRateDataRow({
   return (
     <tr className="hover:bg-[#F8F9FA]" data-oid="sxvv-et">
       <td
-        className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC] text-[#666666] font-semibold align-middle"
+        className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC]/50 text-[#666666] font-semibold align-middle"
         data-oid="6ki_s0g"
       >
         {label}
@@ -230,7 +230,7 @@ export function CommissionRateDataRow({
           return (
             <td
               key={p.id}
-              className={`px-4 py-3 border-b border-r border-[#CCCCCC] align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+              className={`px-4 py-3 border-b border-r border-[#CCCCCC]/50 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
               data-oid="commission-render"
             >
               {render(p)}
@@ -246,7 +246,7 @@ export function CommissionRateDataRow({
             return (
               <td
                 key={p.id}
-                className={`px-4 py-3 border-b border-r border-[#CCCCCC] align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+                className={`px-4 py-3 border-b border-r border-[#CCCCCC]/50 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
                 data-oid="3:6y6wl"
               >
                 <div className="flex gap-2" data-oid="2xvam09">
@@ -267,11 +267,11 @@ export function CommissionRateDataRow({
           } else {
             // Show N/A when balance months = 0
             return (
-              <td
-                key={p.id}
-                className={`px-4 py-3 border-b border-r border-[#CCCCCC] align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
-                data-oid="pkvxqjk"
-              >
+                          <td
+              key={p.id}
+              className={`px-4 py-3 border-b border-r border-[#CCCCCC]/50 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+              data-oid="pkvxqjk"
+            >
                 <div className="text-xs text-[#999999]" data-oid="og35z_3">
                   N/A
                 </div>
@@ -285,7 +285,7 @@ export function CommissionRateDataRow({
         return (
           <td
             key={p.id}
-            className={`px-4 py-3 border-b border-r border-[#CCCCCC] align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+            className={`px-4 py-3 border-b border-r border-[#CCCCCC]/50 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
             data-oid="b0h:owm"
           >
             {isNA ? (
@@ -330,7 +330,7 @@ export function MaybeNADataRow({
   return (
     <tr className="hover:bg-[#F8F9FA]" data-oid=":7oj0y6">
       <td
-        className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC] text-[#666666] font-semibold align-middle"
+        className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC]/50 text-[#666666] font-semibold align-middle"
         data-oid="07epqgz"
       >
         {label}
@@ -340,7 +340,7 @@ export function MaybeNADataRow({
         return (
           <td
             key={p.id}
-            className={`px-4 py-3 border-b border-r border-[#CCCCCC] align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+            className={`px-4 py-3 border-b border-r border-[#CCCCCC]/50 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
             data-oid="hz_yc7e"
           >
             {isNA ? (

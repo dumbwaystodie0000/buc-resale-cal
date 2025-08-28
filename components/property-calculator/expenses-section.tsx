@@ -746,7 +746,7 @@ export default function ExpensesSection({
 
       <tr className="kw-highlight hover:bg-[#F0E6E6]" data-oid="2a6r:21">
         <td
-          className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC] text-[#000000] font-semibold text-[14px]align-middle"
+          className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC]/50 text-[#000000] font-semibold text-[14px]align-middle"
           data-oid="oe3c-h6"
         >
           <TooltipLabel
@@ -758,7 +758,7 @@ export default function ExpensesSection({
         {properties.map((p, i) => (
           <td
             key={p.id}
-            className={`px-4 py-3 border-b border-r border-[#CCCCCC] align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+            className={`px-4 py-3 border-b border-r border-[#CCCCCC]/50 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
             data-oid="4xmg1sn"
           >
             <ValueText

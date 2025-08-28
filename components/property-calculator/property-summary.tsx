@@ -52,7 +52,7 @@ export default function PropertySummary({
 
       <tr className="hover:bg-[#F8F9FA]" data-oid="u4vga3l">
         <td
-                      className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC] font-medium text-sm align-middle"
+                      className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC]/50 font-medium text-sm align-middle"
           data-oid="ij90bu2"
         >
           <div className="flex items-center gap-2" data-oid="_bbc3a5">
@@ -75,7 +75,7 @@ export default function PropertySummary({
           return (
             <td
               key={p.id}
-              className={`px-4 py-3 border-b border-r border-[#CCCCCC] align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+              className={`px-4 py-3 border-b border-r border-[#CCCCCC]/50 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
               data-oid="c_vlo:6"
             >
               <div

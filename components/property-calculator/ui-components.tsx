@@ -118,7 +118,7 @@ export const ClearableNumberInput = React.forwardRef<
           onKeyDown={handleKeyDown}
           onWheel={handleWheel}
           disabled={disabled}
-          className="h-9 text-left pr-8 px-2 py-1 text-sm border border-[#CCCCCC] rounded focus:outline-none focus:ring-2 focus:ring-[#999999] focus:border-[#999999] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none text-[#000000] bg-[#FFFFFF]"
+          className="h-9 text-left pr-8 px-2 py-1 text-sm border border-[#CCCCCC]/40 rounded focus:outline-none focus:ring-2 focus:ring-[#999999] focus:border-[#999999] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none text-[#000000] bg-[#FFFFFF]"
           data-oid="4udbg:w"
         />
 
