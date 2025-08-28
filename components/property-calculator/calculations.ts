@@ -962,14 +962,59 @@ export function calculateValues(
   const totalEquity = downpayment + cumulativePrincipalPaid;
   const roe = totalEquity > 0 ? (netProfit / totalEquity) * 100 : 0;
   
-  const totalCashReturn = netProfit + (projectedValuation - property.bankLoan)
+  // Calculate 4 years amortised principal returned using Method 1: Calculate Remaining Balance Directly
+  // Step 1: Calculate remaining balance after 4 years
+  // Step 2: Principal returned = Original Loan Amount - Remaining Balance
+  const fourYearAmortisedPrincipal = calculateResalePrincipalPaid(actualLoanAmount, property.interestRate ?? INTEREST_RATE_PCT, 4, property.loanTenure || 30);
+  
+  // Total Cash/CPF Return = Downpayment + Est. Net Profits + 4 years Amortised Principal Returned
+  const totalCashReturn = downpayment + netProfit + fourYearAmortisedPrincipal
 
   // Calculate monthly cash flow
   let monthlyCashFlow = 0
-  if (ctx.monthlyRental > 0) {
-    const monthlyInstalment = calculateMonthlyInstalmentForProperty(property, property.estTOP)
-    const monthlyPropertyTax = calculateTotalPropertyTax(property, ctx.mode, 1) / 12 // Convert annual to monthly
-    monthlyCashFlow = ctx.monthlyRental - (monthlyInstalment + monthlyPropertyTax + property.monthlyMaintenance)
+  if (ctx.monthlyRental > 0 || ctx.mode === "own") {
+    let monthlyInstalment: number
+    
+    // For BUC properties in own stay mode, use year 4 average monthly instalment
+    if (property.type === "BUC" && ctx.mode === "own") {
+      const breakdown = getBUCMonthlyInstalmentBreakdown(property, property.estTOP)
+      monthlyInstalment = breakdown.year4 || breakdown.year1
+    } else {
+      // For other cases, use the standard calculation
+      monthlyInstalment = calculateMonthlyInstalmentForProperty(property, property.estTOP)
+    }
+    
+    // Calculate monthly property tax correctly:
+    // Use the same property tax calculation that's already working in the main calculation
+    // but convert it to monthly for the cash flow
+    const monthlyPropertyTax = automaticPropertyTax / (YEARS * 12)
+    
+    // For BUC properties, only deduct property tax and maintenance if they are applicable
+    let applicableMonthlyPropertyTax = 0
+    let applicableMonthlyMaintenance = 0
+    
+    if (property.type === "BUC") {
+      // For BUC properties, check if property tax and maintenance are applicable
+      // Property tax is only applicable after TOP
+      if (monthlyPropertyTax > 0) {
+        applicableMonthlyPropertyTax = monthlyPropertyTax
+      }
+      
+      // Maintenance fee is only applicable after TOP
+      if (property.monthlyMaintenance > 0) {
+        applicableMonthlyMaintenance = property.monthlyMaintenance
+      }
+      
+
+    } else {
+      // For resale properties, always apply both
+      applicableMonthlyPropertyTax = monthlyPropertyTax
+      applicableMonthlyMaintenance = property.monthlyMaintenance
+    }
+    
+    // For own stay analysis, pretend rental income is 0, then deduct the rest
+    const effectiveRentalIncome = ctx.mode === "own" ? 0 : ctx.monthlyRental
+    monthlyCashFlow = effectiveRentalIncome - (monthlyInstalment + applicableMonthlyPropertyTax + applicableMonthlyMaintenance)
   }
 
   return {
