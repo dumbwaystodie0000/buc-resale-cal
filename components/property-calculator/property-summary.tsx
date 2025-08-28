@@ -25,11 +25,51 @@ export default function PropertySummary({
         data-oid="ega469e"
       />
 
+      <tr className="hover:bg-[#F8F9FA]" data-oid="monthly-cash-flow-row">
+        <td
+          className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC]/50 font-medium text-sm align-middle"
+          data-oid="monthly-cash-flow-label"
+        >
+          <div className="flex items-center gap-2" data-oid="monthly-cash-flow-label-content">
+            <DollarSign className="h-4 w-4 text-[#666666]" data-oid="monthly-cash-flow-icon" />
+            <TooltipLabel
+              label="Monthly Cash Flow"
+              tooltip="Monthly Cash Flow shows how much money you have left (or need to top up) each month after factoring in your rental income and property-related costs.|||Formula: (Rental Income) - Monthly Instalment - Property Tax (divided into month) - MCST Fees"
+              data-oid="monthly-cash-flow-tooltip"
+            />
+          </div>
+        </td>
+        {properties.map((p, i) => {
+          const monthlyCashFlow = calculateValues(p, {
+            mode,
+            taxBracket,
+            vacancyMonth: p.vacancyMonth,
+            monthlyRental: p.monthlyRental,
+          }).monthlyCashFlow;
+          const isNegative = monthlyCashFlow < 0;
+          return (
+            <td
+              key={p.id}
+              className={`px-4 py-3 border-b border-r border-[#CCCCCC]/50 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
+              data-oid="monthly-cash-flow-value"
+            >
+              <div
+                className="font-semibold"
+                style={{ color: isNegative ? '#B40101' : '#006900' }}
+                data-oid="monthly-cash-flow-amount"
+              >
+                {fmtCurrency(monthlyCashFlow)}
+              </div>
+            </td>
+          );
+        })}
+      </tr>
+
       <IconRow
         label={
           <TooltipLabel
             label="Projected Property Valuation"
-            tooltip="The estimated future value of your property at the end of the holding period, based on the annual growth rate and holding period."
+            tooltip="The estimated future value of your property at the end of the holding period, based on the annual growth rate and holding period.|||Formula: (Purchase Price * (1 + Annual Growth %)^Holding Period)."
             data-oid="w_q4lhv"
           />
         }
@@ -57,7 +97,7 @@ export default function PropertySummary({
             <DollarSign className="h-4 w-4 text-[#666666]" data-oid="clcgrvi" />
             <TooltipLabel
               label="Est. Net Profit"
-              tooltip="The estimated net profit after selling the property, calculated as Projected Property Valuation minus Purchase Price minus Total Expenses."
+              tooltip="The estimated net profit after selling the property.|||Formula: Est. Gross Profit - All Expenses"
               data-oid="5ld0m1r"
             />
           </div>
@@ -91,7 +131,7 @@ export default function PropertySummary({
         label={
           <TooltipLabel
             label="Return on Equity (ROE)"
-            tooltip="Return on Equity measures the profitability of your investment relative to the equity you have in the property. Higher ROE indicates better investment performance."
+            tooltip="Return on Equity measures the profitability of your investment relative to the equity you have in the property. Higher ROE indicates better investment performance.|||Formula: Est. Net Profit / (xx% Downpayment + Amortised Cumulative Principal Paid)"
             data-oid=".g88k0m"
           />
         }
@@ -127,7 +167,7 @@ export default function PropertySummary({
         label={
           <TooltipLabel
             label="Total Cash/CPF Return After Sale"
-            tooltip="The total amount of cash and CPF you will receive after selling the property, including your initial investment and any profits or losses."
+            tooltip="The total amount of cash and CPF you will receive after selling the property, including your initial investment and any profits or losses.|||Formula: Downpayment + Est. Net Profits + Holding Period Amortised Principal Returned"
             data-oid="wp10a44"
           />
         }

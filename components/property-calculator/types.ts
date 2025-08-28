@@ -69,6 +69,7 @@ export interface CalculationResult {
   salesCommission: number
   agentCommission: number
   propertyTax: number
+  monthlyCashFlow: number
 }
 
 export interface TaxBracket {

@@ -399,7 +399,7 @@ export function MonthYearPicker({
           className="h-9 w-28 justify-start text-left font-normal px-2 py-1 text-xs text-slate-500 border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           data-oid="ka:49am"
         >
-          <Calendar className="h-1 w-1" data-oid="i8vhk.m" />
+          <Calendar className="h-0.5 w-0.5" data-oid="i8vhk.m" />
           {value ? formatDate(value) : "Select date"}
         </Button>
       </PopoverTrigger>
@@ -703,6 +703,9 @@ export function TooltipLabel({
   tooltip: string;
   className?: string;
 }) {
+  // Split tooltip by custom delimiter to create paragraphs
+  const tooltipParts = tooltip.split('|||');
+  
   return (
     <div className={`flex items-center gap-2 ${className}`} data-oid="m0eo4g-">
       <span data-oid="k7ewjna">{label}</span>
@@ -722,9 +725,13 @@ export function TooltipLabel({
           align="start"
           data-oid="lk9o2zu"
         >
-          <p className="text-xs leading-5 text-[#000000]" data-oid="c2w8xd_">
-            {tooltip}
-          </p>
+          <div className="text-xs leading-5 text-[#000000] space-y-2" data-oid="c2w8xd_">
+            {tooltipParts.map((part, index) => (
+              <div key={index} className="text-xs leading-5 text-[#000000]">
+                {part}
+              </div>
+            ))}
+          </div>
         </TooltipContent>
       </Tooltip>
     </div>

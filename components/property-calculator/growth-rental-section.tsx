@@ -205,7 +205,7 @@ export default function GrowthRentalSection({
               data-oid="fqh9t2p"
             >
               <ValueText
-                className="text-[#000000] font-semibold"
+                className="text-[#006900] font-semibold"
                 data-oid="t2pbazv"
               >
                 {fmtCurrency(d.grossProfit)}

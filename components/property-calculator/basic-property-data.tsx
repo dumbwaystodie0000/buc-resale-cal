@@ -1,7 +1,7 @@
 "use client";
 
 import type { Property, Mode } from "./types";
-import { calculateValues, calculateMonthlyInstalmentForProperty, getBUCMonthlyInstalmentBreakdown } from "./calculations";
+import { calculateValues, calculateMonthlyInstalmentForProperty, getBUCMonthlyInstalmentBreakdown, getBUCStartingStage } from "./calculations";
 import { fmtCurrency, calculateBalanceMonthAftTOP } from "./utils";
 import {
   CurrencyInput,
@@ -222,33 +222,41 @@ export default function BasicPropertyData({
         label={
           <TooltipLabel
             label="Monthly Instalment"
-            tooltip="Your monthly mortgage payment amount. For BUC properties, this shows Year 1-4 breakdown based on construction progress. For Resale properties, this is the standard monthly payment."
+            tooltip="Your monthly mortgage payment amount. For BUC properties, this shows Year 1-5 breakdown based on construction progress. For Resale properties, this is the standard monthly payment."
             data-oid="monthly-instalment-tooltip"
           />
         }
         properties={properties}
         render={(p) => {
-          if (p.type === "BUC" && p.estTOP) {
+          if (p.type === "BUC") {
             // For BUC properties, show breakdown by years
             const breakdown = getBUCMonthlyInstalmentBreakdown(p, p.estTOP);
+            const startingStage = getBUCStartingStage(p);
+            
             return (
               <div className="space-y-2" data-oid="monthly-instalment-buc-breakdown">
-                <div className="grid grid-cols-2 gap-4 text-xs">
+                <div className="grid grid-cols-3 gap-4 text-xs">
+                  {/* Row 1: Yr 1, Yr 2, Yr 3 */}
                   <div className="text-left">
-                    <span className="text-slate-600">Yr 1:</span>
-                    <span className="font-medium ml-2">{fmtCurrency(breakdown.year1)}</span>
+                    <div className="text-slate-600">Yr 1:</div>
+                    <div className="font-medium">{fmtCurrency(breakdown.year1)}</div>
                   </div>
                   <div className="text-left">
-                    <span className="text-slate-600">Yr 2:</span>
-                    <span className="font-medium ml-2">{fmtCurrency(breakdown.year2)}</span>
+                    <div className="text-slate-600">Yr 2:</div>
+                    <div className="font-medium">{fmtCurrency(breakdown.year2)}</div>
                   </div>
                   <div className="text-left">
-                    <span className="text-slate-600">Yr 3:</span>
-                    <span className="font-medium ml-2">{fmtCurrency(breakdown.year3)}</span>
+                    <div className="text-slate-600">Yr 3:</div>
+                    <div className="font-medium">{fmtCurrency(breakdown.year3)}</div>
+                  </div>
+                  {/* Row 2: Yr 4, Yr 5 */}
+                  <div className="text-left">
+                    <div className="text-slate-600">Yr 4:</div>
+                    <div className="font-medium">{fmtCurrency(breakdown.year4)}</div>
                   </div>
                   <div className="text-left">
-                    <span className="text-slate-600">Yr 4:</span>
-                    <span className="font-medium ml-2">{fmtCurrency(breakdown.year4)}</span>
+                    <div className="text-slate-600">Yr 5+:</div>
+                    <div className="font-medium">{fmtCurrency(breakdown.year5)}</div>
                   </div>
                 </div>
               </div>
@@ -282,3 +290,4 @@ export default function BasicPropertyData({
     </>
   );
 }
+

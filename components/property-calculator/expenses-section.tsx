@@ -760,7 +760,7 @@ export default function ExpensesSection({
             data-oid="4xmg1sn"
           >
             <ValueText
-              className="text-[#000000] font-semibold"
+              className="text-[#B40101] font-semibold"
               data-oid="ivd2ebf"
             >
               {fmtCurrency(

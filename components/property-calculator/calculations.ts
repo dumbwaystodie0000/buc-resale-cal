@@ -479,69 +479,87 @@ export function calculateBUCMonthlyInstalment(
     return 0;
   }
 
-  // BUC construction stages with disbursement percentages and timing
-  // Based on the detailed breakdown provided
+  // BUC construction stages with disbursement percentages and timing (FIXED SCHEDULE)
   const constructionStages = [
-    { stage: "Foundation", percentage: 0.05, months: 6, startMonth: 0 },
-    { stage: "Reinforced Concrete", percentage: 0.10, months: 6, startMonth: 6 },
-    { stage: "Brick Wall", percentage: 0.05, months: 3, startMonth: 12 },
-    { stage: "Ceiling/Roofing", percentage: 0.05, months: 3, startMonth: 15 },
-    { stage: "Electrical/Plumbing", percentage: 0.05, months: 3, startMonth: 18 },
-    { stage: "Roads/Car Parks", percentage: 0.05, months: 3, startMonth: 21 },
-    { stage: "TOP", percentage: 0.25, months: 12, startMonth: 24 },
-    { stage: "CSC", percentage: 0.15, months: 12, startMonth: 36 }
+    { stage: "Foundation", percentage: 0.05, months: 6, startMonth: 1 },
+    { stage: "Reinforced Concrete", percentage: 0.10, months: 6, startMonth: 7 },
+    { stage: "Brick Wall", percentage: 0.05, months: 3, startMonth: 13 },
+    { stage: "Ceiling/Roofing", percentage: 0.05, months: 3, startMonth: 16 },
+    { stage: "Electrical/Plumbing", percentage: 0.05, months: 3, startMonth: 19 },
+    { stage: "Roads/Car Parks", percentage: 0.05, months: 3, startMonth: 22 },
+    { stage: "TOP", percentage: 0.25, months: 12, startMonth: 25 },
+    { stage: "CSC", percentage: 0.15, months: 12, startMonth: 37 }
   ];
 
-  // Calculate months elapsed from now
-  let monthsElapsed = 0;
+  // If TOP date is provided, calculate based on current construction stage
   if (estTOP) {
+    // Calculate months elapsed from now
+    let monthsElapsed = 0;
     const currentDate = new Date();
     const topDate = new Date(estTOP);
     monthsElapsed = (topDate.getFullYear() - currentDate.getFullYear()) * 12 + 
                     (topDate.getMonth() - currentDate.getMonth());
     monthsElapsed = Math.max(0, monthsElapsed);
-  }
 
-  // Find the current construction stage based on months elapsed
-  let currentStage = 0;
-  let cumulativeDisbursed = 0;
+    // Find the current construction stage based on months elapsed
+    let currentStage = 0;
+    let cumulativeDisbursed = 0;
 
-  for (let i = 0; i < constructionStages.length; i++) {
-    const stage = constructionStages[i];
-    
-    if (monthsElapsed >= stage.startMonth) {
-      // This stage has been reached, add its disbursement
-      cumulativeDisbursed += totalLoanAmount * stage.percentage;
-      currentStage = i;
-    } else {
-      // We haven't reached this stage yet
-      break;
+    for (let i = 0; i < constructionStages.length; i++) {
+      const stage = constructionStages[i];
+      
+      if (monthsElapsed >= stage.startMonth) {
+        // This stage has been reached, add its disbursement
+        cumulativeDisbursed += totalLoanAmount * stage.percentage;
+        currentStage = i;
+      } else {
+        // We haven't reached this stage yet
+        break;
+      }
     }
+
+    // If we haven't reached any stage yet, return 0
+    if (currentStage === 0 && monthsElapsed < constructionStages[0].startMonth) {
+      return 0;
+    }
+
+    // Calculate the current disbursed amount
+    const currentDisbursedAmount = cumulativeDisbursed;
+
+    // Calculate remaining payments (total tenure minus elapsed time)
+    // For BUC, we start counting from the first disbursement
+    const firstDisbursementMonth = constructionStages[0].startMonth;
+    const effectiveElapsedMonths = Math.max(0, monthsElapsed - firstDisbursementMonth);
+    const remainingPayments = totalPayments - effectiveElapsedMonths;
+
+    // Apply the amortization formula with current disbursed amount and remaining payments
+    if (monthlyRate === 0) {
+      return currentDisbursedAmount / remainingPayments;
+    }
+
+    const numerator = currentDisbursedAmount * monthlyRate * Math.pow(1 + monthlyRate, remainingPayments);
+    const denominator = Math.pow(1 + monthlyRate, remainingPayments) - 1;
+    
+    return Math.round(numerator / denominator);
+  } else {
+    // If no TOP date is provided, calculate the final monthly installment
+    // based on the actual loan amount (not the full construction cost)
+    let totalDisbursedByEnd = 0;
+    constructionStages.forEach(stage => {
+      totalDisbursedByEnd += totalLoanAmount * stage.percentage;
+    });
+
+    // Calculate the final monthly installment based on the total loan amount
+    // This represents what the monthly payment will be after construction is complete
+    if (monthlyRate === 0) {
+      return totalDisbursedByEnd / totalPayments;
+    }
+
+    const numerator = totalDisbursedByEnd * monthlyRate * Math.pow(1 + monthlyRate, totalPayments);
+    const denominator = Math.pow(1 + monthlyRate, totalPayments) - 1;
+    
+    return Math.round(numerator / denominator);
   }
-
-  // If we haven't reached any stage yet, return 0
-  if (currentStage === 0 && monthsElapsed < constructionStages[0].startMonth) {
-    return 0;
-  }
-
-  // Calculate the current disbursed amount
-  const currentDisbursedAmount = cumulativeDisbursed;
-
-  // Calculate remaining payments (total tenure minus elapsed time)
-  // For BUC, we start counting from the first disbursement
-  const firstDisbursementMonth = constructionStages[0].startMonth;
-  const effectiveElapsedMonths = Math.max(0, monthsElapsed - firstDisbursementMonth);
-  const remainingPayments = totalPayments - effectiveElapsedMonths;
-
-  // Apply the amortization formula with current disbursed amount and remaining payments
-  if (monthlyRate === 0) {
-    return currentDisbursedAmount / remainingPayments;
-  }
-
-  const numerator = currentDisbursedAmount * monthlyRate * Math.pow(1 + monthlyRate, remainingPayments);
-  const denominator = Math.pow(1 + monthlyRate, remainingPayments) - 1;
-  
-  return Math.round(numerator / denominator);
 }
 
 // Function to calculate monthly instalment for any property type (BUC or Resale)
@@ -559,104 +577,219 @@ export function calculateMonthlyInstalmentForProperty(
   }
 }
 
-// Function to calculate monthly instalment for BUC properties for specific years
-export function calculateBUCMonthlyInstalmentByYear(
-  property: Property,
-  estTOP: Date | null,
-  targetYear: 1 | 2 | 3 | 4
+
+
+/**
+ * Helper function to calculate monthly mortgage payment using the standard formula
+ */
+function calculateMortgagePayment(
+  principal: number,
+  annualRate: number,
+  tenureInMonths: number
 ): number {
-  if (property.type !== "BUC" || !estTOP) {
+  if (principal <= 0 || tenureInMonths <= 0) {
     return 0;
   }
 
-  const totalLoanAmount = (property.purchasePrice * (property.ltv || 75)) / 100;
-  const annualInterestRate = property.interestRate ?? INTEREST_RATE_PCT;
-  const loanTenureYears = property.loanTenure || 30;
-  const monthlyRate = annualInterestRate / 100 / 12;
+  const monthlyRate = annualRate / 100 / 12;
 
-  if (totalLoanAmount <= 0 || loanTenureYears <= 0) {
-    return 0;
-  }
-
-  // BUC construction stages with disbursement percentages and timing
-  const constructionStages = [
-    { stage: "Foundation", percentage: 0.05, months: 6, startMonth: 0 },
-    { stage: "Reinforced Concrete", percentage: 0.10, months: 6, startMonth: 6 },
-    { stage: "Brick Wall", percentage: 0.05, months: 3, startMonth: 12 },
-    { stage: "Ceiling/Roofing", percentage: 0.05, months: 3, startMonth: 15 },
-    { stage: "Electrical/Plumbing", percentage: 0.05, months: 3, startMonth: 18 },
-    { stage: "Roads/Car Parks", percentage: 0.05, months: 3, startMonth: 21 },
-    { stage: "TOP", percentage: 0.25, months: 12, startMonth: 24 },
-    { stage: "CSC", percentage: 0.15, months: 12, startMonth: 36 }
-  ];
-
-  // Calculate the total loan amount disbursed by the end of each year
-  let year1Total = 0;
-  let year2Total = 0;
-  let year3Total = 0;
-  let year4Total = 0;
-
-  // Calculate cumulative disbursed amounts for each year
-  for (let i = 0; i < constructionStages.length; i++) {
-    const stage = constructionStages[i];
-    const stageEndMonth = stage.startMonth + stage.months;
-    
-    if (stageEndMonth <= 12) {
-      year1Total += totalLoanAmount * stage.percentage;
-    }
-    if (stageEndMonth <= 24) {
-      year2Total += totalLoanAmount * stage.percentage;
-    }
-    if (stageEndMonth <= 36) {
-      year3Total += totalLoanAmount * stage.percentage;
-    }
-    if (stageEndMonth <= 48) {
-      year4Total += totalLoanAmount * stage.percentage;
-    }
-  }
-
-  // Get the total loan balance for the target year
-  let totalLoanBalance: number;
-  
-  if (targetYear === 1) {
-    totalLoanBalance = year1Total;
-  } else if (targetYear === 2) {
-    totalLoanBalance = year2Total;
-  } else if (targetYear === 3) {
-    totalLoanBalance = year3Total;
-  } else if (targetYear === 4) {
-    totalLoanBalance = year4Total;
-  } else {
-    return 0;
-  }
-
-  // Calculate monthly payment based on the total loan balance
-  // Use the standard amortization formula
   if (monthlyRate === 0) {
-    return totalLoanBalance / (loanTenureYears * 12);
+    return principal / tenureInMonths;
   }
 
-  const numerator = totalLoanBalance * monthlyRate * Math.pow(1 + monthlyRate, loanTenureYears * 12);
-  const denominator = Math.pow(1 + monthlyRate, loanTenureYears * 12) - 1;
+  const numerator = principal * monthlyRate * Math.pow(1 + monthlyRate, tenureInMonths);
+  const denominator = Math.pow(1 + monthlyRate, tenureInMonths) - 1;
   
-  return Math.round(numerator / denominator);
+  return numerator / denominator;
 }
 
-// Function to get BUC monthly instalment breakdown for all years
+/**
+ * REVISED FUNCTION: Calculates the AVERAGE monthly instalment for a BUC property for a specific year.
+ * This version correctly re-amortizes the loan over the REMAINING TENURE at each disbursement.
+ * For Year 5 onwards, uses fixed monthly instalment since construction is completed.
+ */
+export function calculateBUCAverageMonthlyInstalmentByYear(
+  property: Property,
+  targetYear: 1 | 2 | 3 | 4 | 5
+): number {
+  if (property.type !== "BUC" || !property.ltv) {
+    return 0;
+  }
+
+  const annualInterestRate = property.interestRate ?? INTEREST_RATE_PCT;
+  const loanTenureYears = property.loanTenure || 30;
+  const totalPaymentsInLoan = loanTenureYears * 12;
+  
+  const timeline = getBUCLoanDisbursementTimeline(property);
+
+  if (timeline.length === 0) {
+    return 0;
+  }
+
+  // For Year 5 onwards (month 49+), construction is completed and loan is fully disbursed
+  // Use fixed monthly instalment like resale properties
+  if (targetYear >= 5) {
+    const totalLoanAmount = (property.purchasePrice * property.ltv) / 100;
+    const monthsSinceLoanStart = 48; // Month 49 is the start of year 5
+    const remainingPayments = totalPaymentsInLoan - monthsSinceLoanStart;
+    
+    if (remainingPayments > 0) {
+      return Math.round(calculateMortgagePayment(
+        totalLoanAmount,
+        annualInterestRate,
+        remainingPayments
+      ));
+    }
+    return 0;
+  }
+
+  let totalInstallmentsForYear = 0;
+  const startMonthInTimeline = (targetYear - 1) * 12 + 1; // Year 1 is months 1-12
+  const endMonthInTimeline = targetYear * 12 + 1;
+
+  // Loop through each of the 12 months of the target year
+  for (let currentMonth = startMonthInTimeline; currentMonth < endMonthInTimeline; currentMonth++) {
+    let loanBalanceForMonth = 0;
+
+    // Find the cumulative loan amount at this month
+    for (const stage of timeline) {
+      if (stage.startMonth <= currentMonth) {
+        loanBalanceForMonth = stage.cumulativeLoanAmount;
+      } else {
+        break; // Stop checking stages that haven't started yet
+      }
+    }
+
+    // Calculate the remaining tenure from the start of the loan (month 1)
+    // The remaining tenure should be based on how many months have passed since the loan started
+    const monthsSinceLoanStart = currentMonth - 1; // Month 1 is month 0 since loan start
+    const remainingPayments = totalPaymentsInLoan - monthsSinceLoanStart;
+
+    if (loanBalanceForMonth > 0 && remainingPayments > 0) {
+      const monthlyInstallment = calculateMortgagePayment(
+        loanBalanceForMonth,
+        annualInterestRate,
+        remainingPayments // Use the correct remaining tenure
+      );
+      totalInstallmentsForYear += monthlyInstallment;
+    }
+  }
+
+  const averageMonthlyInstallment = totalInstallmentsForYear / 12;
+  
+  return Math.round(averageMonthlyInstallment);
+}
+
+/**
+ * UPDATED FUNCTION: Calls the new, more accurate averaging function.
+ * Now includes Year 5 with fixed monthly instalment after construction completion.
+ */
 export function getBUCMonthlyInstalmentBreakdown(
   property: Property,
-  estTOP: Date | null
-): { year1: number; year2: number; year3: number; year4: number } {
-  if (property.type !== "BUC" || !estTOP) {
-    return { year1: 0, year2: 0, year3: 0, year4: 0 };
+  estTOP: Date | null // estTOP is kept for API consistency but not used in the new calculation
+): { year1: number; year2: number; year3: number; year4: number; year5: number } {
+  if (property.type !== "BUC") {
+    return { year1: 0, year2: 0, year3: 0, year4: 0, year5: 0 };
   }
 
   return {
-    year1: calculateBUCMonthlyInstalmentByYear(property, estTOP, 1),
-    year2: calculateBUCMonthlyInstalmentByYear(property, estTOP, 2),
-    year3: calculateBUCMonthlyInstalmentByYear(property, estTOP, 3),
-    year4: calculateBUCMonthlyInstalmentByYear(property, estTOP, 4)
+    year1: calculateBUCAverageMonthlyInstalmentByYear(property, 1),
+    year2: calculateBUCAverageMonthlyInstalmentByYear(property, 2),
+    year3: calculateBUCAverageMonthlyInstalmentByYear(property, 3),
+    year4: calculateBUCAverageMonthlyInstalmentByYear(property, 4),
+    year5: calculateBUCAverageMonthlyInstalmentByYear(property, 5),
   };
+}
+
+// Function to get the complete loan disbursement timeline for BUC properties
+export function getBUCLoanDisbursementTimeline(property: Property): {
+  stage: string;
+  startMonth: number;
+  endMonth: number;
+  percentage: number;
+  loanAmount: number;
+  cumulativeLoanAmount: number;
+  year: number;
+}[] {
+  if (property.type !== "BUC" || !property.ltv) {
+    return [];
+  }
+
+  const totalLoanAmount = (property.purchasePrice * property.ltv) / 100;
+  
+  const constructionStages = [
+    { stage: "Foundation", percentage: 0.05, months: 6, startMonth: 1 },
+    { stage: "Reinforced Concrete", percentage: 0.10, months: 6, startMonth: 7 },
+    { stage: "Brick Wall", percentage: 0.05, months: 3, startMonth: 13 },
+    { stage: "Ceiling/Roofing", percentage: 0.05, months: 3, startMonth: 16 },
+    { stage: "Electrical/Plumbing", percentage: 0.05, months: 3, startMonth: 19 },
+    { stage: "Roads/Car Parks", percentage: 0.05, months: 3, startMonth: 22 },
+    { stage: "TOP", percentage: 0.25, months: 12, startMonth: 25 },
+    { stage: "CSC", percentage: 0.15, months: 12, startMonth: 37 }
+  ];
+
+  const timeline = [];
+  let remainingLoanAmount = totalLoanAmount;
+  let cumulativeLoanAmount = 0;
+
+  for (const stage of constructionStages) {
+    const stageEndMonth = stage.startMonth + stage.months - 1; // End month is inclusive
+    const stageDisbursement = property.purchasePrice * stage.percentage;
+    let stageLoanAmount = 0;
+    
+    if (remainingLoanAmount > 0) {
+      stageLoanAmount = Math.min(stageDisbursement, remainingLoanAmount);
+      remainingLoanAmount -= stageLoanAmount;
+      cumulativeLoanAmount += stageLoanAmount;
+    }
+    
+    timeline.push({
+      stage: stage.stage,
+      startMonth: stage.startMonth,
+      endMonth: stageEndMonth,
+      percentage: stage.percentage * 100,
+      loanAmount: Math.round(stageLoanAmount),
+      cumulativeLoanAmount: Math.round(cumulativeLoanAmount),
+      year: Math.ceil((stageEndMonth + 1) / 12), // Adjust year calculation for inclusive end month
+    });
+  }
+
+  return timeline;
+}
+
+// Helper function to determine which construction stage the loan will start disbursing from
+export function getBUCStartingStage(property: Property): {
+  stage: string;
+  startMonth: number;
+  percentage: number;
+  description: string;
+} {
+  if (property.type !== "BUC") {
+    return { stage: "N/A", startMonth: 0, percentage: 0, description: "Not a BUC property" };
+  }
+
+  const totalLoanAmount = (property.purchasePrice * (property.ltv || 75)) / 100;
+  const loanPercentage = (totalLoanAmount / property.purchasePrice) * 100;
+
+  // For 75% loan (maximum), loan starts disbursing from Foundation stage (Year 1)
+  // For lower loan amounts, loan starts disbursing from later stages
+  if (loanPercentage >= 71) {
+    return { stage: "Foundation", startMonth: 1, percentage: 5, description: "Starts at Foundation (Year 1)" };
+  } else if (loanPercentage >= 61) {
+    return { stage: "Reinforced Concrete", startMonth: 7, percentage: 10, description: "Starts at Reinforced Concrete (Year 1)" };
+  } else if (loanPercentage >= 56) {
+    return { stage: "Brick Wall", startMonth: 13, percentage: 5, description: "Starts at Brick Wall (Year 2)" };
+  } else if (loanPercentage >= 51) {
+    return { stage: "Ceiling/Roofing", startMonth: 16, percentage: 5, description: "Starts at Ceiling/Roofing (Year 2)" };
+  } else if (loanPercentage >= 46) {
+    return { stage: "Electrical/Plumbing", startMonth: 19, percentage: 5, description: "Starts at Electrical/Plumbing (Year 2)" };
+  } else if (loanPercentage >= 41) {
+    return { stage: "Roads/Car Parks", startMonth: 22, percentage: 5, description: "Starts at Roads/Car Parks (Year 2)" };
+  } else if (loanPercentage >= 16) {
+    return { stage: "TOP", startMonth: 25, percentage: 25, description: "Starts at TOP (Year 3)" };
+  } else {
+    return { stage: "CSC", startMonth: 37, percentage: 15, description: "Starts at CSC (Year 4)" };
+  }
 }
 
 export function calculateValues(
@@ -812,9 +945,32 @@ export function calculateValues(
 
   const projectedValuation = property.purchasePrice + projectedGrowth
   const netProfit = grossProfit - totalOtherExpenses
-  const equity = property.purchasePrice - property.bankLoan
-  const roe = equity > 0 ? (netProfit / equity) * 100 : 0
+  
+  // Calculate ROE using the correct formula:
+  // ROE = Est. Net Profit / (Downpayment + Amortised Cumulative Principal Paid)
+  const downpayment = property.purchasePrice - actualLoanAmount;
+  
+  let cumulativePrincipalPaid = 0;
+  if (property.type === "BUC") {
+    // For BUC properties, calculate principal paid during holding period
+    cumulativePrincipalPaid = calculateBUCPrincipalPaid(actualLoanAmount, property.purchasePrice, property.interestRate ?? INTEREST_RATE_PCT, YEARS);
+  } else {
+    // For Resale properties, calculate principal paid during holding period
+    cumulativePrincipalPaid = calculateResalePrincipalPaid(actualLoanAmount, property.interestRate ?? INTEREST_RATE_PCT, YEARS, property.loanTenure || 30);
+  }
+  
+  const totalEquity = downpayment + cumulativePrincipalPaid;
+  const roe = totalEquity > 0 ? (netProfit / totalEquity) * 100 : 0;
+  
   const totalCashReturn = netProfit + (projectedValuation - property.bankLoan)
+
+  // Calculate monthly cash flow
+  let monthlyCashFlow = 0
+  if (ctx.monthlyRental > 0) {
+    const monthlyInstalment = calculateMonthlyInstalmentForProperty(property, property.estTOP)
+    const monthlyPropertyTax = calculateTotalPropertyTax(property, ctx.mode, 1) / 12 // Convert annual to monthly
+    monthlyCashFlow = ctx.monthlyRental - (monthlyInstalment + monthlyPropertyTax + property.monthlyMaintenance)
+  }
 
   return {
     loanPercentage,
@@ -837,5 +993,101 @@ export function calculateValues(
     salesCommission,
     agentCommission,
     propertyTax: automaticPropertyTax,
+    monthlyCashFlow,
   }
+}
+
+// Function to calculate amortized cumulative principal paid for BUC properties
+// For BUC properties, we need to calculate principal paid during the holding period
+// based on the construction phases and loan disbursement schedule
+function calculateBUCPrincipalPaid(loanAmount: number, purchasePrice: number, annualInterestRate: number, holdingPeriod: number): number {
+  if (loanAmount <= 0 || annualInterestRate <= 0 || holdingPeriod <= 0) {
+    return 0;
+  }
+
+  const monthlyRate = annualInterestRate / 100 / 12;
+  
+  // Construction phases with loan disbursement percentages of purchase price
+  // Based on the BUC loan guide from The Loan Connection
+  const constructionPhases = [
+    { percentage: 0.05, months: 6, startMonth: 1 },      // Foundation Works (5% of purchase price)
+    { percentage: 0.10, months: 6, startMonth: 7 },     // Reinforcement Concrete Works (10% of purchase price)
+    { percentage: 0.05, months: 3, startMonth: 13 },    // Brick Walls (5% of purchase price)
+    { percentage: 0.05, months: 3, startMonth: 16 },    // Roofing/Ceiling (5% of purchase price)
+    { percentage: 0.05, months: 3, startMonth: 19 },    // Door Frames, Window Frames, Electrical Wiring (5% of purchase price)
+    { percentage: 0.05, months: 3, startMonth: 22 },    // Car park, Roads, Drains (5% of purchase price)
+    { percentage: 0.25, months: 12, startMonth: 25 },   // Temporary Occupation Permit (TOP) (25% of purchase price)
+    { percentage: 0.15, months: 12, startMonth: 37 }    // Certificate of Statutory Completion (CSC) (15% of purchase price)
+  ];
+  
+  let totalPrincipalPaid = 0;
+  let cumulativeDisbursed = 0;
+  const holdingPeriodMonths = holdingPeriod * 12;
+  
+  // Calculate principal paid for each construction phase within the holding period
+  constructionPhases.forEach(phase => {
+    // Check if this phase falls within the holding period
+    if (phase.startMonth <= holdingPeriodMonths) {
+      // Calculate how many months of this phase are within the holding period
+      const phaseStartMonth = phase.startMonth;
+      const phaseEndMonth = Math.min(phaseStartMonth + phase.months - 1, holdingPeriodMonths);
+      const applicableMonths = Math.max(0, phaseEndMonth - phaseStartMonth + 1);
+      
+      if (applicableMonths > 0) {
+        // Add this phase's disbursement to cumulative total
+        const phaseDisbursement = purchasePrice * phase.percentage;
+        cumulativeDisbursed += phaseDisbursement;
+        
+        // Calculate monthly payment for the current cumulative disbursed amount
+        // Use a 30-year amortization period for BUC properties
+        const loanTenureYears = 30;
+        const totalPayments = loanTenureYears * 12;
+        
+        // Calculate monthly payment using standard mortgage formula
+        const numerator = cumulativeDisbursed * monthlyRate * Math.pow(1 + monthlyRate, totalPayments);
+        const denominator = Math.pow(1 + monthlyRate, totalPayments) - 1;
+        const monthlyPayment = numerator / denominator;
+        
+        // Calculate principal portion for each applicable month
+        for (let month = 0; month < applicableMonths; month++) {
+          // Calculate interest portion for this month
+          const monthlyInterest = cumulativeDisbursed * monthlyRate;
+          // Principal portion = Monthly payment - Interest portion
+          const monthlyPrincipal = monthlyPayment - monthlyInterest;
+          
+          totalPrincipalPaid += monthlyPrincipal;
+          
+          // Update cumulative disbursed amount for next month
+          cumulativeDisbursed -= monthlyPrincipal;
+        }
+      }
+    }
+  });
+  
+  return Math.round(totalPrincipalPaid);
+}
+
+// Function to calculate amortized cumulative principal paid for resale properties
+// This extracts the principal calculation logic from the existing calculateResaleBankInterest function
+function calculateResalePrincipalPaid(loanAmount: number, annualInterestRate: number, holdingPeriod: number, loanTenureYears: number = 30): number {
+  if (loanAmount <= 0 || annualInterestRate <= 0 || holdingPeriod <= 0 || loanTenureYears <= 0) {
+    return 0;
+  }
+
+  const monthlyRate = annualInterestRate / 100 / 12;
+  const totalPayments = loanTenureYears * 12;
+  const targetPayments = holdingPeriod * 12;
+
+  // Step 1: Calculate monthly payment using standard mortgage formula
+  const numerator = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, totalPayments);
+  const denominator = Math.pow(1 + monthlyRate, totalPayments) - 1;
+  const monthlyPayment = numerator / denominator;
+
+  // Step 2: Calculate remaining balance after target payments
+  const remainingBalance = loanAmount * (Math.pow(1 + monthlyRate, totalPayments) - Math.pow(1 + monthlyRate, targetPayments)) / (Math.pow(1 + monthlyRate, totalPayments) - 1);
+
+  // Step 3: Calculate principal paid during holding period
+  const principalPaid = loanAmount - remainingBalance;
+
+  return Math.round(principalPaid);
 }
