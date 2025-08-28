@@ -63,7 +63,7 @@ function ABSDProfileSelector({
               className={`h-6 px-2 text-[11px] rounded border ${
                 citizenship === option.value
                   ? "bg-[#B40101] hover:bg-[#9D0101] text-white border-[#B40101]"
-                  : "text-[#CCCCCC] bg-[#F5F5F5] border-[#E5E5E5] opacity-60"
+                  : "text-[#333333]/80 bg-[#F5F5F5] border-[#E5E5E5] opacity-60"
               }`}
               onClick={() => onChange(option.value as "SC" | "PR" | "Foreigner" | "Company", propertyCount)}
             >
@@ -81,7 +81,7 @@ function ABSDProfileSelector({
               className={`h-6 px-2 text-[11px] rounded border ${
                 propertyCount === option.value
                   ? "bg-[#B40101] hover:bg-[#9D0101] text-white border-[#B40101]"
-                  : "text-[#CCCCCC] bg-[#F5F5F5] border-[#E5E5E5] opacity-60 cursor-not-allowed"
+                  : "text-[#333333]/80 bg-[#F5F5F5] border-[#E5E5E5] opacity-60 cursor-not-allowed"
               }`}
               onClick={() => onChange(citizenship, option.value)}
             >
