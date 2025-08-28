@@ -27,7 +27,6 @@ export default function PropertyCalculator() {
     undefined,
   );
   const [taxBracket, setTaxBracket] = useState<number>(0);
-  const [monthlyRental, setMonthlyRental] = useState<number>(0);
   const [properties, setProperties] = useState<Property[]>([
     {
       ...defaultPropertyBase,
@@ -143,7 +142,7 @@ export default function PropertyCalculator() {
                 field === "commissionRate" ? value : p.commissionRate,
               );
               const monthlyRent =
-                field === "monthlyRental" ? value : monthlyRental;
+                field === "monthlyRental" ? value : p.monthlyRental;
 
               const propertyType = field === "type" ? value : p.type;
 
@@ -319,11 +318,9 @@ export default function PropertyCalculator() {
             properties={properties}
             mode={mode}
             taxBracket={taxBracket}
-            monthlyRental={monthlyRental}
             selectedTaxId={selectedTaxId}
             setSelectedTaxId={setSelectedTaxId}
             setTaxBracket={setTaxBracket}
-            setMonthlyRental={setMonthlyRental}
             removeProperty={removeProperty}
             updateProperty={updateProperty}
             onSelectSavedProperty={handleSelectSavedProperty}

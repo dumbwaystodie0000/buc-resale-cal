@@ -20,11 +20,9 @@ interface PropertyTableProps {
   properties: Property[];
   mode: Mode;
   taxBracket: number;
-  monthlyRental: number;
   selectedTaxId: string | undefined;
   setSelectedTaxId: (id: string) => void;
   setTaxBracket: (rate: number) => void;
-  setMonthlyRental: (value: number) => void;
   removeProperty: (id: string) => void;
   updateProperty: (id: string, field: keyof Property, value: any) => void;
   onSelectSavedProperty: (property: SavedProperty) => void;
@@ -41,11 +39,9 @@ export default function PropertyTableRefactored({
   properties,
   mode,
   taxBracket,
-  monthlyRental,
   selectedTaxId,
   setSelectedTaxId,
   setTaxBracket,
-  setMonthlyRental,
   removeProperty,
   updateProperty,
   onSelectSavedProperty,
@@ -63,8 +59,7 @@ export default function PropertyTableRefactored({
       const firstProperty = properties[0];
       if (
         firstProperty.commissionRate &&
-        firstProperty.commissionRate !== "" &&
-        firstProperty.commissionRate !== undefined
+        firstProperty.commissionRate !== "none"
       ) {
         setGlobalCommissionRate(firstProperty.commissionRate);
       }
@@ -132,7 +127,7 @@ export default function PropertyTableRefactored({
   };
 
   // Check if a property has meaningful data (not just default values)
-  const hasPropertyData = (property: Property) => {
+  const hasPropertyData = (property: Property): boolean => {
     return (
       property.purchasePrice > 0 ||
       property.loanTenure !== 30 ||
@@ -144,7 +139,7 @@ export default function PropertyTableRefactored({
       property.propertyTax > 0 ||
       property.minorRenovation > 0 ||
       property.furnitureFittings > 0 ||
-      (property.name &&
+      (property.name !== undefined &&
         property.name !==
           `Property #${properties.findIndex((p) => p.id === property.id) + 1}`)
     );
@@ -246,9 +241,7 @@ export default function PropertyTableRefactored({
             properties={displayProperties}
             mode={mode}
             taxBracket={taxBracket}
-            monthlyRental={monthlyRental}
             balanceMonthsMap={balanceMonthsMap}
-            setMonthlyRental={setMonthlyRental}
             updateProperty={updateProperty}
             data-oid="6r8.9n2"
           />
@@ -257,7 +250,6 @@ export default function PropertyTableRefactored({
             properties={displayProperties}
             mode={mode}
             taxBracket={taxBracket}
-            monthlyRental={monthlyRental}
             selectedTaxId={selectedTaxId}
             balanceMonthsMap={balanceMonthsMap}
             globalCommissionRate={globalCommissionRate}
@@ -272,7 +264,6 @@ export default function PropertyTableRefactored({
             properties={displayProperties}
             mode={mode}
             taxBracket={taxBracket}
-            monthlyRental={monthlyRental}
             data-oid="6dp7pn:"
           />
         </tbody>

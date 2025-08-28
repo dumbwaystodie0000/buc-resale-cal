@@ -9,14 +9,12 @@ interface PropertySummaryProps {
   properties: Property[];
   mode: Mode;
   taxBracket: number;
-  monthlyRental: number;
 }
 
 export default function PropertySummary({
   properties,
   mode,
   taxBracket,
-  monthlyRental,
 }: PropertySummaryProps) {
   return (
     <>
@@ -43,7 +41,7 @@ export default function PropertySummary({
               mode,
               taxBracket,
               vacancyMonth: p.vacancyMonth,
-              monthlyRental,
+              monthlyRental: p.monthlyRental,
             }).projectedValuation,
           )
         }
@@ -69,7 +67,7 @@ export default function PropertySummary({
             mode,
             taxBracket,
             vacancyMonth: p.vacancyMonth,
-            monthlyRental,
+            monthlyRental: p.monthlyRental,
           }).netProfit;
           const isNegative = netProfit < 0;
           return (
@@ -79,7 +77,8 @@ export default function PropertySummary({
               data-oid="c_vlo:6"
             >
               <div
-                className={`font-bold ${isNegative ? "text-[#B40101]" : "text-[#000000]"}`}
+                className={`font-semibold`}
+                style={{ color: isNegative ? '#B40101' : '#006900' }}
                 data-oid="ewqwwi8"
               >
                 {fmtCurrency(netProfit)}
@@ -103,7 +102,7 @@ export default function PropertySummary({
             mode,
             taxBracket,
             vacancyMonth: p.vacancyMonth,
-            monthlyRental,
+            monthlyRental: p.monthlyRental,
           }).roe;
           return roe === 0 ? "0%" : fmtPercent(roe);
         }}
@@ -140,7 +139,7 @@ export default function PropertySummary({
               mode,
               taxBracket,
               vacancyMonth: p.vacancyMonth,
-              monthlyRental,
+              monthlyRental: p.monthlyRental,
             }).totalCashReturn,
           )
         }

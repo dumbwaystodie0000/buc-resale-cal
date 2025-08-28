@@ -17,9 +17,7 @@ interface GrowthRentalSectionProps {
   properties: Property[];
   mode: Mode;
   taxBracket: number;
-  monthlyRental: number;
   balanceMonthsMap: Map<string, number>;
-  setMonthlyRental: (value: number) => void;
   updateProperty: (id: string, field: keyof Property, value: any) => void;
 }
 
@@ -27,9 +25,7 @@ export default function GrowthRentalSection({
   properties,
   mode,
   taxBracket,
-  monthlyRental,
   balanceMonthsMap,
-  setMonthlyRental,
   updateProperty,
 }: GrowthRentalSectionProps) {
   return (
@@ -55,7 +51,7 @@ export default function GrowthRentalSection({
             mode,
             taxBracket,
             vacancyMonth: p.vacancyMonth,
-            monthlyRental,
+            monthlyRental: p.monthlyRental,
           });
           return (
             <DualCell
@@ -84,24 +80,11 @@ export default function GrowthRentalSection({
         <>
           <ConditionalBUCDataRow
             label={
-              <div className="flex items-center gap-3" data-oid=":4mms9:">
-                <div data-oid="6akjmzc">
-                  <TooltipLabel
-                    label="Rental Income"
-                    tooltip="Monthly rental income you expect to receive from the property. This amount is used to calculate rental income tax: Monthly rent × 12 × 0.85 (15% deduction) × tax bracket rate × rental years. For BUC properties, rental years = balance months after TOP ÷ 12 (rounded up). For Resale properties, rental years = holding period. This affects your cash flow and investment returns."
-                    data-oid="nco80p6"
-                  />
-                </div>
-                <div className="ml-auto" data-oid="myx0v52">
-                  <LabeledCurrency
-                    label="Monthly"
-                    value={monthlyRental}
-                    step={100}
-                    onChange={(v) => setMonthlyRental(v)}
-                    data-oid="vlhnsm-"
-                  />
-                </div>
-              </div>
+              <TooltipLabel
+                label="Rental Income"
+                tooltip="Monthly rental income you expect to receive from the property. This amount is used to calculate rental income tax: Monthly rent × 12 × 0.85 (15% expenses deduction) × tax bracket rate × rental years. For BUC properties, rental years = balance months after TOP ÷ 12 (rounded up). For Resale properties, rental years = holding period. This affects your cash flow and investment returns."
+                data-oid="nco80p6"
+              />
             }
             properties={properties}
             fieldKey="monthlyRental"
@@ -112,12 +95,26 @@ export default function GrowthRentalSection({
                 mode,
                 taxBracket,
                 vacancyMonth: p.vacancyMonth,
-                monthlyRental,
+                monthlyRental: p.monthlyRental,
               });
               return (
-                <ValueText data-oid="7x72t.v">
-                  {fmtCurrency(d.rentalIncome)}
-                </ValueText>
+                <DualCell
+                  left={
+                    <ValueText data-oid="7x72t.v">
+                      {fmtCurrency(d.rentalIncome)}
+                    </ValueText>
+                  }
+                  right={
+                    <LabeledCurrency
+                      label="Monthly"
+                      value={p.monthlyRental}
+                      step={100}
+                      onChange={(v) => updateProperty(p.id, "monthlyRental", v)}
+                      data-oid="vlhnsm-"
+                    />
+                  }
+                  data-oid="bzi7osz"
+                />
               );
             }}
             data-oid="s2dw-xk"
@@ -157,7 +154,7 @@ export default function GrowthRentalSection({
                           mode,
                           taxBracket,
                           vacancyMonth: p.vacancyMonth,
-                          monthlyRental,
+                          monthlyRental: p.monthlyRental,
                         });
                         return d.vacancyDeduction === 0
                           ? fmtCurrency(0)
@@ -199,7 +196,7 @@ export default function GrowthRentalSection({
             mode,
             taxBracket,
             vacancyMonth: p.vacancyMonth,
-            monthlyRental,
+            monthlyRental: p.monthlyRental,
           });
           return (
             <td
@@ -208,7 +205,7 @@ export default function GrowthRentalSection({
               data-oid="fqh9t2p"
             >
               <ValueText
-                className="text-[#000000] font-bold"
+                className="text-[#000000] font-semibold"
                 data-oid="t2pbazv"
               >
                 {fmtCurrency(d.grossProfit)}

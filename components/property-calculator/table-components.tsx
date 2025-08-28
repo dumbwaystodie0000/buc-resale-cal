@@ -167,7 +167,7 @@ export function IconRow({
           className={`px-4 py-3 border-b border-r border-[#CCCCCC]/50 align-middle ${i === properties.length - 1 ? "last:border-r-0" : ""}`}
           data-oid="ncr3nhq"
         >
-          <div className="text-[#666666] font-semibold" data-oid=":28_piw">
+          <div className="font-semibold" data-oid=":28_piw">
             {renderValue(p)}
           </div>
         </td>
@@ -219,7 +219,7 @@ export function CommissionRateDataRow({
   return (
     <tr className="hover:bg-[#F8F9FA]" data-oid="sxvv-et">
       <td
-        className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC]/50 text-[#666666] font-semibold align-middle"
+        className="sticky left-0 z-10 px-4 py-3 border-b border-r border-[#CCCCCC]/50 font-medium align-middle"
         data-oid="6ki_s0g"
       >
         {label}

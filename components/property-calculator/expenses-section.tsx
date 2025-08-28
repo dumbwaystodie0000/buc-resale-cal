@@ -98,7 +98,6 @@ interface ExpensesSectionProps {
   properties: Property[];
   mode: Mode;
   taxBracket: number;
-  monthlyRental: number;
   selectedTaxId: string | undefined;
   balanceMonthsMap: Map<string, number>;
   globalCommissionRate: CommissionRate;
@@ -112,7 +111,6 @@ export default function ExpensesSection({
   properties,
   mode,
   taxBracket,
-  monthlyRental,
   selectedTaxId,
   balanceMonthsMap,
   globalCommissionRate,
@@ -149,7 +147,7 @@ export default function ExpensesSection({
               mode,
               taxBracket,
               vacancyMonth: p.vacancyMonth,
-              monthlyRental,
+              monthlyRental: p.monthlyRentWhileWaiting,
             });
             const isNA = p.type === "Resale";
             return isNA ? (
@@ -196,7 +194,7 @@ export default function ExpensesSection({
             mode,
             taxBracket,
             vacancyMonth: p.vacancyMonth,
-            monthlyRental,
+            monthlyRental: p.monthlyRentWhileWaiting,
           });
           return (
             <div className="space-y-1" data-oid="4d5tyjk">
@@ -233,7 +231,7 @@ export default function ExpensesSection({
             mode,
             taxBracket,
             vacancyMonth: p.vacancyMonth,
-            monthlyRental,
+            monthlyRental: p.monthlyRentWhileWaiting,
           });
           return (
             <DualCell
@@ -274,7 +272,7 @@ export default function ExpensesSection({
             mode,
             taxBracket,
             vacancyMonth: p.vacancyMonth,
-            monthlyRental,
+            monthlyRental: p.monthlyRentWhileWaiting,
           });
           return (
             <ValueText data-oid="bsd-value">
@@ -324,7 +322,7 @@ export default function ExpensesSection({
             mode,
             taxBracket,
             vacancyMonth: p.vacancyMonth,
-            monthlyRental,
+            monthlyRental: p.monthlyRentWhileWaiting,
           });
           
           return (
@@ -352,7 +350,7 @@ export default function ExpensesSection({
               mode,
               taxBracket,
               vacancyMonth: p.vacancyMonth,
-              monthlyRental,
+              monthlyRental: p.monthlyRentWhileWaiting,
             });
 
             const sellingYear = p.holdingPeriod + 1;
@@ -392,7 +390,7 @@ export default function ExpensesSection({
             mode,
             taxBracket,
             vacancyMonth: p.vacancyMonth,
-            monthlyRental,
+            monthlyRental: p.monthlyRental,
           });
           return fmtCurrency(calculatedValues.propertyTax);
         }}
@@ -482,7 +480,7 @@ export default function ExpensesSection({
                   mode,
                   taxBracket,
                   vacancyMonth: p.vacancyMonth,
-                  monthlyRental,
+                  monthlyRental: p.monthlyRental,
                 }).taxOnRental,
               )}
             </div>
@@ -581,7 +579,7 @@ export default function ExpensesSection({
                   />
                   <label
                     htmlFor="rental-gst-toggle"
-                    className="text-xs text-[#666666] whitespace-nowrap"
+                    className="text-xs text-[#666666] font-normal whitespace-nowrap"
                     data-oid="rental-gst-toggle-label"
                   >
                     GST is Payable
@@ -613,7 +611,7 @@ export default function ExpensesSection({
               mode,
               taxBracket: 0, // We don't need tax bracket for commission calculation
               vacancyMonth: p.vacancyMonth,
-              monthlyRental,
+              monthlyRental: p.monthlyRental,
             });
             
             // Show the calculated commission amount (including GST if enabled)
@@ -685,7 +683,7 @@ export default function ExpensesSection({
                 />
                 <label
                   htmlFor="gst-toggle"
-                  className="text-xs text-[#666666] whitespace-nowrap"
+                  className="text-xs text-[#666666] font-normal whitespace-nowrap"
                   data-oid="gst-toggle-label"
                 >
                   GST is Payable
@@ -700,7 +698,7 @@ export default function ExpensesSection({
             mode,
             taxBracket,
             vacancyMonth: p.vacancyMonth,
-            monthlyRental,
+            monthlyRental: p.monthlyRentWhileWaiting,
           });
           
           return (
@@ -762,7 +760,7 @@ export default function ExpensesSection({
             data-oid="4xmg1sn"
           >
             <ValueText
-              className="text-[#000000] font-bold"
+              className="text-[#000000] font-semibold"
               data-oid="ivd2ebf"
             >
               {fmtCurrency(
@@ -770,7 +768,7 @@ export default function ExpensesSection({
                   mode,
                   taxBracket,
                   vacancyMonth: p.vacancyMonth,
-                  monthlyRental,
+                  monthlyRental: p.monthlyRentWhileWaiting,
                 }).totalOtherExpenses,
               )}
             </ValueText>
