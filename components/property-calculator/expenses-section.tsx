@@ -625,7 +625,8 @@ export default function ExpensesSection({
                     onChange={(v) =>
                       updateProperty(p.id, "agentCommission", v)
                     }
-                    className="w-32"
+                    className="w-full"
+                    showLabel={false}
                     data-oid="rental-comm-custom"
                   />
                 ) : (
@@ -713,7 +714,8 @@ export default function ExpensesSection({
                   onChange={(v) =>
                     updateProperty(p.id, "salesCommission", v)
                   }
-                  className="w-32"
+                  className="w-full"
+                  showLabel={false}
                   data-oid="sales-comm-custom"
                 />
               ) : (

@@ -249,18 +249,22 @@ export function LabeledCurrency({
   onChange,
   step = 100,
   className = "w-22",
+  showLabel = true,
 }: {
   label: string;
   value: number;
   onChange: (v: number) => void;
   step?: number;
   className?: string;
+  showLabel?: boolean;
 }) {
   return (
     <div className="flex items-center gap-2" data-oid="cwxrusp">
-      <div className="text-[11px] text-slate-600" data-oid=".smgj9u">
-        {label}
-      </div>
+      {showLabel && (
+        <div className="text-[11px] text-slate-600" data-oid=".smgj9u">
+          {label}
+        </div>
+      )}
       <ClearableNumberInput
         value={value}
         onChange={onChange}
