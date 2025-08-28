@@ -614,13 +614,10 @@ export default function ExpensesSection({
               monthlyRental: p.monthlyRental,
             });
             
-            // Show the calculated commission amount (including GST if enabled)
+            // Show the calculated commission amount (including GST if enabled) or custom input
             return (
               <div className="space-y-1" data-oid="rental-comm-value">
-                <div className="text-sm font-medium text-slate-900" data-oid="rental-comm-amount">
-                  {fmtCurrency(d.agentCommission || 0)}
-                </div>
-                {p.commissionRate === "other" && (
+                {p.commissionRate === "other" ? (
                   <LabeledCurrency
                     label="Custom"
                     value={p.agentCommission}
@@ -628,8 +625,13 @@ export default function ExpensesSection({
                     onChange={(v) =>
                       updateProperty(p.id, "agentCommission", v)
                     }
+                    className="w-32"
                     data-oid="rental-comm-custom"
                   />
+                ) : (
+                  <div className="text-sm font-medium text-slate-900" data-oid="rental-comm-amount">
+                    {fmtCurrency(d.agentCommission || 0)}
+                  </div>
                 )}
               </div>
             );
@@ -703,10 +705,7 @@ export default function ExpensesSection({
           
           return (
             <div className="space-y-1" data-oid="sales-comm-value">
-              <div className="text-sm font-medium text-slate-900" data-oid="sales-comm-amount">
-                {fmtCurrency(d.salesCommission || 0)}
-              </div>
-              {p.salesCommissionRate === "other" && (
+              {p.salesCommissionRate === "other" ? (
                 <LabeledCurrency
                   label="Custom"
                   value={p.salesCommission}
@@ -714,8 +713,13 @@ export default function ExpensesSection({
                   onChange={(v) =>
                     updateProperty(p.id, "salesCommission", v)
                   }
+                  className="w-32"
                   data-oid="sales-comm-custom"
                 />
+              ) : (
+                <div className="text-sm font-medium text-slate-900" data-oid="sales-comm-amount">
+                  {fmtCurrency(d.salesCommission || 0)}
+                </div>
               )}
             </div>
           );

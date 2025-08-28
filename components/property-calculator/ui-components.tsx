@@ -248,11 +248,13 @@ export function LabeledCurrency({
   value,
   onChange,
   step = 100,
+  className = "w-22",
 }: {
   label: string;
   value: number;
   onChange: (v: number) => void;
   step?: number;
+  className?: string;
 }) {
   return (
     <div className="flex items-center gap-2" data-oid="cwxrusp">
@@ -263,7 +265,7 @@ export function LabeledCurrency({
         value={value}
         onChange={onChange}
         step={step}
-        className="w-22"
+        className={className}
         showCurrency={true}
         data-oid="y1kg3ff"
       />
